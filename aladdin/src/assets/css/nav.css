@@ -1,0 +1,42 @@
+.pro_all{width: 100%;height: auto;overflow: hidden;min-height: 100%;float: left;background: #F1F4F5}
+.nav_all{background:white;height: auto;min-height: 100%;float: left;padding-bottom: 9999px;margin-bottom: -9999px;}
+li{list-style:none}
+a{text-decoration:none;}
+/* 以上实际使用若已初始化可删除 */
+/* nav */
+.nav{width: 180px;height: 100%;background: #304156;transition: all .3s;float: left}
+.nav-top{height: 60px;/*box-shadow: 1px 1px 0 0 #e8e8e8;*/}
+.nav a{display: block;overflow: hidden;padding-left: 18px;line-height: 46px;max-height: 46px;color:#a0a5a9;font-size: 14px;}
+.nav-item{position: relative;}
+.nav-item.nav-show{border-bottom: none;}
+.nav-item.nav-show ul{display: block;}
+.nav .nav-icon{font-size: 20px;position: absolute;margin-left:-1px;}
+/*---------------------*/
+.nav-more{float:right;margin-right: 20px;font-size: 12px;}
+/* 此处为导航右侧箭头 如果自定义iconfont 也需要替换*/
+.nav-more::after{content: "\e621";}
+/*---------------------*/
+.iconRotate{transform:rotate(90deg);}
+.second_ol li a{color: #a0a5a9;cursor: pointer}
+/* nav-mini */
+.nav-mini.nav{width: 60px;}
+.nav-mini.nav .nav-more{margin-right: 20px;}
+.nav-mini.nav .nav-item ul{position: absolute;top:0;left:63px;width: 180px;z-index: 99;background: #304156;}
+.first_nav>img{width: 18px;height: 18px;float: left;margin-top: 14px;}
+.nav .first_ul>li>a>span{margin-left: 60px;}
+.nav .second_ol>li>a>span{margin-left: 76px!important;}
+.nav .first_nav>span{margin-left: 20px!important;}
+.nav-mini .second_ol>li>a>span{margin-left: 30px!important;}
+.nav-mini .first_ul>li>a>span{margin-left: 32px;}
+.ulShow{display: block!important;}
+.nav-mini .first_ul{box-shadow: 1px 1px 8px rgba(0, 0, 0, .3);}
+.firstLitwo{color: #2382e3!important;}
+.firstLi{color: #2382e3!important;border-right: 2px solid;font-size: 16px;}
+.nav-mini .second_ol{position: absolute;background: #304156;left: 183px;top:0;width: 180px;box-shadow: 1px 1px 8px rgba(0, 0, 0, .3);}
+.nav-title{position:relative;width: calc(100% - 20px);text-align: center;height: 40px;padding: 0 10px;line-height: 40px;background: linear-gradient(to right,  #E0F5FE 0%,#fff 100%);color:#999999;cursor: pointer}
+.nav-title>p{width:100%;text-align: center;height: 40px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;line-height: 40px;}
+.nav-title>ul{position: absolute;top:5px;float: left;width: 220px;left: 0;transition: all .5s;z-index: 999999;opacity: 0;background: white;overflow: hidden;height: 0;box-shadow: 1px 1px 20px  #e8e8e8;}
+.navtitlechosed{padding: 10px;left: 225px!important;opacity: 1!important;height: auto!important;max-height:200px!important;overflow: auto!important;}
+.nav-title>ul>li{width: 100%;height: 40px;line-height: 40px;color: #666666;border-bottom: 1px dashed #eeeeee;overflow: hidden;text-overflow: ellipsis;white-space: nowrap}
+.nav-title>ul>li:hover{color: #409eff;background:#E0F5FE }
+.isLiChose{background:#1f2d3d;}
