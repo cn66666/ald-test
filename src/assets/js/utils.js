@@ -38,7 +38,7 @@ export const checkPermission = (check) => {
 
 export default {
   getRoleList: function (that) {
-    that.axios.post('/aladdin/user/get_role_list', {'oper': that.userPhone,}).then(res => {
+    that.axios.post('/ald/user/get_role_list', {'oper': that.userPhone,}).then(res => {
       if (res.data.code == 'ok') {
         that.tableData = res.data.data
       }
