@@ -1,0 +1,55 @@
+body {
+  padding: 0;
+  margin:0;
+  font-family: "Microsoft YaHei UI Light";
+  min-width: 1024px;
+}
+html{
+  min-width: 1024px;
+}
+.outer_label {
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 220px;
+  background: -webkit-linear-gradient(left, #000099, #2154FA); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(right, #000099, #2154FA); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(right, #000099, #2154FA); /* Firefox 3.6 - 15 */
+  background: linear-gradient(to right, #000099 , #2154FA); /* 标准的语法 */
+  /*background-color: #000099;*/
+  text-align: center;
+  filter: brightness(1.4);
+}
+.inner_label {
+  position: absolute;
+  left:0;
+  right: 0;
+  bottom: 0;
+  top:0;
+  margin: auto;
+  height: 50px;
+}
+
+.scrollbar-style::-webkit-scrollbar {/*滚动条整体样式*/
+  width: 6px;     /*高宽分别对应横竖滚动条的尺寸*/
+}
+.scrollbar-style::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+  background: #d1d4d7;
+}
+.scrollbar-style::-webkit-scrollbar-track {/*滚动条里面轨道*/
+  background: #f7f8f8;
+  border: 1px #ebe9e9 solid;
+}
+
+.el-table {
+  font-size: 12px;
+}
+
+.button-text{
+  color:#409eff;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
