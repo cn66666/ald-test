@@ -50,7 +50,7 @@ axios.interceptors.request.use(function (config) {
     config.data['userName'] = localStorage.getItem("userName")
     return config;
   }else{
-    if (config.url === "/aladdin/login"){
+    if (config.url === "/ald/login"){
       return config
     }
     router.push({path:"/login"})
