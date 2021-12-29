@@ -3,7 +3,7 @@
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
       <el-menu :default-openeds="openeds" style="height: 100%" :router="true" :unique-opened="true" :default-active="onRoutes">
         <el-image
-          style="width: 80%; height: 80px;margin: 0 10%"
+          style="margin: 10%"
           :src="logo"></el-image>
         <el-menu-item index="/admin">
           <i class="el-icon-s-home"></i>
@@ -44,7 +44,7 @@ export default {
   },
   data() {
     return {
-      logo: '',
+      logo: './static/logo.png',
       userName: localStorage.getItem('userName'),
       userPhone: localStorage.getItem('userPhone'),
       userRole: localStorage.getItem('userRole'),

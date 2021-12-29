@@ -2,8 +2,7 @@
   <div>
     <el-table
       :data="quarterList"
-      style="width: 100%"
-      :default-sort = "{prop: 'intercept_date', order: 'descending'}">
+      style="width: 100%">
       <el-table-column
         prop="company_name"
         label="客户名称" width="200%">

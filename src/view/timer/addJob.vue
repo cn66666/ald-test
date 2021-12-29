@@ -13,6 +13,8 @@
           <el-option label="年度评分计算" value="yearScore"></el-option>
           <el-option label="季度额度调整" value="quarterQuota"></el-option>
           <el-option label="月度诉讼查询" value="monthLaw"></el-option>
+          <el-option label="订单查询" value="orderQuery"></el-option>
+          <el-option label="订单维护" value="orderMaintain"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="时间填写" prop="dateTime">

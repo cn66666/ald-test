@@ -2,16 +2,14 @@
   <div>
     <el-table
       :data="interceptList"
-      style="width: 100%"
-      :default-sort = "{prop: 'intercept_date', order: 'descending'}">
+      style="width: 100%">
       <el-table-column
         prop="company_name"
         label="客户名称" width="200%">
       </el-table-column>
       <el-table-column
         prop="intercept_date"
-        label="拦截日期"  width="150%"
-        sortable>
+        label="拦截日期"  width="150%">
       </el-table-column>
       <el-table-column
         prop="intercept_cause"

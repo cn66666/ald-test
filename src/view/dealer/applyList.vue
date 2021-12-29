@@ -1,11 +1,10 @@
 <template>
   <div>
-    <push-function-btn btn-name="添加新经销商" btn-type="replace" check-btn="addDealer" url="/admin/dealer/addDealer"
-                       check-role="applyList"></push-function-btn>
+    <push-function-btn btn-name="手动更新经销商" btn-type="reload" size="mini"
+                       check-btn="refreshDealer" check-role="applyList" url="/ald/dealer/refresh_dealer"></push-function-btn>
     <el-table
       :data="dealerList"
-      style="width: 100%"
-      :default-sort = "{prop: 'quota_date', order: 'descending'}">
+      style="width: 100%">
       <el-table-column
         prop="company_name"
         label="经销商名称" width="200%">
@@ -25,8 +24,7 @@
       </el-table-column>
       <el-table-column
         prop="quota_date"
-        label="额度截止日期"  width="150%"
-        sortable>
+        label="额度截止日期"  width="150%">
       </el-table-column>
       <el-table-column
         prop="state_code"
@@ -36,6 +34,10 @@
         prop=""
         label="操作">
         <template slot-scope="scope">
+          <push-function-btn v-if="scope.row.state_code === '待录入'" btn-name="补充数据" btn-type="replace" size="mini"
+                             check-btn="changeDealer" check-role="applyList" url="/admin/dealer/addDealer"
+                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+
           <push-function-btn v-if="scope.row.state_code === '暂存'" btn-name="修改" btn-type="replace" size="mini"
                              check-btn="changeDealer" check-role="applyList" url="/admin/dealer/addDealer"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
@@ -56,13 +58,17 @@
                              check-btn="quotaReckonAgain" check-role="applyList" url="/admin/dealer/quota_reckon_again"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
+          <push-function-btn v-if="scope.row.state_code === '待补充数据'" btn-name="前往数据采集页面" btn-type="replace"
+                             check-btn="getDealerData" url="/xingyun/upload"
+                             params-key='code' :params-value='scope.row.code' check-role="applyList"></push-function-btn>
 
-          <push-function-btn v-if="scope.row.state_code === '待补充数据'" btn-name="前往数据采集页面"
-                             check-role="L1" :check-function='null' :methods-params='scope.row.dealer_id'></push-function-btn>
-          <push-function-btn v-if="scope.row.state_code === '待激活'" btn-name="确认激活"
-                             check-role="L1" :check-function='null' :methods-params='scope.row.dealer_id'></push-function-btn>
-          <push-function-btn v-if="scope.row.state_code === '待激活'" btn-name="重新补充数据"
-                             check-role="L1" :check-function='null' :methods-params='scope.row.dealer_id'></push-function-btn>
+          <push-function-btn v-if="scope.row.state_code === '待激活'" btn-name="确认激活" btn-type="reload" size="mini"
+                             check-btn="doneDealerQuota" check-role="applyList" url="/ald/dealer/done_quota"
+                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+
+          <push-function-btn v-if="scope.row.state_code === '待激活' && scope.row.quota_type === '新客户'" btn-name="重新录入" btn-type="reload" size="mini"
+                             check-btn="deleteDealerQuota" check-role="applyList" url="/ald/dealer/delete_quota"
+                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
         </template>
       </el-table-column>
     </el-table>
@@ -76,12 +82,14 @@
     <el-dialog title="查看拦截原因" :visible.sync="showIntercept">
       <el-form>
         <el-form-item label="拦截原因" :label-width="formLabelWidth">
-          <span v-for="(item)  in interceptList" :key="item">item</span>
+          <p v-for="(item)  in interceptList" :key="item">{{ item }};</p>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="showIntercept=false">关闭</el-button>
-        <el-button type="primary" @click="skipApplyIntercept()">跳过拦截</el-button>
+        <el-button type="primary" size="mini" @click="showIntercept=false">关闭</el-button>
+        <push-function-btn btn-name="跳过拦截" btn-type="reload" size="mini"
+                           check-btn="skipApplyIntercept" check-role="applyList" url="/ald/dealer/skip_apply_intercept"
+                           params-key='dealerId' :params-value='applyInterceptId'></push-function-btn>
       </div>
     </el-dialog>
   </div>
@@ -126,42 +134,12 @@ export default {
 
     showApplyIntercept: function (dealerId){
       var that = this;
+      that.interceptList = []
       that.applyInterceptId=dealerId
       that.showIntercept=true;
       that.axios.post('/ald/dealer/show_apply_intercept', {'dealerId': dealerId,}).then(res=>{
         if (res.data.code=='ok'){
           that.interceptList = res.data.data
-        }else {
-          this.$message({
-            message: res.data.msg + ':' + res.data.data,
-            type: 'warning'
-          });
-        }
-      }).catch(res=>{
-      })
-    },
-
-    skipApplyIntercept:function (){
-      var that = this;
-      that.axios.post('/ald/dealer/skip_apply_intercept', {'dealerId': that.applyInterceptId,}).then(res=>{
-        if (res.data.code=='ok'){
-          that.showIntercept=false;
-          this.getDealerList()
-        }else {
-          this.$message({
-            message: res.data.msg + ':' + res.data.data,
-            type: 'warning'
-          });
-        }
-      }).catch(res=>{
-      })
-    },
-
-    newScore:function (dealer_id){
-      var that = this;
-      that.axios.post('/ald/dealer/new_score', {'dealerId': dealer_id,}).then(res=>{
-        if (res.data.code=='ok'){
-
         }else {
           this.$message({
             message: res.data.msg + ':' + res.data.data,

@@ -2,20 +2,18 @@
   <div>
     <el-table
       :data="scoreList"
-      style="width: 100%"
-      :default-sort = "{prop: 'intercept_date', order: 'descending'}">
+      style="width: 100%">
       <el-table-column
         prop="company_name"
         label="客户名称" width="200%">
       </el-table-column>
       <el-table-column
         prop="quota_type"
-        label="当前额度类型" width="150%">
-        <template slot-scope="scope">
-          <span v-if="scope.row.quota_type === false">一年期额度</span>
-          <span v-else-if="scope.row.quota_type === true">长期额度</span>
-          <span v-else>-</span>
-        </template>
+        label="当前客户类型" width="150%">
+      </el-table-column>
+      <el-table-column
+        prop="level"
+        label="评级" width="150%">
       </el-table-column>
       <el-table-column
         prop="old_quota_money"
@@ -27,25 +25,19 @@
       </el-table-column>
       <el-table-column
         prop="quota_date"
-        label="额度日期"  width="150%"
-        sortable>
+        label="额度日期"  width="150%">
       </el-table-column>
       <el-table-column
         prop="state_code"
         label="状态" width="100%">
-        <template slot-scope="scope">
-          <span v-if="scope.row.state_code === ''"></span>
-          <span v-else-if="scope.row.state_code === ''"></span>
-          <span v-else>-</span>
-        </template>
       </el-table-column>
       <el-table-column
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <push-function-btn v-if="scope.row.state_code === ''" btn-name="" btn-type="" size="mini"
-                             check-btn="" check-role="" url=""
-                             params-key='' :params-value='a'></push-function-btn>
+          <push-function-btn v-if="scope.row.state_code === '待补充数据'" btn-name="补充数据" btn-type="replace" size="mini"
+                             check-btn="addScoreApply" check-role="scoreList" url="/admin/dealer/addScoreApply"
+                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
         </template>
       </el-table-column>
@@ -76,10 +68,24 @@ export default {
       applyInterceptId: null
     }
   },
+  mounted() {
+    this.getScoreList()
+  },
   methods: {
     handleCurrentChange(val) {
       this.localPage = val;
-      this.getDealerList();
+      this.getScoreList();
+    },
+
+    getScoreList: function (){
+      var that = this;
+      that.axios.post('/ald/dealer/score_apply', {'page': that.localPage,}).then(res=>{
+        if (res.data.code=='ok'){
+          that.scoreList = res.data.data.data_list;
+          that.total = res.data.data.total
+        }
+      }).catch(res=>{
+      })
     },
   }
 }

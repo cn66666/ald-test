@@ -1,5 +1,5 @@
 <template>
-    <el-button type="primary" size="mini" @click="click()">{{ btnName }}</el-button>
+  <el-button type="primary" size="mini" @click="click()" :loading="loading">{{ btnName }}</el-button>
 </template>
 
 <script>
@@ -9,7 +9,8 @@ export default {
   name: "pushFunctionBtn",
   data(){
     return {
-      btnList: JSON.parse(localStorage.getItem('btnList'))
+      btnList: JSON.parse(localStorage.getItem('btnList')),
+      loading: false
     }
   },
   props:{
@@ -55,18 +56,21 @@ export default {
           }
         }else if (that.btnType === 'reload') {
           // 请求后台后页面刷新
+          that.loading = true
           var data = {}
           data[that.paramsKey] = that.paramsValue
           that.axios.post(that.url, data).then(res=>{
             if (res.data.code==='ok'){
               location.reload()
             }else {
+              that.loading = false
               Message.warning(res.data.msg + ':' + res.data.data)
             }
           }).catch(res=>{
+            that.loading = false
+            Message.warning('错误: 请联系管理员')
           })
         }
-
       }else {
         Message.warning('失败: 无该功能权限')
       }

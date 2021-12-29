@@ -2,8 +2,7 @@
   <div>
     <el-table
       :data="dealerList"
-      style="width: 100%"
-      :default-sort = "{prop: 'limit_date', order: 'descending'}">
+      style="width: 100%">
       <el-table-column
         prop="company_name"
         label="经销商名称" width="200%">
@@ -12,8 +11,8 @@
         prop="limit_type"
         label="额度类型" width="150%">
         <template slot-scope="scope">
-          <span v-if="scope.row.quota_type === false">一年期额度</span>
-          <span v-else-if="scope.row.quota_type === true">长期额度</span>
+          <span v-if="scope.row.quota_type === '新客户'">一年期额度</span>
+          <span v-else-if="scope.row.quota_type === '老客户'">长期额度</span>
           <span v-else>-</span>
         </template>
       </el-table-column>
@@ -22,30 +21,24 @@
         label="已用额度" width="150%">
       </el-table-column>
       <el-table-column
-        prop="quota_money"
-        label="赊销额度" width="150%">
+        prop="quota_balance"
+        label="剩余额度" width="150%">
       </el-table-column>
       <el-table-column
         prop="quota_date"
-        label="额度截止日期"  width="150%"
-        sortable>
+        label="额度截止日期"  width="150%">
       </el-table-column>
       <el-table-column
         prop="state_code"
         label="状态" width="100%">
-<!--        <template slot-scope="scope">-->
-<!--          <span v-if="scope.row.state_code === 'activate'">额度已激活</span>-->
-<!--          <span v-else-if="scope.row.state_code === 'reckon'">额度升级中</span>-->
-<!--          <span v-else-if="scope.row.state_code === 'stop'">额度已禁用</span>-->
-<!--          <span v-else>-</span>-->
-<!--        </template>-->
       </el-table-column>
       <el-table-column
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.state_code === 'activate'" size="mini" round @click="">拉入拦截清单</el-button>
-          <el-button v-if="scope.row.state_code === 'stop'" size="mini" round @click="">查询禁用原因</el-button>
+          <push-function-btn v-if="scope.row.state_code === '已激活'" btn-name="拉入拦截清单" btn-type="reload" size="mini"
+                             check-btn="doDealerIntercept" check-role="quotaList" url="/ald/dealer/do_dealer_intercept"
+                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
         </template>
       </el-table-column>
     </el-table>
@@ -60,8 +53,10 @@
 </template>
 
 <script>
+import PushFunctionBtn from "../../components/pushFunctionBtn";
 export default {
   name: "quotaList",
+  components: {PushFunctionBtn},
   data() {
     return {
       dealerList: [],

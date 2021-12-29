@@ -17,7 +17,8 @@
         <el-input v-model="addForm.salePerson"></el-input>
       </el-form-item>
       <el-form-item label="销售金额" prop="saleMoney" style="width: 50%">
-        <el-input v-model="addForm.saleMoney"></el-input>
+        <el-input v-model="addForm.saleMoney">
+          <template slot="append">元</template></el-input>
       </el-form-item>
       <el-form-item label="经销商分类" prop="quotaType" style="width: 50%">
         <el-select v-model="addForm.quotaType" placeholder="请选择">
@@ -41,10 +42,13 @@ export default {
       if (value === '') {
         callback(new Error('请填写销售金额'));
       } else {
-        if (this.addForm.saleMoney !== '') {
+        if (value !== '') {
           try {
-            var res = parseFloat(this.addForm.saleMoney)
+            var res = parseFloat(value)
             if (isNaN(res)){
+              callback(new Error('请填写正确的销售金额'));
+            }
+            if (value !== res.toString()){
               callback(new Error('请填写正确的销售金额'));
             }
             callback();
@@ -93,7 +97,7 @@ export default {
     if (dealerId){
       // 查询经销商信息进行修改
       var that = this;
-      that.axios.post('/ald/dealer/dealer_info', {'dealerId': dealerId}).then(res=>{
+      that.axios.post('/ald/dealer/dealer_apply_info', {'dealerId': dealerId}).then(res=>{
         that.addBtn = false;
         if (res.data.code=='ok'){
           that.addForm.companyName = res.data.data.company_name;
@@ -121,8 +125,12 @@ export default {
           that.addBtn = true;
           that.axios.post('/ald/dealer/add_dealer', {'addForm': that.addForm, 'type': addType, 'change': that.change}).then(res=>{
             that.addBtn = false;
-            if (res.data.code=='ok'){
-              that.$router.push('/admin/dealer/applyList')
+            if (res.data.code === 'ok'){
+              if (that.addForm.quotaType === '老客户'){
+                that.$router.push('/admin/dealer/scoreList')
+              }else {
+                that.$router.push('/admin/dealer/applyList')
+              }
             } else {
               that.addBtn = false;
               this.$message({

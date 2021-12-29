@@ -2,13 +2,13 @@
   <div>
     <el-row>
       <el-button type="primary" size="mini">批量标记赊销订单</el-button>
-      <el-button type="primary" size="mini">批量标记发货</el-button>
-      <el-button type="primary" size="mini">刷新列表</el-button>
+      <el-button type="primary" size="mini">批量标记非赊销订单</el-button>
+      <push-function-btn btn-name="手动刷新订单" btn-type="reload" size="mini"
+                         check-btn="refreshOrder" check-role="orderList" url="/ald/business/refresh_order"></push-function-btn>
     </el-row>
     <el-table
       :data="orderList"
-      style="width: 100%"
-      :default-sort = "{prop: 'intercept_date', order: 'descending'}" @selection-change="handleCheckedChange">
+      style="width: 100%" @selection-change="handleCheckedChange">
       <el-table-column type="selection" width="50%">
       </el-table-column>
       <el-table-column
@@ -20,13 +20,12 @@
         label="销售单号" width="200%">
       </el-table-column>
       <el-table-column
-        prop="order_money"
+        prop="order_count"
         label="含税金额" width="150%">
       </el-table-column>
       <el-table-column
         prop="order_date"
-        label="创建日期"  width="150%"
-        sortable>
+        label="创建日期"  width="150%">
       </el-table-column>
       <el-table-column
         prop="state_code"
@@ -38,10 +37,10 @@
         <template slot-scope="scope">
           <push-function-btn btn-name="标记赊销订单" btn-type="reload" size="mini"
                              check-btn="checkOneOrderQuota" check-role="orderList" url="/ald/business/check_quota_order"
-                             params-key='id' :params-value='scope.row.id'></push-function-btn>
+                             params-key='orderId' :params-value='scope.row.id'></push-function-btn>
           <push-function-btn btn-name="直接发货" btn-type="reload" size="mini"
                              check-btn="checkOneOrderDone" check-role="orderList" url="/ald/business/order_done"
-                             params-key='id' :params-value='scope.row.id'></push-function-btn>
+                             params-key='orderId' :params-value='scope.row.id'></push-function-btn>
         </template>
       </el-table-column>
     </el-table>
@@ -82,7 +81,8 @@ export default {
     },
     getOrderList: function (){
       var that = this;
-      that.axios.post('/ald/business/order_list', {'page': that.localPage, 'order_type': '待审核'}).then(res=>{
+      that.axios.post('/ald/business/order_list', {'page': that.localPage, 'orderType': '待审核',
+      'isSell': null}).then(res=>{
         if (res.data.code=='ok'){
           that.orderList = res.data.data.data_list;
           that.total = res.data.data.total

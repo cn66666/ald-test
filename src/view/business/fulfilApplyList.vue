@@ -1,28 +1,32 @@
 <template>
   <div>
     <el-table
-      :data="orderList"
-      style="width: 100%"
-      :default-sort = "{prop: 'intercept_date', order: 'descending'}" @selection-change="handleCheckedChange">
+      :data="applyList"
+      style="width: 100%">
       <el-table-column
         prop="company_name"
-        label="客户名称">
+        label="客户名称" width="250%">
       </el-table-column>
       <el-table-column
         prop="order_code"
-        label="销售单号">
+        label="销售单号" width="200%">
       </el-table-column>
       <el-table-column
-        prop="order_money"
-        label="含税金额">
+        prop="fulfil_money"
+        label="履行金额" width="150%">
       </el-table-column>
       <el-table-column
-        prop="order_date"
-        label="创建日期" sortable>
+        prop="create_time"
+        label="创建日期" width="150%">
       </el-table-column>
       <el-table-column
-        prop="state_code"
-        label="状态">
+        prop=""
+        label="拦截原因">
+        <template slot-scope="scope">
+          <p v-for="item  in scope.row.intercept_info">
+            {{ item }}
+          </p>
+        </template>
       </el-table-column>
     </el-table>
     <div class="block" style="float: right;margin-top: 23px;margin-right: 79px;">
@@ -38,33 +42,33 @@
 <script>
 import PushFunctionBtn from "../../components/pushFunctionBtn";
 export default {
-  name: "orderList",
+  name: "fulfilApplyList",
   components: {PushFunctionBtn},
   data() {
     return {
-      orderList: [],
+      applyList: [],
       total: 1,
       localPage: 1,
       isIndeterminate: true,
-      multipleSelection: []
+      selectList: []
     }
   },
   mounted() {
-    this.getOrderList()
+    this.getFulfilApplyList()
   },
   methods: {
     handleCurrentChange(val) {
       this.localPage = val;
-      this.getOrderList();
+      this.getFulfilApplyList();
     },
     handleCheckedChange(value) {
-      this.multipleSelection = value;
+      this.selectList = value;
     },
-    getOrderList: function (){
+    getFulfilApplyList: function (){
       var that = this;
-      that.axios.post('/ald/business/order_list', {'page': that.localPage, 'order_type': '已发货'}).then(res=>{
+      that.axios.post('/ald/business/fulfil_apply', {'page': that.localPage, 'stateCode': '未通过'}).then(res=>{
         if (res.data.code=='ok'){
-          that.orderList = res.data.data.data_list;
+          that.applyList = res.data.data.data_list;
           that.total = res.data.data.total
         }
       }).catch(res=>{
