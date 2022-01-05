@@ -24,7 +24,7 @@ export default {
       errorMsg: "",
       loginBtn: false,
       loginBtntext: '登录',
-      logo: ''
+      logo: '/static/logo.png'
     }
   },
   methods: {

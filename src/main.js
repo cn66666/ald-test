@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.icon){
     document.getElementsByClassName('titile_icon').href = to.meta.icon
   } else {
-    document.getElementsByClassName('titile_icon').href = ''
+    document.getElementsByClassName('titile_icon').href = '/static/ald.ico'
   }
   next()
 })
