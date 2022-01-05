@@ -143,6 +143,12 @@ export default new Router({
           component: resolve => require(['../view/business/orderList'], resolve),
         },
         {
+          path: '/admin/business/orderInfoList',
+          name: 'orderInfoList',
+          meta: { title: '销售单状态' },
+          component: resolve => require(['../view/business/orderInfoList'], resolve),
+        },
+        {
           path: '/admin/business/sellOrderList',
           name: 'sellOrderList',
           meta: { title: '赊销订单历史' },
@@ -177,6 +183,18 @@ export default new Router({
           name: 'fulfilApplyList',
           meta: { title: '履行单拦截清单' },
           component: resolve => require(['../view/business/fulfilApplyList'], resolve),
+        },
+        {
+          path: '/admin/business/fulfilInfo',
+          name: 'fulfilInfo',
+          meta: { title: '履行单信息' },
+          component: resolve => require(['../view/business/fulfilInfo'], resolve),
+        },
+        {
+          path: '/admin/business/invoiceInfo',
+          name: 'invoiceInfo',
+          meta: { title: '开票信息' },
+          component: resolve => require(['../view/business/invoiceInfo'], resolve),
         },
       ]
     },
