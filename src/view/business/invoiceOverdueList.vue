@@ -27,7 +27,7 @@
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <push-function-btn btn-name="确认缴纳" btn-type="function" size="mini"
+          <push-function-btn btn-name="确认缴纳" btn-type="function" size="mini" float="left"
                              check-btn="addPayOverdue" check-role="dealerOverdueList" :check-function='showAddPayOverdue'
                              params-key='overdueInfo' :params-value='{"invoiceId" : scope.row.invoice_id,
                              "unpaidMoney": scope.row.unpaid_money}'></push-function-btn>
@@ -73,28 +73,6 @@ export default {
   name: "invoiceOverdueList",
   components: {PushFunctionBtn},
   data() {
-    var validatePass = (rule, value, callback) => {
-      console.log(value)
-      if (value === '') {
-        callback(new Error('请填写销售金额'));
-      } else {
-        if (value !== '') {
-          try {
-            var res = parseFloat(value)
-            if (isNaN(res)){
-              callback(new Error('请填写正确的销售金额'));
-            }
-            if (value !== res.toString()){
-              callback(new Error('请填写正确的销售金额'));
-            }
-            callback();
-          }
-          catch(err){
-            callback(new Error('请填写正确的销售金额'));
-          }
-        }
-      }
-    };
     return {
       invoiceOverdueList: [],
       total: 1,
@@ -108,14 +86,6 @@ export default {
         unpaidMoney: 0,
         paidMoney: 0,
         freeMoney: 0,
-      },
-      rules: {
-        paidMoney: [
-          {required: true, validator: validatePass,},
-        ],
-        freeMoney: [
-          {required: true, validator: validatePass,},
-        ],
       }
     }
   },

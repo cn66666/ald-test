@@ -83,6 +83,12 @@ export default new Router({
           component: resolve => require(['../view/logs/emailLogList'], resolve),
         },
         {
+          path: '/admin/dealer/dealerInfo',
+          name: 'dealerInfo',
+          meta: { title: '经销商信息数据' },
+          component: resolve => require(['../view/dealer/dealerInfo'], resolve),
+        },
+        {
           path: '/admin/dealer/applyList',
           name: 'applyList',
           meta: { title: '经销商申请清单' },

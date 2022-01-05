@@ -1,15 +1,130 @@
 <template>
+  <div>
+    <el-descriptions :column="2" size="small" border>
+      <el-descriptions-item>
+        <template slot="label">
+          公司名称
+        </template>
+        {{ dealerInfo.company_name }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
+          公司状态
+        </template>
+        {{ dealerInfo.state_code }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
+          额度类型
+        </template>
+        <span v-if="dealerInfo.quota_type === '新客户'">一年期额度</span>
+        <span v-else-if="dealerInfo.quota_type === '老客户'">长期额度</span>
+        <span v-else></span>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
+          审批额度
+        </template>
+        {{ dealerInfo.quota_money }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
+          已用额度
+        </template>
+        {{ dealerInfo.quota_used }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
+          额度截止日期
+        </template>
+        {{ dealerInfo.quota_date }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
+          特批额度
+        </template>
+        <span style="margin-right: 30px">{{ dealerInfo.special_quota }}</span>
+        <push-function-btn btn-name="进行特批额度" btn-type="function" size="mini"
+                           check-btn="showSpecialQuota" check-role="quotaList" :check-function='showSpecialQuota'
+                           params-key='dealerId' :params-value='{"dealerId" : dealerId,
+                             "special_quota": dealerInfo.special_quota}'></push-function-btn>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
+          特批额度截止日期
+        </template>
+        {{ dealerInfo.special_date }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
+          是否被拦截
+        </template>
+        <span v-if="dealerInfo.is_intercept === true">已拦截</span>
+        <span v-else-if="dealerInfo.is_intercept === false">未拦截</span>
+        <span v-else></span>
+      </el-descriptions-item>
+    </el-descriptions>
+    <br>
+    <span>近20条额度变更记录</span>
+    <br>
+    <br>
+    <el-table
+      :data="dealerInfo.quota_log"
+      border
+      style="width: 100%">
+      <el-table-column
+        prop="change_money"
+        label="变更金额"
+        width="300">
+      </el-table-column>
+      <el-table-column
+        prop="change_info"
+        label="变更信息"
+        width="300">
+      </el-table-column>
+      <el-table-column
+        prop="create_time"
+        label="变更时间">
+      </el-table-column>
+    </el-table>
 
+    <el-dialog title="进行特批额度" :visible.sync="showForm">
+      <el-form>
+        <el-form-item label="特批额度" :label-width="formLabelWidth">
+          <el-input v-model="addForm.special_quota">
+            <template slot="append">元</template></el-input>
+        </el-form-item>
+        <el-form-item label="特批结束日期" prop="special_date" :label-width="formLabelWidth">
+          <el-date-picker type="date" placeholder="选择日期" value-format="yyyy-MM-dd"
+                          v-model="addForm.special_date"></el-date-picker>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="mini" @click="showForm=false">关闭</el-button>
+        <push-function-btn btn-name="确认特批额度" btn-type="function" size="mini"
+                           check-btn="addSpecialQuota" check-role="quotaList" :check-function='addSpecialQuota'
+                           params-key='addInfo' :params-value='addForm'></push-function-btn>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
 import PushFunctionBtn from "../../components/pushFunctionBtn";
+import { Message } from 'element-ui';
 export default {
   name: "dealerInfo",
   components: {PushFunctionBtn},
   data() {
     return {
-      dealerId: null
+      dealerId: null,
+      dealerInfo: {},
+      showForm: false,
+      formLabelWidth: '120px',
+      addForm: {
+        special_quota: 0,
+        special_date: ''
+      }
     }
   },
   mounted() {
@@ -21,29 +136,58 @@ export default {
     getDealerInfo: function (){
       var that = this;
       that.axios.post('/ald/dealer/dealer_info', {'dealerId': that.dealerId,}).then(res=>{
-        if (res.data.code=='ok'){
+        if (res.data.code==='ok'){
+          that.dealerInfo = res.data.data
         }
       }).catch(res=>{
       })
     },
-
-    showApplyIntercept: function (dealerId){
+    showSpecialQuota: function (){
       var that = this;
-      that.interceptList = []
-      that.applyInterceptId=dealerId
-      that.showIntercept=true;
-      that.axios.post('/ald/dealer/show_apply_intercept', {'dealerId': dealerId,}).then(res=>{
+      if (that.dealerInfo.state_code === '已激活'){
+        that.showForm = true
+      }else {
+        Message.warning('失败: 该客户未激活额度')
+      }
+    },
+    addSpecialQuota: function (){
+      var that = this;
+      var special_quota = that.addForm.special_quota
+      var special_date = that.addForm.special_date
+      if (special_quota === '') {
+        Message.warning('失败: 请填写正确的特批额度')
+        return
+      } else {
+        if (special_quota !== '') {
+          try {
+            debugger
+            var res = parseFloat(special_quota)
+            if (isNaN(res)) {
+              Message.warning('失败: 请填写正确的特批额度')
+              return
+            }
+          } catch (err) {
+            Message.warning('失败: 请填写正确的特批额度')
+            return
+          }
+        }
+      }
+      if (special_date === '') {
+        Message.warning('失败: 请填写正确的特批结束日期')
+        return
+      }
+      that.axios.post('/ald/dealer/add_special_quota', {'addForm': that.addForm, 'dealerId': that.dealerId}).then(res=>{
         if (res.data.code=='ok'){
-          that.interceptList = res.data.data
+          location.reload()
+          return
         }else {
-          this.$message({
-            message: res.data.msg + ':' + res.data.data,
-            type: 'warning'
-          });
+          Message.warning('失败: ' + res.data.data)
+          return
         }
       }).catch(res=>{
       })
-    },
+    }
+
   }
 
 }

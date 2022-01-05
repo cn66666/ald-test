@@ -10,6 +10,11 @@
       <el-table-column
         prop="company_name"
         label="客户名称" width="250%">
+        <template slot-scope="scope">
+          <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.dealer_id'>
+            <el-button type="text" >{{scope.row.company_name}}</el-button>
+          </router-link>
+        </template>
       </el-table-column>
       <el-table-column
         prop="order_code"
