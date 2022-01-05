@@ -76,9 +76,6 @@ export default {
       this.localPage = val;
       this.getOrderList();
     },
-    handleCheckedChange(value) {
-      this.selectList = value;
-    },
     getOrderList: function (){
       var that = this;
       that.axios.post('/ald/business/order_list', {'page': that.localPage, 'orderType': '待审核',

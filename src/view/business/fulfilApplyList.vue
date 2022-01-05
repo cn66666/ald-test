@@ -61,9 +61,6 @@ export default {
       this.localPage = val;
       this.getFulfilApplyList();
     },
-    handleCheckedChange(value) {
-      this.selectList = value;
-    },
     getFulfilApplyList: function (){
       var that = this;
       that.axios.post('/ald/business/fulfil_apply', {'page': that.localPage, 'stateCode': '未通过'}).then(res=>{

@@ -149,10 +149,16 @@ export default new Router({
           component: resolve => require(['../view/business/noSellOrderList'], resolve),
         },
         {
-          path: '/admin/business/orderExpiredList',
-          name: 'orderExpiredList',
-          meta: { title: '逾期管理' },
-          component: resolve => require(['../view/business/orderExpiredList'], resolve),
+          path: '/admin/business/dealerOverdueList',
+          name: 'dealerOverdueList',
+          meta: { title: '滞纳金管理' },
+          component: resolve => require(['../view/business/dealerOverdueList'], resolve),
+        },
+        {
+          path: '/admin/business/invoiceOverdueList',
+          name: 'invoiceOverdueList',
+          meta: { title: '开票滞纳金查询' },
+          component: resolve => require(['../view/business/invoiceOverdueList'], resolve),
         },
         {
           path: '/admin/business/fulfilList',

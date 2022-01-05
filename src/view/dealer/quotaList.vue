@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table
-      :data="dealerList"
+      :data="quotaList"
       style="width: 100%">
       <el-table-column
         prop="company_name"
@@ -36,8 +36,8 @@
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <push-function-btn v-if="scope.row.state_code === '已激活'" btn-name="拉入拦截清单" btn-type="reload" size="mini"
-                             check-btn="doDealerIntercept" check-role="quotaList" url="/ald/dealer/do_dealer_intercept"
+          <push-function-btn v-if="scope.row.state_code === '已激活'" btn-name="拉入拦截清单" btn-type="function" size="mini"
+                             check-btn="addIntercept" check-role="quotaList" :check-function='showAddIntercept'
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
         </template>
       </el-table-column>
@@ -49,19 +49,37 @@
         :page-count="total">
       </el-pagination>
     </div>
+    <el-dialog title="填写拦截原因" :visible.sync="showInterceptRemark">
+      <el-form>
+        <el-form-item label="拦截原因" :label-width="formLabelWidth">
+          <el-input v-model="interceptRemark"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="mini" @click="showIntercept=false">关闭</el-button>
+        <push-function-btn btn-name="确认拦截" btn-type="function" size="mini"
+                           check-btn="activeIntercept" check-role="quotaList" :check-function='activeInterceptDealer'
+                           params-key='dealerId' :params-value='interceptDealerId'></push-function-btn>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import PushFunctionBtn from "../../components/pushFunctionBtn";
+import {Message} from "element-ui";
 export default {
   name: "quotaList",
   components: {PushFunctionBtn},
   data() {
     return {
-      dealerList: [],
+      quotaList: [],
       total: 1,
       localPage: 1,
+      showInterceptRemark: false,
+      interceptRemark:  '',
+      formLabelWidth: '120px',
+      interceptDealerId: null
     }
   },
   mounted() {
@@ -76,34 +94,38 @@ export default {
       var that = this;
       that.axios.post('/ald/dealer/quota_list', {'page': that.localPage,}).then(res=>{
         if (res.data.code=='ok'){
-          that.dealerList = res.data.data.data_list;
+          that.quotaList = res.data.data.data_list;
           that.total = res.data.data.total
         }
       }).catch(res=>{
       })
     },
-    changeDealerInfo: function (dealerId){
+    showAddIntercept: function (dealerId){
       var that = this;
-      that.$router.push('/admin/dealer/addDealer?dealerId=' + dealerId)
+      that.showInterceptRemark = true
+      that.interceptDealerId = dealerId
+      that.interceptRemark = ''
     },
-    dealerInfoApply: function (dealerId){
+    activeInterceptDealer: function (dealerId){
       var that = this;
-      that.axios.post('/ald/dealer/dealer_apply', {'dealerId': dealerId,}).then(res=>{
-        if (res.data.code=='ok'){
-          this.getDealerList()
-        }else {
-          this.$message({
-            message: res.data.msg + ':' + res.data.data,
-            type: 'warning'
-          });
-        }
-      }).catch(res=>{
-      })
-    },
-    specialApply:function (dealerId){
-      var that = this;
-      that.$router.push('/admin/dealer/specialApply?dealerId=' + dealerId)
+      if (that.interceptRemark !== ''){
+        that.axios.post('/ald/dealer/active_intercept', {'dealerId': dealerId, 'interceptRemark': that.interceptRemark}).then(res=>{
+          if (res.data.code=='ok'){
+            location.reload()
+          }else{
+            Message.warning(res.data.msg + ':' + res.data.data)
+            that.showInterceptRemark = false
+          }
+        }).catch(res=>{
+          Message.warning('错误: 请联系管理员')
+        })
+      }else {
+        Message.warning('错误: 请联系管理员')
+      }
+
+
     }
+
   }
 }
 </script>

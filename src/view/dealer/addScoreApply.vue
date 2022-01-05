@@ -1,6 +1,10 @@
 <template>
   <div>
     <el-form :model="addForm" status-icon :rules="rules" ref="addForm" label-width="130px" class="demo-ruleForm">
+      <el-form-item label="去年业务规划" prop="oldSaleMoney" style="width: 50%">
+        <el-input v-model="addForm.oldSaleMoney">
+          <template slot="append">元</template></el-input>
+      </el-form-item>
       <el-form-item label="去年完成情况" prop="doneRate" style="width: 50%">
         <el-input v-model="addForm.doneRate">
           <template slot="append">%</template></el-input>
@@ -50,9 +54,13 @@ export default {
         saleMoney: 0,
         endDay: 0,
         doneRate: 0,
+        oldSaleMoney: 0
       },
       rules: {
         saleMoney: [
+          {required: true, validator: validatePass,},
+        ],
+        oldSaleMoney: [
           {required: true, validator: validatePass,},
         ],
         endDay: [

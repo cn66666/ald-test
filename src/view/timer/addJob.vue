@@ -10,11 +10,18 @@
       </el-form-item>
       <el-form-item label="任务类型" prop="jobType">
         <el-select v-model="ruleForm.jobType" placeholder="请选择任务类型" @change="changeId()">
-          <el-option label="年度评分计算" value="yearScore"></el-option>
-          <el-option label="季度额度调整" value="quarterQuota"></el-option>
-          <el-option label="月度诉讼查询" value="monthLaw"></el-option>
+          <el-option label="经销商查询" value="dealerQuery"></el-option>
+          <el-option label="司法诉讼拦截" value="lawQuery"></el-option>
+          <el-option label="逾期拦截" value="overdueQuery"></el-option>
+          <el-option label="开票查询" value="invoiceQuery"></el-option>
           <el-option label="订单查询" value="orderQuery"></el-option>
-          <el-option label="订单维护" value="orderMaintain"></el-option>
+          <el-option label="滞纳金计算" value="overdueCount"></el-option>
+          <el-option label="季度额度申请" value="quaterApply"></el-option>
+          <el-option label="季度额度确认" value="quaterTakeEffect"></el-option>
+          <el-option label="特批额度取消" value="quotaSpecial"></el-option>
+          <el-option label="评分卡申请" value="scoreApply"></el-option>
+          <el-option label="评分卡额度确认" value="scoreTakeEffect"></el-option>
+          <el-option label="新老客户转换" value="newDealerUpdate"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="时间填写" prop="dateTime">

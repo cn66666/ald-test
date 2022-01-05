@@ -1,35 +1,36 @@
 <template>
   <div>
     <el-table
-      :data="fulfilList"
+      :data="overdueList"
       style="width: 100%">
       <el-table-column
-        prop="apply_id"
-        label="fid" width="50%">
-      </el-table-column>
-      <el-table-column
         prop="company_name"
-        label="客户名称" width="250%">
+        label="客户名称" width="200%">
       </el-table-column>
       <el-table-column
-        prop="order_code"
-        label="销售单号" width="100%">
+        prop="overdue_money"
+        label="累计滞纳金" width="200%">
       </el-table-column>
       <el-table-column
-        prop="fulfil_code"
-        label="履行单号" width="100%">
+        prop="unpaid_money"
+        label="未缴滞纳金" width="150%">
       </el-table-column>
       <el-table-column
-        prop="state_code"
-        label="履行单状态" width="150%">
+        prop="paid_money"
+        label="已缴滞纳金" width="200%">
       </el-table-column>
       <el-table-column
-        prop="fulfil_money"
-        label="履行金额" width="150%">
+        prop="free_money"
+        label="已免除滞纳金" width="150%">
       </el-table-column>
       <el-table-column
-        prop="create_time"
-        label="创建日期">
+        prop=""
+        label="操作">
+        <template slot-scope="scope">
+          <push-function-btn btn-name="逾期明细" btn-type="replace" size="mini"
+                             check-btn="invoiceOverdue" check-role="dealerOverdueList" url="/admin/business/invoiceOverdueList"
+                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+        </template>
       </el-table-column>
     </el-table>
     <div class="block" style="float: right;margin-top: 23px;margin-right: 79px;">
@@ -45,30 +46,29 @@
 <script>
 import PushFunctionBtn from "../../components/pushFunctionBtn";
 export default {
-  name: "fulfilList",
+  name: "overdueList",
   components: {PushFunctionBtn},
   data() {
     return {
-      fulfilList: [],
+      overdueList: [],
       total: 1,
       localPage: 1,
       isIndeterminate: true,
-      selectList: []
     }
   },
   mounted() {
-    this.getFulfilList()
+    this.getDealerOverdueList()
   },
   methods: {
     handleCurrentChange(val) {
       this.localPage = val;
-      this.getFulfilList();
+      this.getDealerOverdueList();
     },
-    getFulfilList: function (){
+    getDealerOverdueList: function (){
       var that = this;
-      that.axios.post('/ald/business/fulfil_list', {'page': that.localPage,}).then(res=>{
+      that.axios.post('/ald/business/overdue_list', {'page': that.localPage}).then(res=>{
         if (res.data.code=='ok'){
-          that.fulfilList = res.data.data.data_list;
+          that.overdueList = res.data.data.data_list;
           that.total = res.data.data.total
         }
       }).catch(res=>{
