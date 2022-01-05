@@ -69,6 +69,7 @@ export default {
     return {
       addBtn: false,
       tableData: [],
+      formLabelWidth: '120px',
       ruleForm: {
         pass: '',
         checkPass: '',
