@@ -54,6 +54,15 @@ export default {
           }else {
             that.$router.push(that.url)
           }
+        }else if (that.btnType === 'replace_new'){
+          // 页面跳转
+          if (that.paramsKey !== undefined){
+            // 存在参数
+            let route = this.$router.resolve({path: that.url + '?' + that.paramsKey + '=' + that.paramsValue});
+            window.open(route.href, '_blank');
+          }else {
+            window.open(route.href, '_blank');
+          }
         }else if (that.btnType === 'reload') {
           // 请求后台后页面刷新
           that.loading = true

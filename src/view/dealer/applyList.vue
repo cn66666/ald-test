@@ -63,7 +63,7 @@
                              check-btn="quotaReckonAgain" check-role="applyList" url="/admin/dealer/quota_reckon_again"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
-          <push-function-btn v-if="scope.row.state_code === '待补充数据'" btn-name="前往数据采集页面" btn-type="replace"
+          <push-function-btn v-if="scope.row.state_code === '待补充数据'" btn-name="前往数据采集页面" btn-type="replace_new"
                              check-btn="getDealerData" url="/xingyun/upload"
                              params-key='code' :params-value='scope.row.code' check-role="applyList"></push-function-btn>
 

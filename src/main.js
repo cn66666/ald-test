@@ -18,11 +18,6 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title
   }
-  if (to.meta.icon){
-    document.getElementsByClassName('titile_icon').href = to.meta.icon
-  } else {
-    document.getElementsByClassName('titile_icon').href = '/static/ald.ico'
-  }
   next()
 })
 

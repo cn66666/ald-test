@@ -18,7 +18,7 @@
           :file-list="fileList"
           :limit="1"
           :auto-upload="false">
-          <el-button size="small" type="primary">点击上传<i class="el-icon-s-order el-icon--right"></i></el-button>
+          <el-button size="small" type="primary">选择文件<i class="el-icon-s-order el-icon--right"></i></el-button>
           <div slot="tip" class="el-upload__tip">
             <p class="remark">银行流水上传步骤及注意事项:</p>
             <p class="remark">1. 仅支持xls xlsx csv 格式文件</p>
@@ -33,8 +33,8 @@
     <el-row>
       <el-col :span="8"><div class="grid-content"></div></el-col>
       <el-col :span="8">
-        <p v-if="errorShow" style="color: red">{{errorInfo}}</p>
-        <el-button type="primary" @click="submitUpload" :loading="uploading">上传数据<i class="el-icon-upload el-icon--right"></i></el-button>
+        <p v-if="errorShow" style="color: red;margin-bottom: 10px">{{errorInfo}}</p>
+        <el-button type="primary" @click="submitUpload">上传数据<i class="el-icon-upload el-icon--right"></i></el-button>
       </el-col>
       <el-col :span="8"><div class="grid-content"></div></el-col>
     </el-row>
@@ -82,29 +82,30 @@ export default {
       errorShow: '',
       fileList: [],
       code: '',
-      uploading: false,
       error_info: ''
     }
   },
   mounted() {
-    this.code = this.$route.query.code;
-    if (this.code !== "null"){
-      this.getCodeInfo()
+    var that = this;
+    that.code = that.$route.query.code;
+    if (that.code !== "null"){
+      that.getCodeInfo()
     } else {
-      this.errorPage = true
+      that.errorPage = true
     }
   },
   methods: {
     submitUpload() {
-      this.uploading = true
-      this.$refs.upload.submit();
+      var that = this;
+      that.$refs.upload.submit();
     },
     uploadDone(response, file, fileList){
-      this.uploading = false
+      var that = this;
       if (response.code === 'ok'){
-        location.reload()
+        that.timer = setInterval(this.getCodeInfo, 1000);
       }else {
-        this.$message({
+        clearInterval(that.timer);
+        that.$message({
           message: "上传失败,请检查该客户状态或刷新页面",
           type: 'warning'
         });
@@ -124,6 +125,7 @@ export default {
             that.errorPage = false
             that.analysisPage = false
             that.okPage = false
+            clearInterval(that.timer);
           } else if (state_code === 'analysis'){
             that.uploadPage = false
             that.errorPage = false
@@ -136,11 +138,13 @@ export default {
             that.okPage = false
             that.errorInfo = '上传文件不符合要求,需要重新上传'
             that.errorShow = true
+            clearInterval(that.timer);
           } else if (state_code === 'ok') {
             that.uploadPage = false
             that.errorPage = false
             that.analysisPage = false
             that.okPage = true
+            clearInterval(that.timer);
           }
           that.name = res.data.data.name
         }else {
