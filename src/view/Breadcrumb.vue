@@ -1,7 +1,8 @@
 <template>
   <div>
-    <el-breadcrumb class="app-breadcrumb" separator-class="el-icon-arrow-right" style="margin: 10px">
+    <el-breadcrumb class="app-breadcrumb" separator-class="el-icon-arrow-right" style="margin-bottom: 15px;">
       <el-breadcrumb-item v-for="(item)  in levelList" :key="item.path" v-if="item.meta.title">
+        <i v-if="item.meta.title === '首页'" class="el-icon-s-home"></i>
         <router-link :to="item.redirect||item.path">{{item.meta.title}}</router-link>
       </el-breadcrumb-item>
     </el-breadcrumb>

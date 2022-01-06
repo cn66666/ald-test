@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="addForm" status-icon :rules="rules" ref="addForm" label-width="100px" class="demo-ruleForm">
+    <el-form :model="addForm" status-icon :rules="rules" ref="addForm" label-width="100px" class="demo-ruleForm" style="margin-top: 20px">
       <el-form-item label="角色名称" prop="roleName">
         <el-input v-model.number="addForm.roleName"></el-input>
       </el-form-item>

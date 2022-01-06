@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" style="margin-top: 20px">
       <el-form-item label="账户名称" prop="name">
         <el-input v-model="ruleForm.name"></el-input>
       </el-form-item>

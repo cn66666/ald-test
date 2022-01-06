@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="infoForm" status-icon :rules="rules" ref="infoForm" label-width="130px" class="demo-ruleForm">
+    <el-form :model="infoForm" status-icon :rules="rules" ref="infoForm" label-width="130px" class="demo-ruleForm" style="margin-top: 20px">
       <el-form-item label="经销商名称" prop="companyName" style="width: 50%">
         <span>{{infoForm.companyName}}</span>
       </el-form-item>

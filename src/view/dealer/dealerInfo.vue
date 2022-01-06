@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-descriptions :column="2" size="small" border>
+    <el-descriptions :column="2" size="small" border style="margin: 1%">
       <el-descriptions-item>
         <template slot="label">
           公司名称
@@ -65,13 +65,13 @@
       </el-descriptions-item>
     </el-descriptions>
     <br>
-    <span>近20条额度变更记录</span>
+    <span style="margin-left: 10px">近20条额度变更记录</span>
     <br>
     <br>
     <el-table
       :data="dealerInfo.quota_log"
       border
-      style="width: 100%">
+      style="width: 98%; margin: 1%">
       <el-table-column
         prop="change_money"
         label="变更金额"

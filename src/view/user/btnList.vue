@@ -1,11 +1,11 @@
 <template>
   <div>
-    <el-row>
+    <el-row class="btn_row">
       <el-button style="float:right;" type="primary" size="mini" @click="addBtnShow=true">添加新按钮</el-button>
     </el-row>
     <el-table
       :data="tableData"
-      style="width: 100%">
+      style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="permission"
         label="权限名称">
@@ -90,11 +90,9 @@ export default {
       that.tableData = []
       that.axios.post('/ald/user/get_btn_list', {}).then(res => {
         if (res.data.code == 'ok') {
-          console.log(res.data.data)
           for (var btn in res.data.data){
             var info = res.data.data[btn]
             var btns = info['btns']
-            console.log(btns)
             for (var i = 0; i < btns.length; i++) {
               that.tableData.push({'id': btns[i]['id'], 'caption': btns[i]['caption'], 'btn': btns[i]['btn'],
                 'permission': info['permission']})

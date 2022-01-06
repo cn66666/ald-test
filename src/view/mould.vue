@@ -1,6 +1,6 @@
 <template>
   <el-container style="height: 100%; border: 1px solid #eee">
-    <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+    <el-aside width="200px">
       <el-menu :default-openeds="openeds" style="height: 100%" :router="true" :unique-opened="true" :default-active="onRoutes">
         <el-image
           style="margin: 10%"
@@ -18,7 +18,7 @@
       </el-menu>
     </el-aside>
     <el-container>
-      <el-header style="text-align: right; font-size: 20px">
+      <el-header style="text-align: right; font-size: 20px; background-color: white; height: 8%">
         <el-dropdown>
           <i class="el-icon-setting" style="margin-right: 10px"></i>
           <el-dropdown-menu slot="dropdown">
@@ -29,7 +29,9 @@
       </el-header>
       <el-main>
         <bread></bread>
-        <router-view/>
+        <div class="info" style="height: 90%; background-color: white; overflow: auto; border-radius: 5px">
+          <router-view/>
+        </div>
       </el-main>
     </el-container>
   </el-container>
@@ -110,8 +112,11 @@ export default {
 >>>.el-menu-item{
   padding: 0 !important;
 }
-.a{
-  text-decoration: none;
-  color: black;
+.btn_row{
+  height: 10%;
+}
+
+.btn_row button{
+  margin: 25px;
 }
 </style>

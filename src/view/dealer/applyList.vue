@@ -1,10 +1,13 @@
 <template>
   <div>
-    <push-function-btn btn-name="手动更新经销商" btn-type="reload" size="mini"
-                       check-btn="refreshDealer" check-role="applyList" url="/ald/dealer/refresh_dealer"></push-function-btn>
+    <el-row class="btn_row">
+      <push-function-btn btn-name="手动更新经销商" btn-type="reload" size="mini"
+                         check-btn="refreshDealer" check-role="applyList" url="/ald/dealer/refresh_dealer"></push-function-btn>
+    </el-row>
     <el-table
+      class="info_table"
       :data="dealerList"
-      style="width: 100%">
+      style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="company_name"
         label="经销商名称" width="200%">
@@ -77,7 +80,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="block" style="float: right;margin-top: 23px;margin-right: 79px;">
+    <div class="block" style="margin-top: 23px;margin-right: 79px;">
       <el-pagination
         @current-change="handleCurrentChange" :current-page.sync="localPage"
         layout="prev, pager, next"

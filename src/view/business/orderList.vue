@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row>
+    <el-row class="btn_row">
       <el-button type="primary" size="mini">批量标记赊销订单</el-button>
       <el-button type="primary" size="mini">批量标记非赊销订单</el-button>
       <push-function-btn btn-name="手动刷新订单" btn-type="reload" size="mini"
@@ -8,7 +8,7 @@
     </el-row>
     <el-table
       :data="orderList"
-      style="width: 100%" @selection-change="handleCheckedChange">
+      style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}" @selection-change="handleCheckedChange">
       <el-table-column type="selection" width="50%">
       </el-table-column>
       <el-table-column
@@ -49,7 +49,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="block" style="float: right;margin-top: 23px;margin-right: 79px;">
+    <div class="block" style="margin-top: 23px;margin-right: 79px;">
       <el-pagination
         @current-change="handleCurrentChange" :current-page.sync="localPage"
         layout="prev, pager, next"

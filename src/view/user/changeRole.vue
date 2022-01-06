@@ -1,13 +1,13 @@
 <template>
   <div>
-    <el-row>
+    <el-row class="btn_row">
       <el-button size="mini" @click="showAddPermission=true">添加权限</el-button>
     </el-row>
     <el-table class="el-table"
       :data="permissionTable"
       :span-method="objectSpanMethod"
       border
-      style="width: 100%; margin-top: 20px">
+              style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="module_caption"
         label="模块">
@@ -34,13 +34,13 @@
       </el-table-column>
     </el-table>
     <br>
-    <el-row>
+    <el-row class="btn_row">
       <el-button size="mini" @click="showAddBtn=true">添加按钮</el-button>
     </el-row>
     <el-table class="el-table"
               :data="btnTable"
               border
-              style="width: 100%; margin-top: 20px">
+              style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="permission"
         label="模块">

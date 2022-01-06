@@ -7,7 +7,7 @@
 <!--    </el-row>-->
     <el-table
       :data="tableData"
-      style="width: 100%">
+      style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="id"
         label="No.">

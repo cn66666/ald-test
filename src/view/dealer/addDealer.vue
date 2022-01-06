@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="addForm" status-icon :rules="rules" ref="addForm" label-width="130px" class="demo-ruleForm">
+    <el-form :model="addForm" status-icon :rules="rules" ref="addForm" label-width="130px" class="demo-ruleForm" style="margin-top: 20px">
       <el-form-item label="经销商名称" prop="companyName" style="width: 50%">
         <el-input v-model="addForm.companyName" :disabled="change"></el-input>
       </el-form-item>

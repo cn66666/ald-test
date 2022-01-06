@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row>
+    <el-row class="btn_row">
       <el-button type="primary" style="float:right;" size="mini" @click="addPermissionShow=true">添加新权限</el-button>
     </el-row>
     <el-table

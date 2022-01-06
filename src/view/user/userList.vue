@@ -1,13 +1,13 @@
 <template>
   <div>
-    <el-row>
+    <el-row class="btn_row">
       <router-link to='/admin/user/addUser'>
         <el-button style="float:right;" type="primary" size="mini">添加新用户</el-button>
       </router-link>
     </el-row>
     <el-table
       :data="userData"
-      style="width: 100%">
+      style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="id"
         label="No."

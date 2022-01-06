@@ -2,7 +2,7 @@
   <div>
     <el-table
       :data="fulfilList"
-      style="width: 100%">
+      style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="apply_id"
         label="fid" width="50%">
@@ -37,7 +37,7 @@
         label="创建日期">
       </el-table-column>
     </el-table>
-    <div class="block" style="float: right;margin-top: 23px;margin-right: 79px;">
+    <div class="block" style="margin-top: 23px;margin-right: 79px;">
       <el-pagination
         @current-change="handleCurrentChange" :current-page.sync="localPage"
         layout="prev, pager, next"
