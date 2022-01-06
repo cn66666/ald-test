@@ -47,6 +47,12 @@ export default new Router({
           component: resolve => require(['../view/user/addRole'], resolve),
         },
         {
+          path: '/admin/user/addRoleNum',
+          name: 'addRoleNum',
+          meta: { title: '添加角色权限次数' },
+          component: resolve => require(['../view/user/addRoleNum'], resolve),
+        },
+        {
           path: '/admin/user/permissionList',
           name: 'permissionList',
           meta: { title: '权限列表' },

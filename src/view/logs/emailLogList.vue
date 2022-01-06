@@ -5,8 +5,7 @@
       style="width: 100%">
       <el-table-column
         prop="id"
-        label="No."
-      >
+        label="No.">
       </el-table-column>
       <el-table-column
         prop="project_name"

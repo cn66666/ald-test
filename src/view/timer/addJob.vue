@@ -22,10 +22,16 @@
           <el-option label="评分卡申请" value="scoreApply"></el-option>
           <el-option label="评分卡额度确认" value="scoreTakeEffect"></el-option>
           <el-option label="新老客户转换" value="newDealerUpdate"></el-option>
+          <el-option label="角色已使用权限次数清空" value="rolePermissionNum"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="时间填写" prop="dateTime">
-        <el-input v-model="ruleForm.dateTime" style="width: 50%"></el-input>
+        <el-date-picker v-if="timeChoose === true"
+          v-model="ruleForm.dateTime"
+          type="datetime"
+          placeholder="选择日期时间" value-format="yyyy-MM-dd HH:mm:ss">
+        </el-date-picker>
+        <el-input v-else v-model="ruleForm.dateTime" style="width: 50%"></el-input>
         <el-popover
           placement="top-start"
           title="选择提示"
@@ -61,6 +67,7 @@ export default {
     return {
       userPhone: localStorage.getItem('userPhone'),
       addBtn: false,
+      timeChoose: false,
       infoContent: '请选择定时任务类型',
       formLabelWidth: '120px',
       ruleForm: {
@@ -141,8 +148,10 @@ export default {
     },
     changeId(){
       var that = this
+      that.timeChoose = false
       that.ruleForm.id = that.ruleForm.runType + '-' + that.ruleForm.jobType
       if (that.ruleForm.runType === 'date'){
+        that.timeChoose = true
         that.infoContent = '时间请写入 datetime 类型的字符串, 例如: 2020-01-01 11:11:11'
       } else if (that.ruleForm.runType === 'interval'){
         that.infoContent = '时间请写入 秒、分、时、日、周、 类型的字符串, 例如间隔10秒执行一次 10 0 0 0 0 \n'
