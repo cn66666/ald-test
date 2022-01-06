@@ -145,6 +145,7 @@ export default {
             that.analysisPage = false
             that.okPage = true
             clearInterval(that.timer);
+            setTimeout(window.close, 5000)
           }
           that.name = res.data.data.name
         }else {
