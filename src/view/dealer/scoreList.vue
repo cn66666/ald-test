@@ -15,6 +15,11 @@
       <el-table-column
         prop="quota_type"
         label="当前客户类型" width="130%">
+        <template slot-scope="scope">
+          <span v-if="scope.row.quota_type === '新客户'">一年期额度</span>
+          <span v-else-if="scope.row.quota_type === '老客户'">长期额度</span>
+          <span v-else>-</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="level"
@@ -29,7 +34,7 @@
         label="新赊销额度" width="150%">
       </el-table-column>
       <el-table-column
-        prop="quota_date"
+        prop="new_date"
         label="额度日期"  width="100%">
       </el-table-column>
       <el-table-column

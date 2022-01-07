@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px" class="demo-ruleForm">
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px" class="demo-ruleForm"  style="margin-top: 20px">
       <el-form-item label="定时类型" prop="runType">
         <el-select v-model="ruleForm.runType" placeholder="请选择任务类型" @change="changeId()">
           <el-option label="date/一次性任务" value="date"></el-option>
@@ -21,7 +21,8 @@
           <el-option label="特批额度取消" value="quotaSpecial"></el-option>
           <el-option label="评分卡申请" value="scoreApply"></el-option>
           <el-option label="评分卡额度确认" value="scoreTakeEffect"></el-option>
-          <el-option label="新老客户转换" value="newDealerUpdate"></el-option>
+          <el-option label="新老客户申请评分卡" value="newDealerUpdate"></el-option>
+          <el-option label="新老客户评分卡生效" value="newDealerTakeEffect"></el-option>
           <el-option label="角色已使用权限次数清空" value="rolePermissionNum"></el-option>
         </el-select>
       </el-form-item>
