@@ -15,6 +15,18 @@
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
+          最新评级
+        </template>
+        {{ dealerInfo.score_level }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
+          账期天数
+        </template>
+        {{ dealerInfo.score_quota_day }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
           额度类型
         </template>
         <span v-if="dealerInfo.quota_type === '新客户'">一年期额度</span>

@@ -83,12 +83,6 @@ export default new Router({
           component: resolve => require(['../view/timer/jobLogList'], resolve),
         },
         {
-          path: '/admin/logs/emailLogList',
-          name: 'emailLogList',
-          meta: { title: '邮件日志列表' },
-          component: resolve => require(['../view/logs/emailLogList'], resolve),
-        },
-        {
           path: '/admin/dealer/dealerInfo',
           name: 'dealerInfo',
           meta: { title: '经销商信息数据' },
@@ -153,12 +147,6 @@ export default new Router({
           name: 'orderInfoList',
           meta: { title: '销售单状态' },
           component: resolve => require(['../view/business/orderInfoList'], resolve),
-        },
-        {
-          path: '/admin/business/sellOrderList',
-          name: 'sellOrderList',
-          meta: { title: '赊销订单历史' },
-          component: resolve => require(['../view/business/sellOrderList'], resolve),
         },
         {
           path: '/admin/business/noSellOrderList',
