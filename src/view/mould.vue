@@ -119,4 +119,7 @@ export default {
 .btn_row button{
   margin: 25px;
 }
+.info_table{
+  border-top:1px solid #EBEEF5;
+}
 </style>

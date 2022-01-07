@@ -7,6 +7,7 @@
                          check-btn="refreshOrder" check-role="orderList" url="/ald/business/refresh_order"></push-function-btn>
     </el-row>
     <el-table
+      class="info_table"
       :data="orderList"
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}" @selection-change="handleCheckedChange">
       <el-table-column type="selection" width="50%">

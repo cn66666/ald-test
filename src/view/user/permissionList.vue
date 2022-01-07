@@ -4,6 +4,7 @@
       <el-button type="primary" style="float:right;" size="mini" @click="addPermissionShow=true">添加新权限</el-button>
     </el-row>
     <el-table
+      class="info_table"
       :data="tableData"
       style="width: 100%">
       <el-table-column

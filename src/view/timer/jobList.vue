@@ -1,11 +1,13 @@
 <template>
   <div>
-    <el-row>
+    <el-row class="btn_row">
       <router-link to='/admin/timer/addJob'>
         <el-button style="float:right;" type="primary" size="mini">添加新任务</el-button>
       </router-link>
     </el-row>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName" @tab-click="handleClick"
+             class="info_table"
+             style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-tab-pane label="进行中" name="Runing">
         <el-table
           :data="runingTableData"
