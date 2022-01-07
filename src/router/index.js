@@ -190,6 +190,12 @@ export default new Router({
           meta: { title: '开票信息' },
           component: resolve => require(['../view/business/invoiceInfo'], resolve),
         },
+        {
+          path: '/admin/logs/openApiLogs',
+          name: 'openApiLogs',
+          meta: { title: '接口请求日志' },
+          component: resolve => require(['../view/logs/openApiLogs'], resolve),
+        },
       ]
     },
     {
