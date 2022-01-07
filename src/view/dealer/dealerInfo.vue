@@ -44,7 +44,7 @@
           特批额度
         </template>
         <span style="margin-right: 30px">{{ dealerInfo.special_quota }}</span>
-        <push-function-btn btn-name="进行特批额度" btn-type="function" size="mini"
+        <push-function-btn btn-name="进行额度特批" btn-type="function" size="mini"
                            check-btn="showSpecialQuota" check-role="quotaList" :check-function='showSpecialQuota'
                            params-key='dealerId' :params-value='{"dealerId" : dealerId,
                              "special_quota": dealerInfo.special_quota}'></push-function-btn>
@@ -62,6 +62,17 @@
         <span v-if="dealerInfo.is_intercept === true">已拦截</span>
         <span v-else-if="dealerInfo.is_intercept === false">未拦截</span>
         <span v-else></span>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
+          是否被允许跳过履行单逾期校验
+        </template>
+        <span v-if="dealerInfo.is_skip === true" style="margin-right: 30px">已被允许</span>
+        <span v-else-if="dealerInfo.is_skip === false" style="margin-right: 30px">未被允许</span>
+        <span v-else></span>
+        <push-function-btn btn-name="进行逾期特批" btn-type="reload" size="mini"
+                           check-btn="checkOverdueSkip" check-role="quotaList" url="/ald/dealer/overdue_skip"
+                           params-key='dealerId' :params-value='dealerId'></push-function-btn>
       </el-descriptions-item>
     </el-descriptions>
     <br>
