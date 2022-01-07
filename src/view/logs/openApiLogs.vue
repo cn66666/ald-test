@@ -6,7 +6,11 @@
       <el-table-column
         prop="id"
         label="No."
-      >
+      width="80px">
+      </el-table-column>
+      <el-table-column
+        prop="request_url"
+        label="请求地址">
       </el-table-column>
       <el-table-column
         prop="request_data"
