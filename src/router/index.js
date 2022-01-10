@@ -208,6 +208,12 @@ export default new Router({
           meta: { title: '请求ERP日志' },
           component: resolve => require(['../view/logs/erpRequestLogs'], resolve),
         },
+        {
+          path: '/admin/logs/scoreLogs',
+          name: 'scoreLogs',
+          meta: { title: '评分卡详情' },
+          component: resolve => require(['../view/logs/scoreLogs'], resolve),
+        },
       ]
     },
     {
