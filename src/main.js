@@ -39,6 +39,7 @@ axios.defaults.paramsSerializer = function(data){
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
   if(localStorage.getItem("token") !== null) {
+    config.headers.withCredentials = true
     config.headers.Authorization = localStorage.getItem("token")
     config.data['userPhone'] = localStorage.getItem("userPhone")
     config.data['role'] = localStorage.getItem("userRole")
