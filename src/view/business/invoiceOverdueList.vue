@@ -32,6 +32,11 @@
                              params-key='overdueInfo' :params-value='{"invoiceId" : scope.row.invoice_id,
                              "unpaidMoney": scope.row.unpaid_money}'></push-function-btn>
 
+          <push-function-btn btn-name="确认免除" btn-type="function" size="mini" float="left"
+                             check-btn="addFreeOverdue" check-role="dealerOverdueList" :check-function='showAddFreeOverdue'
+                             params-key='overdueInfo' :params-value='{"invoiceId" : scope.row.invoice_id,
+                             "unpaidMoney": scope.row.unpaid_money}'></push-function-btn>
+
         </template>
       </el-table-column>
     </el-table>
@@ -42,26 +47,40 @@
         :page-count="total">
       </el-pagination>
     </div>
-    <el-dialog title="确认缴纳" :visible.sync="showForm">
+    <el-dialog title="确认缴纳" :visible.sync="showAddPay">
       <el-form>
         <el-form-item label="剩余滞纳金" :label-width="formLabelWidth">
-          <el-input v-model="addForm.unpaidMoney" :disabled="true">
+          <el-input v-model="addFrom.unpaidMoney" :disabled="true">
             <template slot="append">元</template></el-input>
         </el-form-item>
         <el-form-item label="已缴滞纳金" prop="paidMoney" :label-width="formLabelWidth">
-          <el-input v-model="addForm.paidMoney">
-            <template slot="append">元</template></el-input>
-        </el-form-item>
-        <el-form-item label="免除金额" prop="freeMoney" :label-width="formLabelWidth">
-          <el-input v-model="addForm.freeMoney">
+          <el-input v-model="addFrom.paidMoney">
             <template slot="append">元</template></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" size="mini" @click="showForm=false">关闭</el-button>
-        <push-function-btn btn-name="确认" btn-type="function" size="mini"
+        <el-button type="primary" size="mini" @click="showAddPay=false">关闭</el-button>
+        <push-function-btn btn-name="确认缴纳滞纳金" btn-type="function" size="mini"
                            check-btn="payOverdue" check-role="dealerOverdueList" :check-function='PayOverdue'
-                           params-key='addInfo' :params-value='addForm'></push-function-btn>
+                           params-key='addInfo' :params-value='addFrom'></push-function-btn>
+      </div>
+    </el-dialog>
+    <el-dialog title="确认免除" :visible.sync="showAddFree">
+      <el-form>
+        <el-form-item label="剩余滞纳金" :label-width="formLabelWidth">
+          <el-input v-model="addFrom.unpaidMoney" :disabled="true">
+            <template slot="append">元</template></el-input>
+        </el-form-item>
+        <el-form-item label="免除金额" prop="freeMoney" :label-width="formLabelWidth">
+          <el-input v-model="addFrom.freeMoney">
+            <template slot="append">元</template></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="mini" @click="showAddFree=false">关闭</el-button>
+        <push-function-btn btn-name="确认免除滞纳金" btn-type="function" size="mini"
+                           check-btn="freeOverdue" check-role="dealerOverdueList" :check-function='FreeOverdue'
+                           params-key='addInfo' :params-value='addFrom'></push-function-btn>
       </div>
     </el-dialog>
   </div>
@@ -77,21 +96,22 @@ export default {
       invoiceOverdueList: [],
       total: 1,
       localPage: 1,
-      showForm: false,
       formLabelWidth: '120px',
       dealerId: null,
-      addForm: {
-        dealerId: null,
+      showAddPay: false,
+      addFrom: {
         invoiceId: null,
         unpaidMoney: 0,
         paidMoney: 0,
         freeMoney: 0,
-      }
+      },
+      showAddFree: false,
     }
   },
   mounted() {
     var that = this;
     that.dealerId = this.$route.query.dealerId;
+    console.log(that.dealerId)
     this.getInvoiceOverdueList()
   },
   methods: {
@@ -112,13 +132,32 @@ export default {
 
     showAddPayOverdue: function (overdueInfo){
       var that = this;
-      that.addForm.invoiceId = overdueInfo['invoiceId']
-      that.addForm.unpaidMoney = overdueInfo['unpaidMoney']
-      that.showForm = true
+      that.addFrom.invoiceId = overdueInfo['invoiceId']
+      that.addFrom.unpaidMoney = overdueInfo['unpaidMoney']
+      that.addFrom.paidMoney = 0
+      that.addFrom.freeMoney = 0
+      that.showAddPay = true
     },
     PayOverdue: function (){
       var that = this;
-      that.axios.post('/ald/business/pay_overdue', {'addForm': that.addForm, 'dealerId': that.dealerId}).then(res=>{
+      that.axios.post('/ald/business/pay_overdue', {'addForm': that.addFrom, 'dealerId': that.dealerId}).then(res=>{
+        if (res.data.code=='ok'){
+          location.reload()
+        }
+      }).catch(res=>{
+      })
+    },
+    showAddFreeOverdue: function (overdueInfo){
+      var that = this;
+      that.addFrom.invoiceId = overdueInfo['invoiceId']
+      that.addFrom.unpaidMoney = overdueInfo['unpaidMoney']
+      that.addFrom.paidMoney = 0
+      that.addFrom.freeMoney = 0
+      that.showAddFree = true
+    },
+    FreeOverdue: function (){
+      var that = this;
+      that.axios.post('/ald/business/free_overdue', {'addForm': that.addFrom, 'dealerId': that.dealerId}).then(res=>{
         if (res.data.code=='ok'){
           location.reload()
         }
