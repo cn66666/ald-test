@@ -93,7 +93,7 @@ export default {
   methods: {
     handleCurrentChange(val) {
       this.localPage = val;
-      this.getDealerList();
+      this.getQuotaList();
     },
     getQuotaList: function (){
       var that = this;

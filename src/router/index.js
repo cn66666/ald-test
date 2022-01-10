@@ -196,6 +196,18 @@ export default new Router({
           meta: { title: '接口请求日志' },
           component: resolve => require(['../view/logs/openApiLogs'], resolve),
         },
+        {
+          path: '/admin/logs/systemRequestLogs',
+          name: 'systemRequestLogs',
+          meta: { title: '后台请求日志' },
+          component: resolve => require(['../view/logs/systemRequestLogs'], resolve),
+        },
+        {
+          path: '/admin/logs/erpRequestLogs',
+          name: 'erpRequestLogs',
+          meta: { title: '请求ERP日志' },
+          component: resolve => require(['../view/logs/erpRequestLogs'], resolve),
+        },
       ]
     },
     {

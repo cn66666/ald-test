@@ -71,7 +71,7 @@ export default {
   methods: {
     handleCurrentChange(val) {
       this.localPage = val;
-      this.getDealerList();
+      this.getInterceptList();
     },
     getInterceptList: function (){
       var that = this;

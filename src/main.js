@@ -39,6 +39,7 @@ axios.defaults.paramsSerializer = function(data){
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
   if(localStorage.getItem("token") !== null) {
+    config.headers.withCredentials = true
     config.headers.Authorization = localStorage.getItem("token")
     config.data['userPhone'] = localStorage.getItem("userPhone")
     config.data['role'] = localStorage.getItem("userRole")
@@ -66,38 +67,32 @@ axios.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
   // 对响应错误做点什么
-  if(error != 'Error: timeout of 5000ms exceeded'){
-    switch (error.response.status) {
-      case 401:
-        if(cofirm == null) {
-          //记录登录提示弹框
-          cofirm =  MessageBox.confirm('登录失效，请重新登录！', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            router.push({path:"/login"})
-          }).catch(() => {
+  switch (error.response.status) {
+    case 401:
+      if(cofirm == null) {
+        //记录登录提示弹框
+        cofirm =  MessageBox.confirm('登录失效，请重新登录！', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          router.push({path:"/login"})
+        }).catch(() => {
 
-          });
-        }
-        break;
-      case 500:
-        let message = null;
-        if(error.response.data != undefined) {
-          message = error.response.data.message;
-        } else {
-          message = error.message;
-        }
-        Message.error({
-          message: message
         });
-        break;
-    }
-  }else if(error == 'Error: timeout of 5000ms exceeded'){
-    Message.error({
-      message: '连接服务器超时，请检查网络！'
-    });
+      }
+      break;
+    case 500:
+      let message = null;
+      if(error.response.data != undefined) {
+        message = error.response.data.message;
+      } else {
+        message = error.message;
+      }
+      Message.error({
+        message: message
+      });
+      break;
   }
   return Promise.reject(error);
 });
