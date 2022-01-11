@@ -14,7 +14,7 @@
       </el-table-column>
       <el-table-column
         prop="quota_type"
-        label="当前客户类型" width="130%">
+        label="当前客户类型" width="100%">
         <template slot-scope="scope">
           <span v-if="scope.row.quota_type === '新客户'">一年期额度</span>
           <span v-else-if="scope.row.quota_type === '老客户'">长期额度</span>
@@ -23,19 +23,23 @@
       </el-table-column>
       <el-table-column
         prop="level"
-        label="评级" width="80%">
+        label="评级" width="50%">
       </el-table-column>
       <el-table-column
         prop="old_quota"
-        label="旧赊销额度" width="150%">
+        label="旧赊销额度" width="100%">
+      </el-table-column>
+      <el-table-column
+        prop="old_date"
+        label="旧额度截止日期"  width="130%">
       </el-table-column>
       <el-table-column
         prop="new_quota"
-        label="新赊销额度" width="150%">
+        label="新赊销额度" width="100%">
       </el-table-column>
       <el-table-column
         prop="new_date"
-        label="额度日期"  width="100%">
+        label="新额度截止日期"  width="130%">
       </el-table-column>
       <el-table-column
         prop="state_code"
