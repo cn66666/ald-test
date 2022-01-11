@@ -20,11 +20,9 @@
         label="创建时间">
       </el-table-column>
     </el-table>
-    <div class="block" style="margin-top: 23px;margin-right: 79px;">
-      <el-pagination
-        @current-change="handleCurrentChange" :current-page.sync="localPage"
-        layout="prev, pager, next"
-        :page-count="total">
+    <div style="float: right;margin-top: 23px;margin-right: 79px;">
+      <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
+                     layout="prev, pager, next" :total="total">
       </el-pagination>
     </div>
   </div>

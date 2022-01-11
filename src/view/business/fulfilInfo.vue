@@ -10,10 +10,16 @@
       <el-table-column
         prop="fulfil_money"
         label="履行单金额" width="200%">
+        <template slot-scope="scope">
+          {{ scope.row.fulfil_money | moneyFormat}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="refuse_money"
         label="退款金额" width="200%">
+        <template slot-scope="scope">
+          {{ scope.row.refuse_money | moneyFormat}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="state_code"
@@ -24,11 +30,9 @@
         label="创建日期">
       </el-table-column>
     </el-table>
-    <div class="block" style="margin-top: 23px;margin-right: 79px;">
-      <el-pagination
-        @current-change="handleCurrentChange" :current-page.sync="localPage"
-        layout="prev, pager, next"
-        :page-count="total">
+    <div style="float: right;margin-top: 23px;margin-right: 79px;">
+      <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
+                     layout="prev, pager, next" :total="total">
       </el-pagination>
     </div>
   </div>

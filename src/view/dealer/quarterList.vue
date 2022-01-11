@@ -15,13 +15,16 @@
       <el-table-column
         prop="old_quota"
         label="旧赊销额度" width="150%">
+        <template slot-scope="scope">
+          {{ scope.row.old_quota | moneyFormat}}
+        </template>
       </el-table-column>
       <el-table-column
         prop=""
         label="新赊销额度" width="150%">
         <template slot-scope="scope">
-          <span v-if="scope.row.busy_quota !== 0">{{scope.row.busy_quota}}</span>
-          <span v-else>{{scope.row.new_quota}}</span>
+          <span v-if="scope.row.busy_quota !== 0">{{scope.row.busy_quota | moneyFormat}}</span>
+          <span v-else>{{scope.row.new_quota | moneyFormat}}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -46,11 +49,9 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="block" style="margin-top: 23px;margin-right: 79px;">
-      <el-pagination
-        @current-change="handleCurrentChange" :current-page.sync="localPage"
-        layout="prev, pager, next"
-        :page-count="total">
+    <div style="float: right;margin-top: 23px;margin-right: 79px;">
+      <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
+                     layout="prev, pager, next" :total="total">
       </el-pagination>
     </div>
   </div>

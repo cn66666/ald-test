@@ -15,18 +15,30 @@
       <el-table-column
         prop="overdue_money"
         label="累计滞纳金" width="200%">
+        <template slot-scope="scope">
+          {{ scope.row.overdue_money | moneyFormat}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="unpaid_money"
         label="未缴滞纳金" width="150%">
+        <template slot-scope="scope">
+          {{ scope.row.unpaid_money | moneyFormat}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="paid_money"
         label="已缴滞纳金" width="200%">
+        <template slot-scope="scope">
+          {{ scope.row.paid_money | moneyFormat}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="free_money"
         label="已免除滞纳金" width="150%">
+        <template slot-scope="scope">
+          {{ scope.row.free_money | moneyFormat}}
+        </template>
       </el-table-column>
       <el-table-column
         prop=""
@@ -38,11 +50,9 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="block" style="margin-top: 23px;margin-right: 79px;">
-      <el-pagination
-        @current-change="handleCurrentChange" :current-page.sync="localPage"
-        layout="prev, pager, next"
-        :page-count="total">
+    <div style="float: right;margin-top: 23px;margin-right: 79px;">
+      <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
+                     layout="prev, pager, next" :total="total">
       </el-pagination>
     </div>
   </div>

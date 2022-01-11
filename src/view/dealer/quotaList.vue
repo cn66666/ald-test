@@ -24,10 +24,16 @@
       <el-table-column
         prop="quota_used"
         label="已用额度" width="150%">
+        <template slot-scope="scope">
+          {{ scope.row.quota_used | moneyFormat}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="quota_balance"
         label="剩余额度" width="150%">
+        <template slot-scope="scope">
+          {{ scope.row.quota_balance | moneyFormat}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="quota_date"
@@ -48,11 +54,9 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="block" style="margin-top: 23px;margin-right: 79px;">
-      <el-pagination
-        @current-change="handleCurrentChange" :current-page.sync="localPage"
-        layout="prev, pager, next"
-        :page-count="total">
+    <div style="float: right;margin-top: 23px;margin-right: 79px;">
+      <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
+                     layout="prev, pager, next" :total="total">
       </el-pagination>
     </div>
     <el-dialog title="填写拦截原因" :visible.sync="showInterceptRemark">

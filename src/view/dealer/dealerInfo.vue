@@ -1,5 +1,7 @@
 <template>
   <div>
+    <el-page-header @back="goBack" content="经销商信息" style="margin: 1%">
+    </el-page-header>
     <el-descriptions :column="2" size="small" border style="margin: 1%">
       <el-descriptions-item>
         <template slot="label">
@@ -37,13 +39,13 @@
         <template slot="label">
           审批额度
         </template>
-        {{ dealerInfo.quota_money }}
+        {{ dealerInfo.quota_money | moneyFormat }}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
           已用额度
         </template>
-        {{ dealerInfo.quota_used }}
+        {{ dealerInfo.quota_used | moneyFormat }}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
@@ -55,7 +57,7 @@
         <template slot="label">
           特批额度
         </template>
-        <span style="margin-right: 30px">{{ dealerInfo.special_quota }}</span>
+        <span style="margin-right: 30px">{{ dealerInfo.special_quota | moneyFormat }}</span>
         <push-function-btn btn-name="进行额度特批" btn-type="function" size="mini"
                            check-btn="showSpecialQuota" check-role="quotaList" :check-function='showSpecialQuota'
                            params-key='dealerId' :params-value='{"dealerId" : dealerId,
@@ -99,6 +101,9 @@
         prop="change_money"
         label="变更金额"
         width="300">
+        <template slot-scope="scope">
+          {{ scope.row.change_money | moneyFormat}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="change_info"
@@ -156,6 +161,9 @@ export default {
     that.getDealerInfo()
   },
   methods: {
+    goBack() {
+      this.$router.go(-1)
+    },
     getDealerInfo: function (){
       var that = this;
       that.axios.post('/ald/dealer/dealer_info', {'dealerId': that.dealerId,}).then(res=>{

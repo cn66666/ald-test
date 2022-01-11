@@ -29,6 +29,9 @@
       <el-table-column
         prop="quota_money"
         label="赊销额度" width="150%">
+        <template slot-scope="scope">
+          {{ scope.row.quota_money | moneyFormat}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="quota_date"
@@ -80,11 +83,9 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="block" style="margin-top: 23px;margin-right: 79px;">
-      <el-pagination
-        @current-change="handleCurrentChange" :current-page.sync="localPage"
-        layout="prev, pager, next"
-        :page-count="total">
+    <div style="float: right;margin-top: 23px;margin-right: 79px;">
+      <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
+                     layout="prev, pager, next" :total="total">
       </el-pagination>
     </div>
     <el-dialog title="查看拦截原因" :visible.sync="showIntercept">

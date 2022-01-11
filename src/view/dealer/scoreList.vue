@@ -28,6 +28,9 @@
       <el-table-column
         prop="old_quota"
         label="旧赊销额度" width="100%">
+        <template slot-scope="scope">
+          {{ scope.row.old_quota | moneyFormat}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="old_date"
@@ -36,6 +39,9 @@
       <el-table-column
         prop="new_quota"
         label="新赊销额度" width="100%">
+        <template slot-scope="scope">
+          {{ scope.row.new_quota | moneyFormat}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="new_date"
@@ -62,11 +68,9 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="block" style="margin-top: 23px;margin-right: 79px;">
-      <el-pagination
-        @current-change="handleCurrentChange" :current-page.sync="localPage"
-        layout="prev, pager, next"
-        :page-count="total">
+    <div style="float: right;margin-top: 23px;margin-right: 79px;">
+      <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
+                     layout="prev, pager, next" :total="total">
       </el-pagination>
     </div>
   </div>

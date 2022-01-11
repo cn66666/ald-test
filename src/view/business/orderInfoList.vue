@@ -25,7 +25,7 @@
         label="履行单金额" width="200%">
         <template slot-scope="scope">
           <router-link :to='"/admin/business/fulfilInfo?orderId=" + scope.row.id'>
-            <el-button type="text" >{{scope.row.fulfil_sum}}</el-button>
+            <el-button type="text" >{{scope.row.fulfil_sum | moneyFormat}}</el-button>
           </router-link>
         </template>
       </el-table-column>
@@ -34,7 +34,7 @@
         label="开票金额" width="200%">
         <template slot-scope="scope">
           <router-link :to='"/admin/business/invoiceInfo?orderId=" + scope.row.id'>
-            <el-button type="text" >{{scope.row.invoice_sum}}</el-button>
+            <el-button type="text" >{{scope.row.invoice_sum | moneyFormat}}</el-button>
           </router-link>
         </template>
       </el-table-column>
@@ -43,11 +43,9 @@
         label="创建日期">
       </el-table-column>
     </el-table>
-    <div class="block" style="margin-top: 23px;margin-right: 79px;">
-      <el-pagination
-        @current-change="handleCurrentChange" :current-page.sync="localPage"
-        layout="prev, pager, next"
-        :page-count="total">
+    <div style="float: right;margin-top: 23px;margin-right: 79px;">
+      <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
+                     layout="prev, pager, next" :total="total">
       </el-pagination>
     </div>
   </div>
