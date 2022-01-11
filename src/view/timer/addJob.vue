@@ -15,14 +15,15 @@
           <el-option label="逾期拦截" value="overdueQuery"></el-option>
           <el-option label="开票查询" value="invoiceQuery"></el-option>
           <el-option label="订单查询" value="orderQuery"></el-option>
+          <el-option label="订单维护" value="orderMaintain"></el-option>
           <el-option label="滞纳金计算" value="overdueCount"></el-option>
           <el-option label="季度额度申请" value="quaterApply"></el-option>
           <el-option label="季度额度确认" value="quaterTakeEffect"></el-option>
           <el-option label="特批额度取消" value="quotaSpecial"></el-option>
           <el-option label="评分卡申请" value="scoreApply"></el-option>
           <el-option label="评分卡额度确认" value="scoreTakeEffect"></el-option>
-          <el-option label="新老客户申请评分卡" value="newDealerUpdate"></el-option>
-          <el-option label="新老客户评分卡生效" value="newDealerTakeEffect"></el-option>
+          <el-option label="新客户申请评分卡" value="newDealerUpdate"></el-option>
+          <el-option label="新客户评分卡生效" value="newDealerTakeEffect"></el-option>
           <el-option label="角色已使用权限次数清空" value="rolePermissionNum"></el-option>
         </el-select>
       </el-form-item>

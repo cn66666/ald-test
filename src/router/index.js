@@ -137,22 +137,10 @@ export default new Router({
           component: resolve => require(['../view/dealer/quarterList'], resolve),
         },
         {
-          path: '/admin/business/orderList',
-          name: 'orderList',
-          meta: { title: '赊销订单过滤' },
-          component: resolve => require(['../view/business/orderList'], resolve),
-        },
-        {
           path: '/admin/business/orderInfoList',
           name: 'orderInfoList',
           meta: { title: '销售单状态' },
           component: resolve => require(['../view/business/orderInfoList'], resolve),
-        },
-        {
-          path: '/admin/business/noSellOrderList',
-          name: 'noSellOrderList',
-          meta: { title: '非赊销订单历史' },
-          component: resolve => require(['../view/business/noSellOrderList'], resolve),
         },
         {
           path: '/admin/business/dealerOverdueList',

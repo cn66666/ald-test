@@ -1,5 +1,9 @@
 <template>
   <div>
+    <el-row class="btn_row">
+      <push-function-btn btn-name="手动刷新订单" btn-type="reload" size="mini"
+                         check-btn="refreshOrder" check-role="orderList" url="/ald/business/refresh_order"></push-function-btn>
+    </el-row>
     <el-table
       :data="orderInfoList"
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
