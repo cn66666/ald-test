@@ -24,17 +24,6 @@
         width="70%">
       </el-table-column>
       <el-table-column
-        prop="api_result"
-        label="请求结果">
-        <template slot-scope="scope">
-          <el-input
-            type="textarea"
-            :rows="3"
-            :value="scope.row.api_result">
-          </el-input>
-        </template>
-      </el-table-column>
-      <el-table-column
         prop="create_time"
         label="创建时间">
       </el-table-column>

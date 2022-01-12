@@ -1,5 +1,7 @@
 <template>
   <div>
+    <el-page-header @back="goBack" content="开票逾期明细" style="margin: 1%">
+    </el-page-header>
     <el-table
       :data="invoiceOverdueList"
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
@@ -167,7 +169,10 @@ export default {
         }
       }).catch(res=>{
       })
-    }
+    },
+    goBack() {
+      this.$router.go(-1)
+    },
   }
 }
 </script>

@@ -4,7 +4,6 @@
     <el-image
       style="width: 100%; height: 100%"
       :src="logo"></el-image>
-    <h2 class="login_title">阿拉丁系统</h2>
     <el-input v-model="userName" class="qxs-icon" placeholder="用户名" @input="userNameChange($event)"></el-input>
     <el-input v-model="password" class="qxs-icon" placeholder="密码" show-password @input="pwdChange($event)"></el-input>
     <el-button class="login_btn" :disabled="loginBtn" @click="login" type="primary" @keyup.enter.native="login()">

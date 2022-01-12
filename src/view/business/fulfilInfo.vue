@@ -1,5 +1,7 @@
 <template>
   <div>
+    <el-page-header @back="goBack" content="履行单详情" style="margin: 1%">
+    </el-page-header>
     <el-table
       :data="fulfilList"
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
@@ -70,7 +72,10 @@ export default {
         }
       }).catch(res=>{
       })
-    }
+    },
+    goBack() {
+      this.$router.go(-1)
+    },
   }
 }
 </script>

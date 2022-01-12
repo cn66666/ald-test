@@ -12,9 +12,11 @@
         prop="company_name"
         label="经销商名称" width="200%">
         <template slot-scope="scope">
-          <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.dealer_id'>
-            <el-button type="text" >{{scope.row.company_name}}</el-button>
-          </router-link>
+          <el-tooltip effect="dark" :content="scope.row.company_name" placement="top">
+            <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.dealer_id'>
+              <el-button type="text">{{scope.row.company_name}}</el-button>
+            </router-link>
+          </el-tooltip>
         </template>
       </el-table-column>
       <el-table-column

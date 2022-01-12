@@ -55,7 +55,8 @@
         <el-input type="textarea" v-model="ruleForm.desc"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" :disabled="addBtn" @click="submitForm('ruleForm')">立即创建</el-button>
+        <el-button type="primary" :disabled="addBtn" @click="submitForm('ruleForm', '立即创建')">立即创建</el-button>
+        <el-button type="primary" :disabled="addBtn" @click="submitForm('ruleForm', '立即执行')">立即执行</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
@@ -67,7 +68,6 @@
 export default {
   data() {
     return {
-      userPhone: localStorage.getItem('userPhone'),
       addBtn: false,
       timeChoose: false,
       infoContent: '请选择定时任务类型',
@@ -101,7 +101,7 @@ export default {
     };
   },
   methods: {
-    submitForm(formName) {
+    submitForm(formName, btnType) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           var that = this;
@@ -112,19 +112,19 @@ export default {
             });
             return false
           } else{
-            var id = this.ruleForm.id + '-' + this.ruleForm.id2
+            var id = that.ruleForm.id + '-' + that.ruleForm.id2
           }
           that.addBtn = true;
           that.axios.post('/ald/timer/add_job', {
-            'oper': this.userPhone,
+            'btnType': btnType,
             'id': id,
-            'name': this.ruleForm.name,
-            'desc': this.ruleForm.desc,
-            'jobType': this.ruleForm.jobType,
-            'dateTime': this.ruleForm.dateTime,
-            'runType': this.ruleForm.runType,
+            'name': that.ruleForm.name,
+            'desc': that.ruleForm.desc,
+            'jobType': that.ruleForm.jobType,
+            'dateTime': that.ruleForm.dateTime,
+            'runType': that.ruleForm.runType,
           }).then(res=>{
-            if (res.data.code=='ok'){
+            if (res.data.code==='ok'){
               that.$router.push('/admin/timer/jobList')
             } else {
               that.addBtn = false;
@@ -135,7 +135,7 @@ export default {
             }
           }).catch(res=>{
             that.addBtn = false;
-            this.$message({
+            that.$message({
               message: '添加失败:' + res.data.data,
               type: 'warning'
             });
