@@ -87,7 +87,7 @@ axios.interceptors.response.use(function (response) {
         }).then(() => {
           router.push({path:"/login"})
         }).catch(() => {
-
+          router.push({path:"/login"})
         });
       }
       break;
