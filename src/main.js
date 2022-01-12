@@ -26,6 +26,7 @@ router.onError((error) => {
   const isChunkLoadFailed = error.message.match(pattern);
   const targetPath = router.history.pending.fullPath;
   if (isChunkLoadFailed) {
+    console.log('Loading chunk>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
     router.replace(targetPath);
   }
 });
