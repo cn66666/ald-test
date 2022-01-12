@@ -39,6 +39,10 @@
         </template>
       </el-table-column>
       <el-table-column
+        prop="order_state"
+        label="订单状态">
+      </el-table-column>
+      <el-table-column
         prop="order_date"
         label="创建日期">
       </el-table-column>

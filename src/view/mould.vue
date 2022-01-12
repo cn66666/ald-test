@@ -18,7 +18,7 @@
       </el-menu>
     </el-aside>
     <el-container>
-      <el-header style="text-align: right; font-size: 20px; background-color: white; height: 8%">
+      <el-header style="text-align: right; font-size: 20px; background-color: white; height: 5%">
         <el-dropdown>
           <i class="el-icon-setting" style="margin-right: 10px"></i>
           <el-dropdown-menu slot="dropdown">
@@ -29,10 +29,11 @@
       </el-header>
       <el-main>
         <bread></bread>
-        <div class="info" style="height: 90%; background-color: white; overflow: auto; border-radius: 5px">
+        <div class="info" style="height: 95%; background-color: white; overflow: auto; border-radius: 5px">
           <router-view/>
         </div>
       </el-main>
+      <el-footer style="height: 5%">Footer</el-footer>
     </el-container>
   </el-container>
 </template>
