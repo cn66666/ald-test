@@ -1,5 +1,7 @@
 <template>
   <div>
+    <el-page-header @back="goBack" content="新客户特殊审批" style="margin: 1%">
+    </el-page-header>
     <el-form :model="infoForm" status-icon :rules="rules" ref="infoForm" label-width="130px" class="demo-ruleForm" style="margin-top: 20px">
       <el-form-item label="经销商名称" prop="companyName" style="width: 50%">
         <span>{{infoForm.companyName}}</span>
@@ -97,6 +99,9 @@ export default {
     })
   },
   methods: {
+    goBack() {
+      this.$router.go(-1)
+    },
     addSpecialMoney(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {

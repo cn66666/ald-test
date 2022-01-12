@@ -10,10 +10,29 @@
       <el-table-column
         prop="api_parames"
         label="请求参数">
+        <template slot-scope="scope">
+          <el-input
+            type="textarea"
+            :rows="3"
+            :value="scope.row.api_parames">
+          </el-input>
+        </template>
       </el-table-column>
       <el-table-column
         prop="state_code"
-        label="请求状态">
+        label="请求状态"
+        width="70%">
+      </el-table-column>
+      <el-table-column
+        prop="api_result"
+        label="请求结果">
+        <template slot-scope="scope">
+          <el-input
+            type="textarea"
+            :rows="3"
+            :value="scope.row.api_result">
+          </el-input>
+        </template>
       </el-table-column>
       <el-table-column
         prop="create_time"

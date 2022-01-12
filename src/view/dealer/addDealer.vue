@@ -1,5 +1,7 @@
 <template>
   <div>
+    <el-page-header @back="goBack" content="补充经销商信息" style="margin: 1%">
+    </el-page-header>
     <el-form :model="addForm" status-icon :rules="rules" ref="addForm" label-width="130px" class="demo-ruleForm" style="margin-top: 20px">
       <el-form-item label="经销商名称" prop="companyName" style="width: 50%">
         <el-input v-model="addForm.companyName" :disabled="change"></el-input>
@@ -149,6 +151,9 @@ export default {
         }
       }).catch(res=>{
       })
+    },
+    goBack() {
+      this.$router.go(-1)
     },
   }
 

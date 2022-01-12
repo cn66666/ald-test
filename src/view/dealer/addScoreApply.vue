@@ -1,5 +1,7 @@
 <template>
   <div>
+    <el-page-header @back="goBack" content="补充评分卡信息" style="margin: 1%">
+    </el-page-header>
     <el-form :model="addForm" status-icon :rules="rules" ref="addForm" label-width="130px" class="demo-ruleForm" style="margin-top: 20px">
       <el-form-item label="去年业务规划" prop="oldSaleMoney" style="width: 50%">
         <el-input v-model="addForm.oldSaleMoney">
@@ -92,6 +94,9 @@ export default {
     }
   },
   methods: {
+    goBack() {
+      this.$router.go(-1)
+    },
     addScore(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {

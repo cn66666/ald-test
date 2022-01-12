@@ -10,7 +10,8 @@
       </el-table-column>
       <el-table-column
         prop="req_path"
-        label="请求地址">
+        label="请求地址"
+        width="170%">
       </el-table-column>
       <el-table-column
         prop="req_data"
@@ -19,6 +20,13 @@
       <el-table-column
         prop="res_data"
         label="返回参数">
+        <template slot-scope="scope">
+          <el-input
+            type="textarea"
+            :rows="2"
+            :value="scope.row.res_data">
+          </el-input>
+        </template>
       </el-table-column>
       <el-table-column
         prop="create_time"

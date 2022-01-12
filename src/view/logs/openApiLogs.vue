@@ -10,11 +10,19 @@
       </el-table-column>
       <el-table-column
         prop="request_url"
-        label="请求地址">
+        label="请求地址"
+        width="170%">
       </el-table-column>
       <el-table-column
         prop="request_data"
         label="请求参数">
+        <template slot-scope="scope">
+          <el-input
+            type="textarea"
+            :rows="1"
+            :value="scope.row.request_data">
+          </el-input>
+        </template>
       </el-table-column>
       <el-table-column
         prop="response_data"

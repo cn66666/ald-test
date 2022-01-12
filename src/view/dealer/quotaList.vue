@@ -66,7 +66,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" size="mini" @click="showIntercept=false">关闭</el-button>
+        <el-button type="primary" size="mini" @click="showInterceptRemark=false">关闭</el-button>
         <push-function-btn btn-name="确认拦截" btn-type="function" size="mini"
                            check-btn="activeIntercept" check-role="quotaList" :check-function='activeInterceptDealer'
                            params-key='dealerId' :params-value='interceptDealerId'></push-function-btn>
