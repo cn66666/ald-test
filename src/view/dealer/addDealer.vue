@@ -27,16 +27,26 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button v-if="addForm.quotaType == '新客户'" type="primary" :disabled="addBtn" @click="addDealer('addForm', '暂存')">暂存</el-button>
-        <el-button type="primary" :disabled="addBtn" @click="addDealer('addForm', '提交')">提交</el-button>
+        <el-button v-if="addForm.quotaType === '新客户'" type="primary" size="mini" :disabled="addBtn" @click="addDealer('暂存')">暂存</el-button>
+
+        <push-function-btn v-if="addForm.quotaType === '新客户'" btn-name="新客户提交申请" btn-type="function" size="mini"
+                           check-btn="addNewDealer" check-role="applyList" :check-function='addDealer'
+                           params-key='type' params-value='新客户'></push-function-btn>
+
+        <push-function-btn v-if="addForm.quotaType === '老客户'" btn-name="老客户提交申请" btn-type="function" size="mini"
+                           check-btn="addOldDealer" check-role="applyList" :check-function='addDealer'
+                           params-key='type' params-value='老客户'></push-function-btn>
+
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
+import PushFunctionBtn from "../../components/pushFunctionBtn";
 export default {
   name: "addDealer",
+  components: {PushFunctionBtn},
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === '') {
@@ -61,6 +71,7 @@ export default {
     };
     return {
       addBtn: false,
+      dealerId: null,
       addForm: {
         companyName: '',
         companyType: '',
@@ -93,11 +104,11 @@ export default {
     };
   },
   mounted() {
-    var dealerId = this.$route.query.dealerId;
-    if (dealerId){
+    var that = this;
+    that.dealerId = that.$route.query.dealerId;
+    if (that.dealerId){
       // 查询经销商信息进行修改
-      var that = this;
-      that.axios.post('/ald/dealer/dealer_apply_info', {'dealerId': dealerId}).then(res=>{
+      that.axios.post('/ald/dealer/dealer_apply_info', {'dealerId': that.dealerId}).then(res=>{
         that.addBtn = false;
         if (res.data.code=='ok'){
           that.addForm.companyName = res.data.data.company_name;
@@ -118,32 +129,26 @@ export default {
     }
   },
   methods: {
-    addDealer(formName, addType) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          var that = this;
-          that.addBtn = true;
-          that.axios.post('/ald/dealer/add_dealer', {'addForm': that.addForm, 'type': addType, 'change': that.change}).then(res=>{
-            that.addBtn = false;
-            if (res.data.code === 'ok'){
-              if (that.addForm.quotaType === '老客户'){
-                that.$router.push('/admin/dealer/scoreList')
-              }else {
-                that.$router.push('/admin/dealer/applyList')
-              }
-            } else {
-              that.addBtn = false;
-              this.$message({
-                message: res.data.msg + ':' + res.data.data,
-                type: 'warning'
-              });
-            }
-          }).catch(res=>{
-          })
+    addDealer: function (type){
+      var that = this;
+      that.addBtn = true;
+      that.axios.post('/ald/dealer/add_dealer', {'addForm': that.addForm, 'type': type, 'change': that.change}).then(res=>{
+        that.addBtn = false;
+        if (res.data.code === 'ok'){
+          if (that.addForm.quotaType === '老客户'){
+            that.$router.push('/admin/dealer/scoreList')
+          }else {
+            that.$router.push('/admin/dealer/applyList')
+          }
         } else {
-          return false;
+          that.addBtn = false;
+          this.$message({
+            message: res.data.msg + ':' + res.data.data,
+            type: 'warning'
+          });
         }
-      });
+      }).catch(res=>{
+      })
     },
   }
 
