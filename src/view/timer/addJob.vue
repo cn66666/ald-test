@@ -14,6 +14,7 @@
           <el-option label="司法诉讼拦截" value="lawQuery"></el-option>
           <el-option label="逾期拦截" value="overdueQuery"></el-option>
           <el-option label="开票查询" value="invoiceQuery"></el-option>
+          <el-option label="开票额度校验" value="invoiceQuotaChange"></el-option>
           <el-option label="订单查询" value="orderQuery"></el-option>
           <el-option label="订单维护" value="orderMaintain"></el-option>
           <el-option label="滞纳金计算" value="overdueCount"></el-option>
