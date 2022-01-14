@@ -80,7 +80,7 @@ export default {
     var that = this;
     that.infoForm.dealerId = this.$route.query.dealerId;
     // 查询经销商信息进行修改
-    that.axios.post('/ald/dealer/dealer_info', {'dealerId': that.infoForm.dealerId}).then(res=>{
+    that.axios.post('/ald/dealer/dealer_apply_info', {'dealerId': that.infoForm.dealerId}).then(res=>{
       that.addBtn = false;
       if (res.data.code=='ok'){
         that.infoForm.companyName = res.data.data.company_name;

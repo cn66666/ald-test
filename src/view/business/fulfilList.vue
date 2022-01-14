@@ -21,6 +21,11 @@
       <el-table-column
         prop="order_code"
         label="销售单号" width="250%">
+        <template slot-scope="scope">
+          <router-link :to='"/admin/business/fulfilInfo?orderId=" + scope.row.order_id'>
+            <el-button type="text" >{{scope.row.order_code}}</el-button>
+          </router-link>
+        </template>
       </el-table-column>
       <el-table-column
         prop="state_code"
