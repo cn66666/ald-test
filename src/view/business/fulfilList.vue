@@ -20,11 +20,7 @@
       </el-table-column>
       <el-table-column
         prop="order_code"
-        label="销售单号" width="100%">
-      </el-table-column>
-      <el-table-column
-        prop="fulfil_code"
-        label="履行单号" width="100%">
+        label="销售单号" width="250%">
       </el-table-column>
       <el-table-column
         prop="state_code"
@@ -32,7 +28,7 @@
       </el-table-column>
       <el-table-column
         prop="fulfil_money"
-        label="履行金额" width="150%">
+        label="履行金额" width="200%">
         <template slot-scope="scope">
           {{ scope.row.fulfil_money | moneyFormat}}
         </template>
@@ -74,7 +70,7 @@ export default {
     },
     getFulfilList: function (){
       var that = this;
-      that.axios.post('/ald/business/fulfil_list', {'page': that.localPage,}).then(res=>{
+      that.axios.post('/ald/business/fulfil_apply', {'page': that.localPage, 'stateCode': '通过'}).then(res=>{
         if (res.data.code=='ok'){
           that.fulfilList = res.data.data.data_list;
           that.total = res.data.data.total

@@ -115,7 +115,7 @@ export default {
   data() {
     return {
       dealerList: [],
-      total: 10,
+      total: 1,
       localPage: 1,
       showIntercept: false,
       formLabelWidth: '120px',
