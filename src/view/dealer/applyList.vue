@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row class="btn_row">
-      <push-function-btn btn-name="手动更新经销商" btn-type="reload" size="mini"
+      <push-function-btn btn-name="手动更新客户" btn-type="reload" size="mini"
                          check-btn="refreshDealer" check-role="applyList" url="/ald/dealer/refresh_dealer"></push-function-btn>
     </el-row>
     <el-table
@@ -10,7 +10,7 @@
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="company_name"
-        label="经销商名称" width="200%">
+        label="客户名称" width="200%">
         <template slot-scope="scope">
           <el-tooltip effect="dark" :content="scope.row.company_name" placement="top">
             <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.dealer_id'>

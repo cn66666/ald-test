@@ -127,6 +127,11 @@ export default {
         if (res.data.code == 'ok') {
           that.addBtnShow = false
           that.getBtnList()
+        } else {
+          this.$message({
+            message: res.data.msg,
+            type: 'warning'
+          });
         }
       }).catch(res => {
       })

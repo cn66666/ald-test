@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="补充经销商信息" style="margin: 1%">
+    <el-page-header @back="goBack" content="补充客户信息" style="margin: 1%">
     </el-page-header>
     <el-form :model="addForm" status-icon :rules="rules" ref="addForm" label-width="130px" class="demo-ruleForm" style="margin-top: 20px">
-      <el-form-item label="经销商名称" prop="companyName" style="width: 50%">
+      <el-form-item label="客户名称" prop="companyName" style="width: 50%">
         <el-input v-model="addForm.companyName" :disabled="change"></el-input>
       </el-form-item>
-      <el-form-item label="经销商类型" prop="companyType" style="width: 50%">
+      <el-form-item label="客户类型" prop="companyType" style="width: 50%">
         <el-select v-model="addForm.companyType" placeholder="请选择">
           <el-option label="自主品牌" value="自主品牌"></el-option>
         </el-select>
@@ -22,7 +22,7 @@
         <el-input v-model="addForm.saleMoney">
           <template slot="append">元</template></el-input>
       </el-form-item>
-      <el-form-item label="经销商分类" prop="quotaType" style="width: 50%">
+      <el-form-item label="客户分类" prop="quotaType" style="width: 50%">
         <el-select v-model="addForm.quotaType" placeholder="请选择">
           <el-option label="新客户申请" value="新客户"></el-option>
           <el-option label="老客户录入" value="老客户"></el-option>
@@ -85,10 +85,10 @@ export default {
       change: false,
       rules: {
         companyName: [
-          { required: true, message: '请填写经销商名称',},
+          { required: true, message: '请填写客户名称',},
         ],
         companyType: [
-          { required: true, message: '请选择经销商类型',},
+          { required: true, message: '请选择客户类型',},
         ],
         coopDate: [
           { required: true, message: '请填写合作起始时间',},
@@ -100,7 +100,7 @@ export default {
           { required: true, validator: validatePass,},
         ],
         quotaType: [
-          { required: true, message: '请选择经销商分类',},
+          { required: true, message: '请选择客户分类',},
         ],
       }
     };

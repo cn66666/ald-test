@@ -10,7 +10,7 @@
       </el-form-item>
       <el-form-item label="任务类型" prop="jobType">
         <el-select v-model="ruleForm.jobType" placeholder="请选择任务类型" @change="changeId()">
-          <el-option label="经销商查询" value="dealerQuery"></el-option>
+          <el-option label="客户查询" value="dealerQuery"></el-option>
           <el-option label="司法诉讼拦截" value="lawQuery"></el-option>
           <el-option label="逾期拦截" value="overdueQuery"></el-option>
           <el-option label="开票查询" value="invoiceQuery"></el-option>

@@ -1,17 +1,17 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="经销商信息" style="margin: 1%">
+    <el-page-header @back="goBack" content="客户信息" style="margin: 1%">
     </el-page-header>
     <el-descriptions :column="2" size="small" border style="margin: 1%">
       <el-descriptions-item>
         <template slot="label">
-          公司名称
+          客户名称
         </template>
         {{ dealerInfo.company_name }}
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
-          公司状态
+          客户状态
         </template>
         {{ dealerInfo.state_code }}
       </el-descriptions-item>
