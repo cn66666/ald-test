@@ -1,8 +1,10 @@
 <template>
   <div>
     <el-row class="btn_row">
-      <push-function-btn btn-name="手动刷新订单" btn-type="reload" size="mini"
-                         check-btn="refreshOrder" check-role="orderList" url="/ald/business/refresh_order"></push-function-btn>
+      <push-function-btn btn-name="手动获取新订单" btn-type="reload" size="mini"
+                         check-btn="refreshOrder" check-role="orderInfoList" url="/ald/business/refresh_order"></push-function-btn>
+      <push-function-btn btn-name="手动更新旧订单" btn-type="reload" size="mini"
+                         check-btn="uploadOrder" check-role="orderInfoList" url="/ald/business/upload_order"></push-function-btn>
     </el-row>
     <el-table
       :data="orderInfoList"
