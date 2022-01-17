@@ -11,7 +11,7 @@
         </el-menu-item>
         <el-submenu v-for="(menu, index) in menuList" :index="menu.id + ''" :key="index">
           <span slot="title"><i :class="menu.menuIcon"></i>{{ menu.name }}</span>
-          <el-menu-item v-for="(submenu, index) in menu.submenu" :index="submenu.url" :key="index">
+          <el-menu-item v-for="(submenu, s_index) in menu.submenu" :index="submenu.url" :key="s_index">
             {{ submenu.name }}
           </el-menu-item>
         </el-submenu>
