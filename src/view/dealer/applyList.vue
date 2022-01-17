@@ -51,7 +51,7 @@
                              check-btn="changeDealer" check-role="applyList" url="/admin/dealer/addDealer"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
-          <push-function-btn v-if="scope.row.state_code === '暂存'" btn-name="修改" btn-type="replace" size="mini"
+          <push-function-btn v-if="scope.row.state_code === '暂存'" btn-name="修改补录信息" btn-type="replace" size="mini"
                              check-btn="changeDealer" check-role="applyList" url="/admin/dealer/addDealer"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
