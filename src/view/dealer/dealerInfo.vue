@@ -115,6 +115,31 @@
         label="变更时间">
       </el-table-column>
     </el-table>
+    <span style="margin-left: 10px">近20条滞纳金变更记录</span>
+    <br>
+    <br>
+    <el-table
+      :data="dealerInfo.overdue_log"
+      border
+      style="width: 98%; margin: 1%">
+      <el-table-column
+        prop="change_money"
+        label="变更金额"
+        width="300">
+        <template slot-scope="scope">
+          {{ scope.row.change_money | moneyFormat}}
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="change_info"
+        label="变更信息"
+        width="300">
+      </el-table-column>
+      <el-table-column
+        prop="create_time"
+        label="变更时间">
+      </el-table-column>
+    </el-table>
 
     <el-dialog title="进行特批额度" :visible.sync="showForm">
       <el-form>
