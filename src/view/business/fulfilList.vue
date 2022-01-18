@@ -20,7 +20,7 @@
       </el-table-column>
       <el-table-column
         prop="order_code"
-        label="销售单号" width="250%">
+        label="销售单号" width="200%">
         <template slot-scope="scope">
           <router-link :to='"/admin/business/fulfilInfo?orderId=" + scope.row.order_id'>
             <el-button type="text" >{{scope.row.order_code}}</el-button>
@@ -28,8 +28,12 @@
         </template>
       </el-table-column>
       <el-table-column
+        prop="fulfil_code"
+        label="履行单号" width="150%">
+      </el-table-column>
+      <el-table-column
         prop="state_code"
-        label="履行单状态" width="150%">
+        label="履行单状态" width="100%">
       </el-table-column>
       <el-table-column
         prop="fulfil_money"

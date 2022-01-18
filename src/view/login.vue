@@ -1,18 +1,28 @@
 <template>
 
-  <div class="login_form">
-    <el-image
-      style="width: 100%; height: 100%"
-      :src="logo"></el-image>
-    <el-input v-model="userName" class="qxs-icon" placeholder="用户名" @input="userNameChange($event)"></el-input>
-    <el-input v-model="password" class="qxs-icon" placeholder="密码" show-password @input="pwdChange($event)"></el-input>
-    <el-button class="login_btn" :disabled="loginBtn" @click="login" type="primary" @keyup.enter.native="login()">
-      {{loginBtntext}}
-    </el-button>
-    <span class="error_msg">{{errorMsg}}</span>
+  <div style="width: 100%;height: 100%;background: linear-gradient(135deg, #58D6FE 0%, #1D74DE 100%);">
+    <el-row  style="width: 100%; height: 100%;" type="flex" justify="center" align="middle">
+      <el-col :span="8"/>
+      <el-col :span="12" >
+        <div class="login_form" style="">
+          <img src="/static/login.png" style="height: 350px; width: 600px; "/>
+          <div style="width: 45%; position: relative; left: 300px; top: -320px;">
+            <img src="/static/logo2x.png" style="width: 70px; height: 70px;">
+            <h3 class="login_title">伊莱特经销商信用评级系统</h3>
+            <el-input v-model="userName" prefix-icon="el-icon-user" style="margin-top: 20px;" placeholder="输入用户名" @input="userNameChange($event)"></el-input>
+            <el-input v-model="password" prefix-icon="el-icon-lock"  placeholder="输入密码" show-password @input="pwdChange($event)"></el-input>
+            <el-button class="login_btn" size="small" :disabled="loginBtn" @click="login" type="primary" @keyup.enter.native="login()">
+              {{loginBtntext}}
+            </el-button>
+          </div>
+        </div>
+      </el-col>
+      <el-col :span="6"/>
+    </el-row>
   </div>
 </template>
 <script>
+import { Message } from 'element-ui';
 
 export default {
   name: "login",
@@ -49,12 +59,12 @@ export default {
         }else {
           that.loginBtn = false;
           that.loginBtntext = "登录";
-          that.errorMsg = res.data.msg
+          Message.warning('登录失败:' + res.data.msg)
         }
       }).catch(res=>{
         that.loginBtn = false;
         that.loginBtntext = "登录";
-        that.errorMsg = "错误的用户名或密码！"
+        Message.warning('登录失败:请求错误')
       })
     },
 
@@ -83,27 +93,24 @@ export default {
 
 <style scoped>
 .login_form {
-  padding-top: 10%;
-  padding-left: 40%;
-  padding-right: 40%;
+  height: 350px;
+  width: 600px;
+  text-align: center;
+}
+
+>>>.el-input__inner {
+  border:none;
+  border-bottom: 1px solid #dcdfe6;
+  border-radius: 0px;
+}
+
+>>>.el-input__inner:focus {
+  border-bottom: 1px solid #1D74DE;
 }
 
 .login_btn {
   width: 100%;
   margin-top: 20px;
   font-size: 20px;
-}
-
-.qxs-icon {
-  margin-top: 20px;
-}
-
-.login_title {
-  text-align: center;
-}
-
-.error_msg {
-  color: red;
-  font-size: 14px;
 }
 </style>

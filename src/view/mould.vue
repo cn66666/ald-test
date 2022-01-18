@@ -2,9 +2,7 @@
   <el-container style="height: 100%; border: 1px solid #eee">
     <el-aside width="200px">
       <el-menu :default-openeds="openeds" style="height: 100%" :router="true" :unique-opened="true" :default-active="onRoutes">
-        <el-image
-          style="margin: 10%"
-          :src="logo"></el-image>
+        <p style="height: 40px; font-size: 15px; text-align:center; padding: 10px">伊莱特信用评级系统</p>
         <el-menu-item index="/admin">
           <i class="el-icon-s-home"></i>
           <span slot="title">首页</span>
@@ -33,7 +31,7 @@
           <router-view/>
         </div>
       </el-main>
-      <el-footer style="height: 5%">Footer</el-footer>
+      <el-footer style="height: 5%"><div data-v-29a933e9="" style="height: 30px; line-height: 30px; text-align: center;"><span data-v-29a933e9="" style="font-size: 12px;"> Copyright <span data-v-29a933e9="">2022</span>北京微星优财网络科技有限公司 &nbsp;&nbsp;&nbsp; 京ICP备15011399号</span></div></el-footer>
     </el-container>
   </el-container>
 </template>
@@ -47,7 +45,7 @@ export default {
   },
   data() {
     return {
-      logo: './static/logo.png',
+      logo: '',
       userName: localStorage.getItem('userName'),
       userPhone: localStorage.getItem('userPhone'),
       userRole: localStorage.getItem('userRole'),
@@ -112,6 +110,9 @@ export default {
 <style>
 >>>.el-menu-item{
   padding: 0 !important;
+}
+>>>.el-main{
+  padding: 20px 20px 10px 20px;
 }
 .btn_row{
   height: 10%;

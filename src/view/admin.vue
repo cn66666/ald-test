@@ -1,6 +1,5 @@
 <template>
-  <div>
-  </div>
+  <div data-v-13d5e90e="" style="text-align:center;line-height:420px;border:1px;solid=#ddd;font-size:30px;color:#260D3E;">伊莱特经销商信用评级系统</div>
 
 </template>
 
