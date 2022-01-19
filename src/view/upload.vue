@@ -136,7 +136,7 @@ export default {
             that.errorPage = false
             that.analysisPage = false
             that.okPage = false
-            that.errorInfo = '上传文件不符合要求,需要重新上传'
+            that.errorInfo = '上传文件不符合要求,点击文件移除后,选择新文件重新上传'
             that.errorShow = true
             clearInterval(that.timer);
           } else if (state_code === 'ok') {

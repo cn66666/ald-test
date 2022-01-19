@@ -94,6 +94,7 @@
 
 <script>
 import PushFunctionBtn from "../../components/pushFunctionBtn";
+import {Message} from "element-ui";
 export default {
   name: "invoiceOverdueList",
   components: {PushFunctionBtn},
@@ -151,6 +152,7 @@ export default {
           location.reload()
         }
       }).catch(res=>{
+        Message.warning('失败:' + res.data.msg)
       })
     },
     showAddFreeOverdue: function (overdueInfo){
@@ -168,6 +170,7 @@ export default {
           location.reload()
         }
       }).catch(res=>{
+        Message.warning('失败:' + res.data.msg)
       })
     },
     goBack() {
