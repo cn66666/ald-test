@@ -1,17 +1,26 @@
 <template>
-  <div>
-    <div data-v-13d5e90e="" style="text-align:center;line-height:500px;border:1px;solid: #ddd;
-    font-size:30px;color:#260D3E; height: 80%; width: 100%">
-      伊莱特经销商信用评级系统
+  <div style="width: 100%; height: 100%">
+    <div style="height: 80%">
+      <div style="text-align:center;line-height:420px;border:1px;solid=#ddd;font-size:50px;color:#260D3E;font-weight:bold">伊莱特经销商信用评级系统</div>
     </div>
-    <div style="margin: 20px 0 0 20px; font-size: 10px; float: left">
-      <p>如您在使用中遇到问题，请发送出现问题截图至服务邮箱，或联系支持人员。</p>
-
-      <p>服务邮箱：zhangkai@xingyoucai.com/fengfan@xingyoucai.com</p>
-
-      <p>技术支持：张凯（微信号zk364722234） 冯帆（微信号294803277@qq.com 手机号13269970265）</p>
-
-      <p>政策及权限支持：王亦凡（微信号if_ivan 手机号13821228425）</p>
+    <div style="height: 20%; font-weight:bold; color: #666666">
+      <div style="width: 20%; float: left; padding: 0 0 0 20px">
+        <p>服务邮箱</p >
+        <p>zhangkai@xingyoucai.com</p>
+        <p>fengfan@xingyoucai.com</p>
+      </div>
+      <div style="width: 25%; float: left; padding: 0 0 0 20px">
+        <p>技术支持</p >
+        <p>张凯：18610416374</p>
+        <p>冯帆：13269970265</p>
+      </div>
+      <div style="width: 25%; float: left; padding: 0 0 0 20px">
+        <p>政策及权限支持</p >
+        <p>王亦凡：13821228425</p>
+      </div>
+      <div style="width: 25%; float: right; padding: 0 0 0 10px">
+        <p style="padding-top: 10%">如您在使用中遇到问题，请发送出现问题截图至服务邮箱，或联系支持人员。</p>
+      </div>
     </div>
   </div>
 </template>
