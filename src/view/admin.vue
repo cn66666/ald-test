@@ -1,13 +1,18 @@
 <template>
-  <div data-v-13d5e90e="" style="text-align:center;line-height:420px;border:1px;solid: #ddd;font-size:30px;color:#260D3E;">
-    伊莱特经销商信用评级系统
-    <p>如您在使用中遇到问题，请发送出现问题截图至服务邮箱，或联系支持人员。</p>
+  <div>
+    <div data-v-13d5e90e="" style="text-align:center;line-height:500px;border:1px;solid: #ddd;
+    font-size:30px;color:#260D3E">
+      伊莱特经销商信用评级系统
+    </div>
+    <div style="margin-left: 20px; font-size: 10px">
+      <p>如您在使用中遇到问题，请发送出现问题截图至服务邮箱，或联系支持人员。</p>
 
-    <p>服务邮箱：zhangkai@xingyoucai.com/fengfan@xingyoucai.com</p>
+      <p>服务邮箱：zhangkai@xingyoucai.com/fengfan@xingyoucai.com</p>
 
-    <p>技术支持：张凯（微信号zk364722234） 冯帆（微信号294803277@qq.com 手机号13269970265）</p>
+      <p>技术支持：张凯（微信号zk364722234） 冯帆（微信号294803277@qq.com 手机号13269970265）</p>
 
-    <p>政策及权限支持：王亦凡（微信号if_ivan 手机号13821228425）</p>
+      <p>政策及权限支持：王亦凡（微信号if_ivan 手机号13821228425）</p>
+    </div>
   </div>
 </template>
 
