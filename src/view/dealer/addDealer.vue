@@ -46,6 +46,7 @@
 
 <script>
 import PushFunctionBtn from "../../components/pushFunctionBtn";
+import {Message} from "element-ui";
 export default {
   name: "addDealer",
   components: {PushFunctionBtn},
@@ -134,6 +135,19 @@ export default {
     addDealer: function (type){
       var that = this;
       that.addBtn = true;
+      if (that.addForm.coopDate == ''){
+        Message.warning("失败:请选择合作起始时间")
+        return
+      }
+      if (that.addForm.salePerson == ''){
+        Message.warning("失败:请填写销售代表")
+        return
+      }
+      if (that.addForm.salePerson == ''){
+        Message.warning("失败:请填写销售金额")
+        return
+      }
+
       that.axios.post('/ald/dealer/add_dealer', {'addForm': that.addForm, 'type': type, 'change': that.change}).then(res=>{
         that.addBtn = false;
         if (res.data.code === 'ok'){
@@ -144,10 +158,7 @@ export default {
           }
         } else {
           that.addBtn = false;
-          this.$message({
-            message: res.data.msg + ':' + res.data.data,
-            type: 'warning'
-          });
+          Message.warning(res.data.msg + ':' + res.data.data)
         }
       }).catch(res=>{
       })
