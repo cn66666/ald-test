@@ -107,9 +107,12 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 >>>.el-menu-item{
   padding: 0 !important;
+}
+>>>.info .remark{
+  font-weight: normal;
 }
 >>>.el-main{
   padding: 20px 20px 10px 20px;
