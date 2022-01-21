@@ -23,7 +23,7 @@
             <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <span style="font-size: 15px"><i class="el-icon-s-custom"></i>{{userRole}}-{{ userName }}</span>
+        <span style="font-size: 14px"><i class="el-icon-s-custom"></i>{{userRole}}-{{ userName }}</span>
       </el-header>
       <el-main>
         <bread></bread>
