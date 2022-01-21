@@ -53,3 +53,11 @@ html{
   font-weight: 500;
 }
 
+.info_table{
+  border-top:1px solid #EBEEF5;
+}
+
+.btn_row{
+  height: 50px;
+  padding: 13px;
+}

@@ -7,6 +7,7 @@
                          check-btn="uploadOrder" check-role="orderInfoList" url="/ald/business/upload_order"></push-function-btn>
     </el-row>
     <el-table
+      class="info_table"
       :data="orderInfoList"
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column

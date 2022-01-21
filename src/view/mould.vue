@@ -108,23 +108,14 @@ export default {
 }
 </script>
 <style scoped>
->>>.el-menu-item{
-  padding: 0 !important;
-}
 >>>.info .remark{
   font-weight: normal;
 }
 >>>.el-main{
   padding: 20px 20px 10px 20px;
 }
-.btn_row{
-  height: 10%;
-}
 
 .btn_row button{
   margin: 25px;
-}
-.info_table{
-  border-top:1px solid #EBEEF5;
 }
 </style>
