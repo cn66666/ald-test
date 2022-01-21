@@ -10,7 +10,7 @@
         <p>fengfan@xingyoucai.com</p>
       </div>
       <div style="width: 25%; float: left; padding: 0 0 0 20px">
-        <p>技术支持</p >
+        <p>技术支持</p>
         <p>张凯：18610416374</p>
         <p>冯帆：13269970265</p>
       </div>
@@ -54,39 +54,7 @@ export default {
 </script>
 
 <style scoped>
-
-.calendar-item{
-  font-size: 12px;
-  color: #FFF;
-  padding: 0 12px;
-  border-radius: 4px;
-  margin-top: 4px;
-}
-
->>>.el-tabs--card>.el-tabs__header .el-tabs__item  {
-  width: 100px;
-}
-
->>>.v-charts-data-empty{
-  position: absolute;
-  top: 176px;
-  left: 300px;
-}
->>>.el-row {
-  height: auto;
-}
->>>.is-selected {
-  background-color: #E6ECF0;
-}
->>>.v-ring {
-  height: 150px !important;
-}
->>>.el-tabs__item {
-  height: 24px;
-  line-height: 24px;
-}
->>>.el-calendar {
-  border-radius: 8px;
-  box-shadow: 0px 8px 10px 0px rgba(234, 243, 252, 0.8);
+p {
+  font-size: 15px;
 }
 </style>
