@@ -2,7 +2,6 @@
   <div>
     <el-table
       :data="tableData"
-      class="info_table"
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="id"
