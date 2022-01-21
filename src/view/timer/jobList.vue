@@ -73,7 +73,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="block" style="margin-top: 23px;margin-right: 79px;">
+        <div  style="float: right;margin-top: 23px;margin-right: 79px;">
           <el-pagination
             @current-change="handleCurrentChange" :current-page.sync="runingLocalPage"
             layout="prev, pager, next"
@@ -145,7 +145,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="block" style="margin-top: 23px;margin-right: 79px;">
+        <div style="float: right;margin-top: 23px;margin-right: 79px;">
           <el-pagination
             @current-change="handleCurrentChange" :current-page.sync="doneLocalPage"
             layout="prev, pager, next"
@@ -217,7 +217,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="block" style="margin-top: 23px;margin-right: 79px;">
+        <div style="float: right;margin-top: 23px;margin-right: 79px;">
           <el-pagination
             @current-change="handleCurrentChange" :current-page.sync="deleteLocalPage"
             layout="prev, pager, next"
