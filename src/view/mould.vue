@@ -108,7 +108,7 @@ export default {
 }
 </script>
 <style scoped>
->>>.info .remark{
+>>>.info, .remark{
   font-weight: normal;
 }
 >>>.el-main{
