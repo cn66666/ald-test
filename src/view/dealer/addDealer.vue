@@ -6,19 +6,14 @@
       <el-form-item label="客户名称" prop="companyName" style="width: 50%">
         <el-input v-model="addForm.companyName" :disabled="change"></el-input>
       </el-form-item>
-      <el-form-item label="客户类型" prop="companyType" style="width: 50%">
-        <el-select v-model="addForm.companyType" placeholder="请选择">
-          <el-option label="自主品牌" value="自主品牌"></el-option>
-        </el-select>
+      <el-form-item label="销售代表" prop="salePerson" style="width: 50%">
+        <el-input v-model="addForm.salePerson" :disabled="change"></el-input>
       </el-form-item>
       <el-form-item label="合作起始时间" prop="coopDate" style="width: 50%">
         <el-date-picker type="date" placeholder="选择日期" value-format="yyyy-MM-dd"
                         v-model="addForm.coopDate"></el-date-picker>
       </el-form-item>
-      <el-form-item label="销售代表" prop="salePerson" style="width: 50%">
-        <el-input v-model="addForm.salePerson"></el-input>
-      </el-form-item>
-      <el-form-item label="销售金额" prop="saleMoney" style="width: 50%">
+      <el-form-item label="计划销售金额" prop="saleMoney" style="width: 50%">
         <el-input v-model="addForm.saleMoney">
           <template slot="append">元</template></el-input>
       </el-form-item>
@@ -77,7 +72,6 @@ export default {
       dealerId: null,
       addForm: {
         companyName: '',
-        companyType: '',
         coopDate: null,
         salePerson: '',
         saleMoney: '',
@@ -85,17 +79,8 @@ export default {
       },
       change: false,
       rules: {
-        companyName: [
-          { required: true, message: '请填写客户名称',},
-        ],
-        companyType: [
-          { required: true, message: '请选择客户类型',},
-        ],
         coopDate: [
           { required: true, message: '请填写合作起始时间',},
-        ],
-        salePerson: [
-          { required: true, message: '请填写销售代表',},
         ],
         saleMoney: [
           { required: true, validator: validatePass,},
@@ -115,7 +100,6 @@ export default {
         that.addBtn = false;
         if (res.data.code=='ok'){
           that.addForm.companyName = res.data.data.company_name;
-          that.addForm.companyType = res.data.data.company_type;
           that.addForm.coopDate = res.data.data.coop_date;
           that.addForm.salePerson = res.data.data.sale_person;
           that.addForm.saleMoney = res.data.data.sale_money;
@@ -139,11 +123,7 @@ export default {
         Message.warning("失败:请选择合作起始时间")
         return
       }
-      if (that.addForm.salePerson == ''){
-        Message.warning("失败:请填写销售代表")
-        return
-      }
-      if (that.addForm.salePerson == ''){
+      if (that.addForm.saleMoney == ''){
         Message.warning("失败:请填写销售金额")
         return
       }
@@ -157,7 +137,6 @@ export default {
             that.$router.push('/admin/dealer/applyList')
           }
         } else {
-          that.addBtn = false;
           Message.warning(res.data.msg + ':' + res.data.data)
         }
       }).catch(res=>{

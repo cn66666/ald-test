@@ -7,10 +7,6 @@
         <el-input v-model="addForm.oldSaleMoney">
           <template slot="append">元</template></el-input>
       </el-form-item>
-      <el-form-item label="去年完成情况" prop="doneRate" style="width: 50%">
-        <el-input v-model="addForm.doneRate">
-          <template slot="append">%</template></el-input>
-      </el-form-item>
       <el-form-item label="今年业务规划" prop="saleMoney" style="width: 50%">
         <el-input v-model="addForm.saleMoney">
           <template slot="append">元</template></el-input>
@@ -55,7 +51,6 @@ export default {
         applyType: '',
         saleMoney: 0,
         endDay: 0,
-        doneRate: 0,
         oldSaleMoney: 0
       },
       rules: {
@@ -66,9 +61,6 @@ export default {
           {required: true, validator: validatePass,},
         ],
         endDay: [
-          {required: true, validator: validatePass,},
-        ],
-        doneRate: [
           {required: true, validator: validatePass,},
         ],
       }
