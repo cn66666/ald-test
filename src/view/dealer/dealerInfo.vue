@@ -84,7 +84,7 @@
         <span v-if="dealerInfo.is_skip === true" style="margin-right: 30px">已被允许</span>
         <span v-else-if="dealerInfo.is_skip === false" style="margin-right: 30px">未被允许</span>
         <span v-else></span>
-        <push-function-btn btn-name="进行逾期特批" btn-type="reload" size="mini"
+        <push-function-btn btn-name="更改逾期特批" btn-type="reload" size="mini"
                            check-btn="checkOverdueSkip" check-role="quotaList" url="/ald/dealer/overdue_skip"
                            params-key='dealerId' :params-value='dealerId'></push-function-btn>
       </el-descriptions-item>
