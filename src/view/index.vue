@@ -15,6 +15,9 @@ export default {
       logo: ''
     }
   },
+  mounted() {
+    this.$router.push('/admin')
+  },
 }
 </script>
 
