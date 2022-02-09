@@ -1,8 +1,5 @@
 <template>
   <div class="login_form">
-    <el-image
-      style="width: 100%; height: 100%"
-      :src="logo"></el-image>
     <h2 class="login_title">伊莱特信用评级系统</h2>
   </div>
 </template>

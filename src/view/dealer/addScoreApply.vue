@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  name: "addDealer",
+  name: "addScoreApply",
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === '') {
@@ -33,9 +33,6 @@ export default {
         try {
           var res = parseFloat(value)
           if (isNaN(res)){
-            callback(new Error('请填写正确内容'));
-          }
-          if (value !== res.toString()){
             callback(new Error('请填写正确内容'));
           }
           callback();
@@ -48,7 +45,6 @@ export default {
     return {
       addBtn: false,
       addForm: {
-        applyType: '',
         saleMoney: 0,
         endDay: 0,
         oldSaleMoney: 0
@@ -74,7 +70,7 @@ export default {
       that.axios.post('/ald/dealer/score_apply_info', {'dealerId': that.dealer_id}).then(res=>{
         that.addBtn = false;
         if (res.data.code=='ok'){
-          that.addForm.applyType = res.data.data;
+          that.addForm.endDay = res.data.data;
         } else {
           this.$message({
             message: res.data.msg + ':' + res.data.data,
