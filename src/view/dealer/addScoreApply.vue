@@ -45,6 +45,7 @@ export default {
     return {
       addBtn: false,
       addForm: {
+        applyType: '',
         saleMoney: 0,
         endDay: 0,
         oldSaleMoney: 0
@@ -70,7 +71,8 @@ export default {
       that.axios.post('/ald/dealer/score_apply_info', {'dealerId': that.dealer_id}).then(res=>{
         that.addBtn = false;
         if (res.data.code=='ok'){
-          that.addForm.endDay = res.data.data;
+          that.addForm.applyType = res.data.data.quota_type;
+          that.addForm.endDay = res.data.data.end_day;
         } else {
           this.$message({
             message: res.data.msg + ':' + res.data.data,
