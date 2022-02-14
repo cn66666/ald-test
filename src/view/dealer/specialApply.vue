@@ -6,16 +6,13 @@
       <el-form-item label="客户名称" prop="companyName" style="width: 50%">
         <span>{{infoForm.companyName}}</span>
       </el-form-item>
-      <el-form-item label="客户类型" prop="companyType" style="width: 50%">
-        <span>{{infoForm.companyType}}</span>
-      </el-form-item>
       <el-form-item label="合作起始时间" prop="coopDate" style="width: 50%">
         <span>{{infoForm.coopDate}}</span>
       </el-form-item>
       <el-form-item label="销售代表" prop="salePerson" style="width: 50%">
         <span>{{infoForm.salePerson}}</span>
       </el-form-item>
-      <el-form-item label="销售金额" prop="saleMoney" style="width: 50%">
+      <el-form-item label="计划销售金额" prop="saleMoney" style="width: 50%">
         <span>{{infoForm.saleMoney}}</span>
       </el-form-item>
       <el-form-item label="客户分类" prop="limitType" style="width: 50%">
