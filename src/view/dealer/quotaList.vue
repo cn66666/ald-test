@@ -143,7 +143,7 @@ export default {
             that.showInterceptRemark = false
           }
         }).catch(res=>{
-          Message.warning('错误: 请联系管理员')
+          Message.warning('错误: 请填写拦截原因')
         })
       }else {
         Message.warning('错误: 请联系管理员')
