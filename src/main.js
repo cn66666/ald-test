@@ -27,8 +27,7 @@ router.onError((error) => {
   console.log(router)
   const targetPath = router.history.pending.fullPath;
   if (isChunkLoadFailed) {
-    console.log('Loading chunk>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-    router.replace(targetPath);
+    location.reload()
   }
 });
 
