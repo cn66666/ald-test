@@ -1,5 +1,7 @@
 <template>
   <div>
+    <el-page-header @back="goBack" content="客户信息" style="margin: 1%">
+    </el-page-header>
     <el-row class="filter_row">
       <el-select v-model="info.state_code" placeholder="请选择" @change="getQuotaLogs">
         <el-option
@@ -92,6 +94,9 @@ export default {
     this.getQuotaLogs()
   },
   methods: {
+    goBack() {
+      this.$router.go(-1)
+    },
     handleCurrentChange(val) {
       this.localPage = val;
       this.getScoreLogs();

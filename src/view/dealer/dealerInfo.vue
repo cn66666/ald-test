@@ -92,7 +92,7 @@
     <br>
     <span style="margin-left: 10px">近20条额度变更记录
           <push-function-btn btn-name="查看额度变更" btn-type="replace" size="mini"
-                             check-btn="showQuotaLog" check-role="quotaList" url="/admin/logs/quotaLogs"
+                             check-btn="showQuotaLog" check-role="quotaList" url="/admin/dealer/quotaLogs"
                              params-key='dealerId' :params-value='dealerId'></push-function-btn>
     </span>
     <br>
@@ -121,7 +121,7 @@
     </el-table>
     <span style="margin-left: 10px">近20条滞纳金变更记录
           <push-function-btn btn-name="查看滞纳金变更" btn-type="replace" size="mini"
-                             check-btn="showOverdueLog" check-role="dealerOverdueList" url="/admin/logs/overdueLogs"
+                             check-btn="showOverdueLog" check-role="dealerOverdueList" url="/admin/business/overdueLogs"
                              params-key='dealerId' :params-value='dealerId'></push-function-btn>
     </span>
     <br>

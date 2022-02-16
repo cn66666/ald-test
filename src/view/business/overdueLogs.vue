@@ -1,5 +1,7 @@
 <template>
   <div>
+    <el-page-header @back="goBack" content="客户信息" style="margin: 1%">
+    </el-page-header>
     <el-table
       class="info_table"
       :data="tableData"
@@ -47,6 +49,9 @@ export default {
     this.getOverdueLogs()
   },
   methods: {
+    goBack() {
+      this.$router.go(-1)
+    },
     handleCurrentChange(val) {
       this.localPage = val;
       this.getScoreLogs();
