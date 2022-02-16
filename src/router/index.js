@@ -202,6 +202,18 @@ export default new Router({
           meta: { title: '评分卡详情' },
           component: resolve => require(['../view/logs/scoreLogs'], resolve),
         },
+        {
+          path: '/admin/logs/quotaLogs',
+          name: 'quotaLogs',
+          meta: { title: '额度变更详情' },
+          component: resolve => require(['../view/logs/quotaLogs'], resolve),
+        },
+        {
+          path: '/admin/logs/overdueLogs',
+          name: 'overdueLogs',
+          meta: { title: '滞纳金变更详情' },
+          component: resolve => require(['../view/logs/overdueLogs'], resolve),
+        },
       ]
     },
     {
