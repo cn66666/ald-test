@@ -16,7 +16,7 @@
       </el-table-column>
       <el-table-column
         prop="limit_type"
-        label="额度类型" width="70%">
+        label="额度类型" width="90%">
         <template slot-scope="scope">
           <span v-if="scope.row.quota_type === '新客户'">一年期额度</span>
           <span v-else-if="scope.row.quota_type === '老客户'">长期额度</span>
