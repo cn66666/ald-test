@@ -16,11 +16,18 @@
       </el-table-column>
       <el-table-column
         prop="limit_type"
-        label="额度类型" width="150%">
+        label="额度类型" width="70%">
         <template slot-scope="scope">
           <span v-if="scope.row.quota_type === '新客户'">一年期额度</span>
           <span v-else-if="scope.row.quota_type === '老客户'">长期额度</span>
           <span v-else>-</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="quota_money"
+        label="总额度" width="150%">
+        <template slot-scope="scope">
+          {{ scope.row.quota_money | moneyFormat}}
         </template>
       </el-table-column>
       <el-table-column
@@ -39,11 +46,11 @@
       </el-table-column>
       <el-table-column
         prop="quota_date"
-        label="额度截止日期"  width="150%">
+        label="额度截止日期"  width="100%">
       </el-table-column>
       <el-table-column
         prop="state_code"
-        label="状态" width="100%">
+        label="状态" width="80%">
       </el-table-column>
       <el-table-column
         prop=""
