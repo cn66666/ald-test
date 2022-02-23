@@ -48,22 +48,26 @@ axios.defaults.paramsSerializer = function(data){
 
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
-  if(localStorage.getItem("token") !== null) {
-    config.headers.withCredentials = true
-    config.headers.Authorization = localStorage.getItem("token")
-    config.data['userPhone'] = localStorage.getItem("userPhone")
-    config.data['role'] = localStorage.getItem("userRole")
-    config.data['userName'] = localStorage.getItem("userName")
-    return config;
-  }else{
-    if (config.url === "/ald/login"){
-      return config
-    }else if (config.url === "/xingyun/upload"){
-      return config
-    }else if (config.url === "/ald/dealer/get_code"){
-      return config
+  if (config.method == 'post'){
+    if(localStorage.getItem("token") !== null) {
+      config.headers.withCredentials = true
+      config.headers.Authorization = localStorage.getItem("token")
+      config.data['userPhone'] = localStorage.getItem("userPhone")
+      config.data['role'] = localStorage.getItem("userRole")
+      config.data['userName'] = localStorage.getItem("userName")
+      return config;
+    }else{
+      if (config.url === "/ald/login"){
+        return config
+      }else if (config.url === "/xingyun/upload"){
+        return config
+      }else if (config.url === "/ald/dealer/get_code"){
+        return config
+      }
+      router.push({path:"/login"})
     }
-    router.push({path:"/login"})
+  }else {
+    return config;
   }
 }, function (error) {
   // 对请求错误做些什么

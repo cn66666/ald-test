@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="客户信息" style="margin: 1%">
+    <el-page-header @back="goBack" content="滞纳金变更详情" style="margin: 1%">
     </el-page-header>
     <el-table
       class="info_table"

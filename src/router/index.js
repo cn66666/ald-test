@@ -85,19 +85,19 @@ export default new Router({
         {
           path: '/admin/dealer/dealerInfo',
           name: 'dealerInfo',
-          meta: { title: '经销商信息数据' },
+          meta: { title: '客户信息数据' },
           component: resolve => require(['../view/dealer/dealerInfo'], resolve),
         },
         {
           path: '/admin/dealer/applyList',
           name: 'applyList',
-          meta: { title: '经销商申请清单' },
+          meta: { title: '客户申请清单' },
           component: resolve => require(['../view/dealer/applyList'], resolve),
         },
         {
           path: '/admin/dealer/addDealer',
           name: 'addDealer',
-          meta: { title: '新建经销商' },
+          meta: { title: '新建客户' },
           component: resolve => require(['../view/dealer/addDealer'], resolve),
         },
         {
@@ -109,7 +109,7 @@ export default new Router({
         {
           path: '/admin/dealer/quotaList',
           name: 'quotaList',
-          meta: { title: '经销商额度清单' },
+          meta: { title: '客户额度清单' },
           component: resolve => require(['../view/dealer/quotaList'], resolve),
         },
         {
