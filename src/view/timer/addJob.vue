@@ -57,7 +57,6 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" :disabled="addBtn" @click="submitForm('ruleForm', '立即创建')">立即创建</el-button>
-        <el-button type="primary" :disabled="addBtn" @click="submitForm('ruleForm', '立即执行')">立即执行</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>

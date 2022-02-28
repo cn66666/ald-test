@@ -52,7 +52,6 @@
           <push-function-btn v-if="scope.row.state_code === '季度调额待审批' && scope.row.busy_quota !== 0" btn-name="拒绝淡旺季审批" btn-type="reload" size="mini"
                              check-btn="busyQuotaUnactive" check-role="quarterList" url="/ald/dealer/quarter_unactive"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
-          <el-button type="primary" size="mini" @click="showChangeDateFunc(scope.row.dealer_id)">便捷修改生效日期</el-button>
         </template>
       </el-table-column>
     </el-table>

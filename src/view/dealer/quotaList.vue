@@ -59,7 +59,6 @@
           <push-function-btn v-if="scope.row.state_code === '已激活'" btn-name="拉入拦截清单" btn-type="function" size="mini"
                              check-btn="addIntercept" check-role="quotaList" :check-function='showAddIntercept'
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
-          <el-button type="primary" size="mini" @click="showChangeDateFunc(scope.row.dealer_id)">便捷修改截止日期</el-button>
         </template>
       </el-table-column>
     </el-table>
