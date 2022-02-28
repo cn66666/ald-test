@@ -1,6 +1,6 @@
 <template>
   <div class="login_form">
-    <h2 class="login_title">伊莱特信用评级系统</h2>
+    <h2 class="login_title">伊莱特客户信用评级系统</h2>
   </div>
 </template>
 
