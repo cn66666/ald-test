@@ -27,6 +27,11 @@
       <el-table-column
         prop="state_code"
         label="拦截状态" width="100%">
+        <template slot-scope="scope">
+          <span v-if="scope.row.state_code === 'intercept'">已拦截</span>
+          <span v-else-if="scope.row.state_code === 'unintercept'">未拦截</span>
+          <span v-else></span>
+        </template>
       </el-table-column>
       <el-table-column
         prop=""

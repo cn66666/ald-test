@@ -36,20 +36,26 @@
       <el-table-column
         prop="state_code"
         label="状态" width="150%">
+        <template slot-scope="scope">
+          <span v-if="scope.row.state_code === 'approval'">季度调额待审批</span>
+          <span v-else-if="scope.row.state_code === 'unactive'">待激活</span>
+          <span v-else-if="scope.row.state_code === 'reckon'">季度额度计算中</span>
+          <span v-else></span>
+        </template>
       </el-table-column>
       <el-table-column
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <push-function-btn v-if="scope.row.state_code === '季度调额待审批' && scope.row.busy_quota === 0" btn-name="通过审批" btn-type="reload" size="mini"
+          <push-function-btn v-if="scope.row.state_code === 'approval' && scope.row.busy_quota === 0" btn-name="通过审批" btn-type="reload" size="mini"
                              check-btn="quotaActive" check-role="quarterList" url="/ald/dealer/quarter_active"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
-          <push-function-btn v-if="scope.row.state_code === '季度调额待审批' && scope.row.busy_quota !== 0" btn-name="通过淡旺季审批" btn-type="reload" size="mini"
+          <push-function-btn v-if="scope.row.state_code === 'approval' && scope.row.busy_quota !== 0" btn-name="通过淡旺季审批" btn-type="reload" size="mini"
                              check-btn="busyQuotaActive" check-role="quarterList" url="/ald/dealer/quarter_active"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
-          <push-function-btn v-if="scope.row.state_code === '季度调额待审批' && scope.row.busy_quota !== 0" btn-name="拒绝淡旺季审批" btn-type="reload" size="mini"
+          <push-function-btn v-if="scope.row.state_code === 'approval' && scope.row.busy_quota !== 0" btn-name="拒绝淡旺季审批" btn-type="reload" size="mini"
                              check-btn="busyQuotaUnactive" check-role="quarterList" url="/ald/dealer/quarter_unactive"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
           <el-button type="primary" size="mini" @click="showChangeDateFunc(scope.row.dealer_id)">便捷修改生效日期</el-button>

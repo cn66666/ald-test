@@ -42,44 +42,49 @@
       <el-table-column
         prop="state_code"
         label="状态" width="100%">
+        <template slot-scope="scope">
+          <span v-if="scope.row.state_code === 'input'">待录入</span>
+          <span v-else-if="scope.row.state_code === 'save'">暂存</span>
+          <span v-else-if="scope.row.state_code === 'intercept'">已拦截</span>
+          <span v-else-if="scope.row.state_code === 'add'">待补充数据</span>
+          <span v-else-if="scope.row.state_code === 'unactive'">待激活</span>
+          <span v-else-if="scope.row.state_code === 'reckon'">额度计算中</span>
+          <span v-else></span>
+        </template>
       </el-table-column>
       <el-table-column
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <push-function-btn v-if="scope.row.state_code === '待录入'" btn-name="补充数据" btn-type="replace" size="mini"
+          <push-function-btn v-if="scope.row.state_code === 'input'" btn-name="补充数据" btn-type="replace" size="mini"
                              check-btn="changeDealer" check-role="applyList" url="/admin/dealer/addDealer"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
-          <push-function-btn v-if="scope.row.state_code === '暂存'" btn-name="修改补录信息" btn-type="replace" size="mini"
+          <push-function-btn v-if="scope.row.state_code === 'save'" btn-name="修改补录信息" btn-type="replace" size="mini"
                              check-btn="changeDealer" check-role="applyList" url="/admin/dealer/addDealer"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
-          <push-function-btn v-if="scope.row.state_code === '暂存'" btn-name="提交申请" btn-type="reload" size="mini"
+          <push-function-btn v-if="scope.row.state_code === 'save'" btn-name="提交申请" btn-type="reload" size="mini"
                              check-btn="changeDealer" check-role="applyList" url="/ald/dealer/dealer_apply"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
-          <push-function-btn v-if="scope.row.state_code === '暂存'" btn-name="特殊审批" btn-type="replace" size="mini"
+          <push-function-btn v-if="scope.row.state_code === 'save'" btn-name="特殊审批" btn-type="replace" size="mini"
                              check-btn="specialApply" check-role="applyList" url="/admin/dealer/specialApply"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
-          <push-function-btn v-if="scope.row.state_code === '已拦截'" btn-name="查询拦截原因" btn-type="function" size="mini"
+          <push-function-btn v-if="scope.row.state_code === 'intercept'" btn-name="查询拦截原因" btn-type="function" size="mini"
                              check-btn="showApplyIntercept" check-role="applyList" :check-function='showApplyIntercept'
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
-          <push-function-btn v-if="scope.row.state_code === '额度计算失败'" btn-name="重新计算" btn-type="function" size="mini"
-                             check-btn="quotaReckonAgain" check-role="applyList" url="/admin/dealer/quota_reckon_again"
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
-
-          <push-function-btn v-if="scope.row.state_code === '待补充数据'" btn-name="前往数据采集页面" btn-type="replace_new"
+          <push-function-btn v-if="scope.row.state_code === 'add'" btn-name="前往数据采集页面" btn-type="replace_new"
                              check-btn="getDealerData" url="/xingyun/upload"
                              params-key='code' :params-value='scope.row.code' check-role="applyList"></push-function-btn>
 
-          <push-function-btn v-if="scope.row.state_code === '待激活'" btn-name="确认激活" btn-type="reload" size="mini"
+          <push-function-btn v-if="scope.row.state_code === 'unactive'" btn-name="确认激活" btn-type="reload" size="mini"
                              check-btn="doneDealerQuota" check-role="applyList" url="/ald/dealer/done_quota"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
-          <push-function-btn v-if="scope.row.state_code === '待激活' && scope.row.quota_type === '新客户'" btn-name="重新录入" btn-type="reload" size="mini"
+          <push-function-btn v-if="scope.row.state_code === 'unactive' && scope.row.quota_type === '新客户'" btn-name="重新录入" btn-type="reload" size="mini"
                              check-btn="deleteDealerQuota" check-role="applyList" url="/ald/dealer/delete_quota"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
         </template>
