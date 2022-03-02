@@ -79,7 +79,7 @@ export default {
     },
     getFulfilList: function (){
       var that = this;
-      that.axios.post('/ald/business/fulfil_apply', {'page': that.localPage, 'stateCode': '通过'}).then(res=>{
+      that.axios.post('/ald/business/fulfil_apply', {'page': that.localPage, 'stateCode': 'ok'}).then(res=>{
         if (res.data.code=='ok'){
           that.fulfilList = res.data.data.data_list;
           that.total = res.data.data.total
