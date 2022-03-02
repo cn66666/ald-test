@@ -15,7 +15,7 @@
       </el-form-item>
       <el-form-item label="计划销售金额" prop="saleMoney" style="width: 50%">
         <el-input v-model="addForm.saleMoney">
-          <template slot="append">元</template></el-input>
+          <template slot="append">万元</template></el-input>
       </el-form-item>
       <el-form-item label="客户分类" prop="quotaType" style="width: 50%">
         <el-select v-model="addForm.quotaType" placeholder="请选择">
@@ -54,9 +54,6 @@ export default {
           try {
             var res = parseFloat(value)
             if (isNaN(res)){
-              callback(new Error('请填写正确的销售金额'));
-            }
-            if (value !== res.toString()){
               callback(new Error('请填写正确的销售金额'));
             }
             callback();

@@ -5,11 +5,11 @@
     <el-form :model="addForm" status-icon :rules="rules" ref="addForm" label-width="130px" class="demo-ruleForm" style="margin-top: 20px">
       <el-form-item label="去年业务规划" prop="oldSaleMoney" style="width: 50%">
         <el-input v-model="addForm.oldSaleMoney">
-          <template slot="append">元</template></el-input>
+          <template slot="append">万元</template></el-input>
       </el-form-item>
       <el-form-item label="今年业务规划" prop="saleMoney" style="width: 50%">
         <el-input v-model="addForm.saleMoney">
-          <template slot="append">元</template></el-input>
+          <template slot="append">万元</template></el-input>
       </el-form-item>
       <el-form-item label="结算时长" prop="endDay" style="width: 50%">
         <el-input v-model="addForm.endDay">

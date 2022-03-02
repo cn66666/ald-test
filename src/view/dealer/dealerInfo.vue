@@ -2,7 +2,7 @@
   <div>
     <el-page-header @back="goBack" content="客户信息" style="margin: 1%">
     </el-page-header>
-    <el-descriptions :column="2" size="small" border style="margin: 1%">
+    <el-descriptions :column="2" size="small" border style="margin: 1%;">
       <el-descriptions-item>
         <template slot="label">
           客户名称
