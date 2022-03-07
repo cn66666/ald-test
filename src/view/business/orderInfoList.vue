@@ -87,7 +87,7 @@ export default {
       total: 1,
       localPage: 1,
       companyList: [],
-      orderState: ['等待核准', '待履行', '待开票', '已开票', '已关闭', '已取消', '待开票/部分完成', '部分完成'],
+      orderState: ['全部', '等待核准', '待履行', '待开票', '已开票', '已关闭', '已取消', '待开票/部分完成', '部分完成'],
       info: {
         orderType: '',
         companyName: ''
