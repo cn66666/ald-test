@@ -13,7 +13,10 @@
         <template slot="label">
           客户状态
         </template>
-        {{ dealerInfo.state_code }}
+        <span v-if="dealerInfo.state_code === 'active'">已激活</span>
+        <span v-else-if="dealerInfo.state_code === 'intercept'">已拦截</span>
+        <span v-else-if="dealerInfo.state_code === 'apply'">申请中</span>
+        <span v-else></span>
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
@@ -208,7 +211,7 @@ export default {
     },
     showSpecialQuota: function (){
       var that = this;
-      if (that.dealerInfo.state_code === '已激活'){
+      if (that.dealerInfo.state_code === 'active'){
         that.showForm = true
       }else {
         Message.warning('失败: 该客户未激活额度')

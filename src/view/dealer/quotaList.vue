@@ -51,12 +51,18 @@
       <el-table-column
         prop="state_code"
         label="状态" width="80%">
+        <template slot-scope="scope">
+          <span v-if="scope.row.state_code === 'active'">已激活</span>
+          <span v-else-if="scope.row.state_code === 'intercept'">已拦截</span>
+          <span v-else-if="scope.row.state_code === 'unactive'">待激活</span>
+          <span v-else></span>
+        </template>
       </el-table-column>
       <el-table-column
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <push-function-btn v-if="scope.row.state_code === '已激活'" btn-name="拉入拦截清单" btn-type="function" size="mini"
+          <push-function-btn v-if="scope.row.state_code === 'active'" btn-name="拉入拦截清单" btn-type="function" size="mini"
                              check-btn="addIntercept" check-role="quotaList" :check-function='showAddIntercept'
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
         </template>
