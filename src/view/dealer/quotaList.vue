@@ -5,7 +5,7 @@
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="company_name"
-        label="客户名称" width="200%">
+        label="客户名称" width="250%">
         <template slot-scope="scope">
           <el-tooltip effect="dark" :content="scope.row.company_name" placement="top">
             <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.dealer_id'>

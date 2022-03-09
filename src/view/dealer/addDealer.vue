@@ -3,6 +3,9 @@
     <el-page-header @back="goBack" content="补充客户信息" style="margin: 1%">
     </el-page-header>
     <el-form :model="addForm" status-icon :rules="rules" ref="addForm" label-width="130px" class="demo-ruleForm" style="margin-top: 20px">
+      <el-form-item label="客户编号" prop="companyCode" style="width: 50%">
+        <el-input v-model="addForm.companyCode" :disabled="change"></el-input>
+      </el-form-item>
       <el-form-item label="客户名称" prop="companyName" style="width: 50%">
         <el-input v-model="addForm.companyName" :disabled="change"></el-input>
       </el-form-item>
@@ -68,6 +71,7 @@ export default {
       addBtn: false,
       dealerId: null,
       addForm: {
+        companyCode: '',
         companyName: '',
         coopDate: null,
         salePerson: '',
@@ -96,6 +100,7 @@ export default {
       that.axios.post('/ald/dealer/dealer_apply_info', {'dealerId': that.dealerId}).then(res=>{
         that.addBtn = false;
         if (res.data.code=='ok'){
+          that.addForm.companyCode = res.data.data.company_code;
           that.addForm.companyName = res.data.data.company_name;
           that.addForm.coopDate = res.data.data.coop_date;
           that.addForm.salePerson = res.data.data.sale_person;

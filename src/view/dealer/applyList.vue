@@ -10,22 +10,13 @@
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="company_name"
-        label="客户名称" width="220%">
+        label="客户名称" width="370%">
         <template slot-scope="scope">
           <el-tooltip effect="dark" :content="scope.row.company_name" placement="top">
             <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.dealer_id'>
               <el-button type="text">{{scope.row.company_name}}</el-button>
             </router-link>
           </el-tooltip>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="quota_type"
-        label="额度类型" width="150%">
-        <template slot-scope="scope">
-          <span v-if="scope.row.quota_type === '新客户'">一年期额度</span>
-          <span v-else-if="scope.row.quota_type === '老客户'">长期额度</span>
-          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column
