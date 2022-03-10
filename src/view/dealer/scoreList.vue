@@ -36,7 +36,7 @@
       </el-table-column>
       <el-table-column
         prop="old_date"
-        label="旧额度截止日期"  width="130%">
+        label="旧额度截止日期"  width="120%">
       </el-table-column>
       <el-table-column
         prop="new_quota"
@@ -47,13 +47,13 @@
       </el-table-column>
       <el-table-column
         prop="new_date"
-        label="新额度截止日期"  width="130%">
+        label="新额度截止日期"  width="120%">
       </el-table-column>
       <el-table-column
         prop="state_code"
-        label="状态" width="150%">
+        label="状态" width="130%">
         <template slot-scope="scope">
-          <span v-if="scope.row.state_code === 'add'">待补充数据</span>
+          <span v-if="scope.row.state_code === 'add'">已出评分及额度</span>
           <span v-else-if="scope.row.state_code === 'have'">已出评分及额度</span>
           <span v-else-if="scope.row.state_code === 'error'">工商数据查询失败</span>
           <span v-else-if="scope.row.state_code === 'unactive'">待激活</span>
@@ -73,6 +73,10 @@
 
           <push-function-btn v-if="scope.row.state_code === 'error'" btn-name="重新生成" btn-type="reload" size="mini"
                              check-btn="againScore" check-role="scoreList" url="/ald/dealer/again_score"
+                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+
+          <push-function-btn v-if="scope.row.state_code === 'add' && scope.row.back === true" btn-name="重置评分卡" btn-type="reload" size="mini"
+                             check-btn="resetScore" check-role="scoreList" url="/ald/dealer/reset_score"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
         </template>
       </el-table-column>
