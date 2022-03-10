@@ -34,6 +34,10 @@
       <el-table-column
         prop="state_code"
         label="履行单状态" width="100%">
+        <template slot-scope="scope">
+          <span v-if="scope.row.state_code === 'ok'">成功</span>
+          <span v-else>{{scope.row.state_code}}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="fulfil_money"
