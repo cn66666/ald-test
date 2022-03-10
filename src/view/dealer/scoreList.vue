@@ -75,7 +75,7 @@
                              check-btn="againScore" check-role="scoreList" url="/ald/dealer/again_score"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
-          <push-function-btn v-if="scope.row.state_code === 'add' && scope.row.back === true" btn-name="重置评分卡" btn-type="reload" size="mini"
+          <push-function-btn v-if="scope.row.state_code === 'add' && scope.row.back === true" btn-name="退回" btn-type="reload" size="mini"
                              check-btn="resetScore" check-role="scoreList" url="/ald/dealer/reset_score"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
         </template>
