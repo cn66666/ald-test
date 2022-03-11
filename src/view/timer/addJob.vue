@@ -26,6 +26,7 @@
           <el-option label="新客户申请评分卡" value="newDealerUpdate"></el-option>
           <el-option label="新客户评分卡生效" value="newDealerTakeEffect"></el-option>
           <el-option label="角色已使用权限次数清空" value="rolePermissionNum"></el-option>
+          <el-option label="历史订单及额度统计" value="oldOrderSupply"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="时间填写" prop="dateTime">

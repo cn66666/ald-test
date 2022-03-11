@@ -53,7 +53,7 @@
         prop="state_code"
         label="状态" width="130%">
         <template slot-scope="scope">
-          <span v-if="scope.row.state_code === 'add'">已出评分及额度</span>
+          <span v-if="scope.row.state_code === 'add'">待补充数据</span>
           <span v-else-if="scope.row.state_code === 'have'">已出评分及额度</span>
           <span v-else-if="scope.row.state_code === 'error'">工商数据查询失败</span>
           <span v-else-if="scope.row.state_code === 'unactive'">待激活</span>
