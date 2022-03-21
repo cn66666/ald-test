@@ -55,6 +55,7 @@ axios.interceptors.request.use(function (config) {
       config.data['userPhone'] = localStorage.getItem("userPhone")
       config.data['role'] = localStorage.getItem("userRole")
       config.data['userName'] = localStorage.getItem("userName")
+      config.data['userCode'] = localStorage.getItem("userCode")
       return config;
     }else{
       if (config.url === "/ald/login"){

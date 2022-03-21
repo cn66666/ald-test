@@ -30,6 +30,11 @@
         style="width: 30%">
       </el-table-column>
       <el-table-column
+        prop="code"
+        label="工号"
+        style="width: 30%">
+      </el-table-column>
+      <el-table-column
         prop="is_delete"
         label="状态"
         style="width: 15%">
@@ -49,12 +54,12 @@
             <p>是否将该用户注销？</p>
             <div style="text-align: right; margin: 0">
               <el-button size="mini" type="text" @click="visible = false">取消</el-button>
-              <el-button type="primary" size="mini" @click="deleteUserInfo(scope.row.phone)">确定</el-button>
+              <el-button type="primary" size="mini" @click="deleteUserInfo(scope.row.id)">确定</el-button>
             </div>
             <el-button slot="reference" size="mini">注销</el-button>
           </el-popover>
           <el-button v-if="scope.row.is_delete === false"
-                     size="mini" round @click="changeUser(scope.row.phone, scope.row.name)">修改账号</el-button>
+                     size="mini" round @click="changeUser(scope.row.id, scope.row.phone, scope.row.code, scope.row.name)">修改账号</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -62,6 +67,9 @@
       <el-form :model="userInfo">
         <el-form-item label="当前手机号" :label-width="formLabelWidth">
           <el-input v-model="userInfo.phone" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="当前工号" :label-width="formLabelWidth">
+          <el-input v-model="userInfo.code" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="当前名称" :label-width="formLabelWidth">
           <el-input v-model="userInfo.name" autocomplete="off"></el-input>
@@ -102,8 +110,11 @@ export default {
       showChangeUser: false,
       formLabelWidth: '120px',
       userInfo: {
+        userId: '',
         oldPhone: '',
+        oldCode: '',
         phone: '',
+        code: '',
         name: '',
         pass: '',
         checkPass: '',
@@ -127,9 +138,9 @@ export default {
       }).catch(res=>{
       })
     },
-    deleteUserInfo: function (user){
+    deleteUserInfo: function (userId){
       var that = this;
-      that.axios.post('/ald/user/delete_user', {'user': user}).then(res=>{
+      that.axios.post('/ald/user/delete_user', {'userId': userId}).then(res=>{
         if (res.data.code=='ok'){
           this.visible = false;
           this.getUserList();
@@ -146,11 +157,14 @@ export default {
       }).catch(res=>{
       })
     },
-    changeUser: function (phone, name){
+    changeUser: function (userId, phone, code, name){
       var that = this;
+      that.userInfo.userId = userId
       that.userInfo.name = name
       that.userInfo.oldPhone = phone
       that.userInfo.phone = phone
+      that.userInfo.oldCode = code
+      that.userInfo.code = code
       that.showChangeUser = true
     },
     changeUserMode: function (){
@@ -186,10 +200,13 @@ export default {
         }
       }
       that.axios.post('/ald/user/change_user', {
+        'userId': that.userInfo.userId,
         'name': that.userInfo.name,
         'user': that.userInfo.phone,
+        'code': that.userInfo.code,
         'pwd': that.userInfo.pass,
         'oldPhone': that.userInfo.oldPhone,
+        'oldCode': that.userInfo.oldCode,
         'roleId': that.userInfo.roleId
         }).then(res=>{
         if (res.data.code=='ok'){

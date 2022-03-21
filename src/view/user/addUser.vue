@@ -4,6 +4,9 @@
       <el-form-item label="账户名称" prop="name">
         <el-input v-model="ruleForm.name"></el-input>
       </el-form-item>
+      <el-form-item label="工号" prop="工号">
+        <el-input v-model="ruleForm.code"></el-input>
+      </el-form-item>
       <el-form-item label="手机号" prop="phone">
         <el-input v-model.number="ruleForm.phone"></el-input>
       </el-form-item>
@@ -71,6 +74,7 @@ export default {
       tableData: [],
       formLabelWidth: '120px',
       ruleForm: {
+        code: '',
         pass: '',
         checkPass: '',
         phone: '',
@@ -83,9 +87,6 @@ export default {
         ],
         checkPass: [
           { validator: validatePass2, trigger: 'blur' }
-        ],
-        phone: [
-          { validator: checkPhone, trigger: 'blur' }
         ]
       }
     };
@@ -101,6 +102,7 @@ export default {
           var that = this;
           that.addBtn = true;
           that.axios.post('/ald/user/add_user', {
+            'code': this.ruleForm.code,
             'name': this.ruleForm.name,
             'user': this.ruleForm.phone,
             'pwd': this.ruleForm.pass,

@@ -51,7 +51,7 @@ export default {
       that.loginBtn = true;
       that.loginBtntext = "登录中..."
       var loginDTO = {
-        "phone": that.userName,
+        "user": that.userName,
         "pwd": that.password,
       }
       that.axios.post('/ald/login', loginDTO).then(res=>{
@@ -60,8 +60,9 @@ export default {
             that.loginBtntext = "登录";
             localStorage.setItem("token", res.data.token)
             localStorage.setItem("userName", res.data.name)
-            localStorage.setItem("userPhone", that.userName)
+            localStorage.setItem("userPhone", res.data.phone)
             localStorage.setItem("userRole", res.data.role)
+            localStorage.setItem("userCode", res.data.user_code)
             localStorage.setItem("menuList", JSON.stringify(res.data.menuList))
             localStorage.setItem("btnList", JSON.stringify(res.data.btnList))
             that.$router.push('/admin')
