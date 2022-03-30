@@ -71,6 +71,10 @@
                              check-btn="getDealerData" url="/xingyun/upload"
                              params-key='code' :params-value='scope.row.code' check-role="applyList"></push-function-btn>
 
+          <push-function-btn v-if="scope.row.state_code === 'add'" btn-name="跳过数据采集页面" btn-type="reload" size="mini"
+                             check-btn="skipGetData" check-role="applyList" url="/ald/dealer/skip_get_data"
+                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+
           <push-function-btn v-if="scope.row.state_code === 'unactive'" btn-name="确认激活" btn-type="reload" size="mini"
                              check-btn="doneDealerQuota" check-role="applyList" url="/ald/dealer/done_quota"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
