@@ -131,7 +131,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.localPage = val;
-      this.getScoreLogs();
+      this.getQuotaLogs();
     },
     getQuotaLogs: function (){
       var that = this;
