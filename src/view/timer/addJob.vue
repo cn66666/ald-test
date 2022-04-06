@@ -28,6 +28,7 @@
           <el-option label="角色已使用权限次数清空" value="rolePermissionNum"></el-option>
           <el-option label="历史订单及额度统计" value="oldOrderSupply"></el-option>
           <el-option label="每日开票日志查询" value="invoiceDayQuery"></el-option>
+          <el-option label="记录回退" value="deleteLRData"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="时间填写" prop="dateTime">

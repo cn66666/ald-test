@@ -54,7 +54,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.localPage = val;
-      this.getScoreLogs();
+      this.getOverdueLogs();
     },
     getOverdueLogs: function (){
       var that = this;
