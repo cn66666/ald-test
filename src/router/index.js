@@ -214,6 +214,12 @@ export default new Router({
           meta: { title: '滞纳金变更详情' },
           component: resolve => require(['../view/business/overdueLogs'], resolve),
         },
+        {
+          path: '/admin/business/invoiceOverdueLogs',
+          name: 'overdueLogs',
+          meta: { title: '发票逾期详情' },
+          component: resolve => require(['../view/business/invoiceOverdueLogs'], resolve),
+        },
       ]
     },
     {

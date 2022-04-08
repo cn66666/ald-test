@@ -25,21 +25,21 @@
       </el-table-column>
       <el-table-column
         prop="quota_money"
-        label="总额度" width="150%">
+        label="总额度" width="120%">
         <template slot-scope="scope">
           {{ scope.row.quota_money | moneyFormat}}
         </template>
       </el-table-column>
       <el-table-column
         prop="quota_used"
-        label="已用额度" width="150%">
+        label="已用额度" width="120%">
         <template slot-scope="scope">
           {{ scope.row.quota_used | moneyFormat}}
         </template>
       </el-table-column>
       <el-table-column
         prop="quota_balance"
-        label="剩余额度" width="150%">
+        label="剩余额度" width="120%">
         <template slot-scope="scope">
           {{ scope.row.quota_balance | moneyFormat}}
         </template>
@@ -47,6 +47,10 @@
       <el-table-column
         prop="quota_date"
         label="额度截止日期"  width="100%">
+      </el-table-column>
+      <el-table-column
+        prop="late_day"
+        label="累计逾期"  width="90%">
       </el-table-column>
       <el-table-column
         prop="state_code"

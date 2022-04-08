@@ -151,6 +151,32 @@
         label="变更时间">
       </el-table-column>
     </el-table>
+    <span style="margin-left: 10px">近20条发票逾期记录
+          <push-function-btn btn-name="查看发票逾期" btn-type="replace" size="mini"
+                             check-btn="showInvoiceOverdueLog" check-role="dealerOverdueList" url="/admin/business/invoiceOverdueLogs"
+                             params-key='dealerId' :params-value='dealerId'></push-function-btn>
+    </span>
+    <br>
+    <br>
+    <el-table
+      :data="dealerInfo.invoice_log"
+      border
+      style="width: 98%; margin: 1%">
+      <el-table-column
+        prop="invoice_code"
+        label="发票文件号码"
+        width="300">
+      </el-table-column>
+      <el-table-column
+        prop="invoice_date"
+        label="开票日期"
+        width="300">
+      </el-table-column>
+      <el-table-column
+        prop="late_day"
+        label="逾期天数">
+      </el-table-column>
+    </el-table>
 
     <el-dialog title="进行特批额度" :visible.sync="showForm">
       <el-form>
