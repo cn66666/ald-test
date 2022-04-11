@@ -58,6 +58,7 @@
           <span v-else-if="scope.row.state_code === 'error'">工商数据查询失败</span>
           <span v-else-if="scope.row.state_code === 'unactive'">待激活</span>
           <span v-else-if="scope.row.state_code === 'reckon'">额度计算中</span>
+          <span v-else-if="scope.row.state_code === 'activeing'">激活中</span>
           <span v-else></span>
         </template>
       </el-table-column>

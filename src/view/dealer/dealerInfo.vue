@@ -87,9 +87,7 @@
         <span v-if="dealerInfo.is_skip === true" style="margin-right: 30px">已被允许</span>
         <span v-else-if="dealerInfo.is_skip === false" style="margin-right: 30px">未被允许</span>
         <span v-else></span>
-        <push-function-btn btn-name="更改逾期特批" btn-type="reload" size="mini"
-                           check-btn="checkOverdueSkip" check-role="quotaList" url="/ald/dealer/overdue_skip"
-                           params-key='dealerId' :params-value='dealerId'></push-function-btn>
+        <el-button type="primary" size="mini" @click="showQuotaForm=true">更改逾期特批</el-button>
       </el-descriptions-item>
     </el-descriptions>
     <br>
@@ -196,6 +194,22 @@
                            params-key='addInfo' :params-value='addForm'></push-function-btn>
       </div>
     </el-dialog>
+
+    <el-dialog title="履行单逾期校验" :visible.sync="showQuotaForm">
+      <el-form>
+        <el-form-item label="" :label-width="formLabelWidth">
+          <span v-if="dealerInfo.is_skip === true" style="margin-right: 30px">已被允许跳过履行单逾期校验</span>
+          <span v-else-if="dealerInfo.is_skip === false" style="margin-right: 30px">未被允许跳过履行单逾期校验</span>
+          <span v-else></span>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="mini" @click="showForm=false">关闭</el-button>
+        <push-function-btn btn-name="更改逾期特批" btn-type="reload" size="mini"
+                           check-btn="checkOverdueSkip" check-role="quotaList" url="/ald/dealer/overdue_skip"
+                           params-key='dealerId' :params-value='dealerId'></push-function-btn>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -210,6 +224,7 @@ export default {
       dealerId: null,
       dealerInfo: {},
       showForm: false,
+      showQuotaForm: false,
       formLabelWidth: '120px',
       addForm: {
         special_quota: 0,
@@ -279,8 +294,11 @@ export default {
         }
       }).catch(res=>{
       })
-    }
+    },
 
+    showDealerQuotaCheck: function (){
+
+    }
   }
 
 }
