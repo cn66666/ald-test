@@ -82,10 +82,10 @@
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
-          是否被允许跳过履行单逾期校验
+          跳过发票逾期校验
         </template>
-        <span v-if="dealerInfo.is_skip === true" style="margin-right: 30px">已被允许</span>
-        <span v-else-if="dealerInfo.is_skip === false" style="margin-right: 30px">未被允许</span>
+        <span v-if="dealerInfo.is_skip === true" style="margin-right: 30px">已跳过</span>
+        <span v-else-if="dealerInfo.is_skip === false" style="margin-right: 30px">未跳过</span>
         <span v-else></span>
         <el-button type="primary" size="mini" @click="showQuotaForm=true">更改逾期特批</el-button>
       </el-descriptions-item>
@@ -195,11 +195,11 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="履行单逾期校验" :visible.sync="showQuotaForm">
+    <el-dialog title="发票逾期校验" :visible.sync="showQuotaForm">
       <el-form>
         <el-form-item label="" :label-width="formLabelWidth">
-          <span v-if="dealerInfo.is_skip === true" style="margin-right: 30px">已被允许跳过履行单逾期校验</span>
-          <span v-else-if="dealerInfo.is_skip === false" style="margin-right: 30px">未被允许跳过履行单逾期校验</span>
+          <span v-if="dealerInfo.is_skip === true" style="margin-right: 30px">已被允许跳过发票逾期校验</span>
+          <span v-else-if="dealerInfo.is_skip === false" style="margin-right: 30px">未被允许跳过发票逾期校验</span>
           <span v-else></span>
         </el-form-item>
       </el-form>
