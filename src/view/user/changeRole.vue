@@ -1,9 +1,11 @@
 <template>
   <div>
+    <el-row style="margin: 20px 0 0 20px">
+      <span>当前角色名称:{{roleCaption}}</span>
+    </el-row>
     <el-row class="btn_row">
       <el-button size="mini" @click="showAddPermission=true">添加权限</el-button>
     </el-row>
-    <span>当前角色名称:</span>
     <el-table class="el-table"
       :data="permissionTable"
       :span-method="objectSpanMethod"
@@ -152,6 +154,7 @@ export default {
       allPerInfo: {},
       perList: [],
       funcList: [],
+      roleCaption: ''
     }
   },
   created() {
@@ -168,6 +171,7 @@ export default {
       that.axios.post('/ald/user/get_role_permission', {
         'roleId': this.roleId}).then(res => {
         if (res.data.code == 'ok') {
+          that.roleCaption = res.data.data.role
           that.permissionTable = res.data.data.table
           that.btnTable = res.data.data.btns
           that.allPerInfo = res.data.data.all_permission
