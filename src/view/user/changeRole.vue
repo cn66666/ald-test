@@ -3,6 +3,7 @@
     <el-row class="btn_row">
       <el-button size="mini" @click="showAddPermission=true">添加权限</el-button>
     </el-row>
+    <span>当前角色名称:</span>
     <el-table class="el-table"
       :data="permissionTable"
       :span-method="objectSpanMethod"

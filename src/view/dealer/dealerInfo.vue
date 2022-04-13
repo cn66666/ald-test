@@ -195,11 +195,11 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="发票逾期校验" :visible.sync="showQuotaForm">
+    <el-dialog title="跳过发票逾期校验" :visible.sync="showQuotaForm">
       <el-form>
         <el-form-item label="" :label-width="formLabelWidth">
-          <span v-if="dealerInfo.is_skip === true" style="margin-right: 30px">已被允许跳过发票逾期校验</span>
-          <span v-else-if="dealerInfo.is_skip === false" style="margin-right: 30px">未被允许跳过发票逾期校验</span>
+          <span v-if="dealerInfo.is_skip === true" style="margin-right: 30px">当前<span style="color: red">已允许</span>跳过发票逾期校验</span>
+          <span v-else-if="dealerInfo.is_skip === false" style="margin-right: 30px">当前<span style="color: red">未允许</span>跳过发票逾期校验</span>
           <span v-else></span>
         </el-form-item>
       </el-form>
