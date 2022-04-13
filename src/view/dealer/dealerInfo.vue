@@ -204,7 +204,6 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" size="mini" @click="showForm=false">关闭</el-button>
         <push-function-btn btn-name="更改逾期特批" btn-type="reload" size="mini"
                            check-btn="checkOverdueSkip" check-role="quotaList" url="/ald/dealer/overdue_skip"
                            params-key='dealerId' :params-value='dealerId'></push-function-btn>
