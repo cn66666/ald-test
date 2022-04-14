@@ -138,10 +138,8 @@
             label="操作"
             style="width: 30%">
             <template slot-scope="scope">
-              <el-button size="mini" round v-if="scope.row.state_code === 'Runing'" @click="pauseJob(scope.row.job_id)">暂停</el-button>
-              <el-button size="mini" round v-else-if="scope.row.state_code === 'Pause'" @click="runingJob(scope.row.job_id)">运行</el-button>
-              <el-button size="mini" round v-if="scope.row.state_code !== 'Delete' && scope.row.state_code !== 'Done'" @click="deleteJob(scope.row.job_id)">删除</el-button>
               <el-button size="mini" round @click="checkJobLog(scope.row.job_id)">查看日志</el-button>
+              <el-button size="mini" round @click="removeJob(scope.row.job_id)">异常处理</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -311,6 +309,20 @@ export default {
     deleteJob: function (job_id){
       var that = this;
       that.axios.post('/ald/timer/delete_job', {'job_id': job_id}).then(res=>{
+        if (res.data.code=='ok'){
+          that.getJobList()
+        } else {
+          this.$message({
+            message: '暂停失败,失败原因:' + res.data.msg,
+            type: 'warning'
+          });
+        }
+      }).catch(res=>{
+      })
+    },
+    removeJob: function (job_id){
+      var that = this;
+      that.axios.post('/ald/timer/remove_job', {'job_id': job_id}).then(res=>{
         if (res.data.code=='ok'){
           that.getJobList()
         } else {
