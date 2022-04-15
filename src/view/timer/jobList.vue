@@ -313,7 +313,7 @@ export default {
           that.getJobList()
         } else {
           this.$message({
-            message: '暂停失败,失败原因:' + res.data.msg,
+            message: '删除失败,失败原因:' + res.data.msg,
             type: 'warning'
           });
         }
@@ -327,7 +327,7 @@ export default {
           that.getJobList()
         } else {
           this.$message({
-            message: '暂停失败,失败原因:' + res.data.msg,
+            message: '处理失败,失败原因:' + res.data.msg,
             type: 'warning'
           });
         }
