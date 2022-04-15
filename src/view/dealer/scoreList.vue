@@ -78,6 +78,9 @@
           <push-function-btn v-if="scope.row.state_code === 'add' && scope.row.back === true" btn-name="退回" btn-type="reload" size="mini"
                              check-btn="resetScore" check-role="scoreList" url="/ald/dealer/reset_score"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+
+          <el-button type="primary" size="mini" v-if="scope.row.quota_type === '老客户' && user==='张凯'" @click="resetScore(scope.row.dealer_id)">强制退回</el-button>
+
         </template>
       </el-table-column>
     </el-table>
@@ -102,7 +105,8 @@ export default {
       localPage: 1,
       showIntercept: false,
       formLabelWidth: '120px',
-      applyInterceptId: null
+      applyInterceptId: null,
+      user: localStorage.getItem('userName')
     }
   },
   mounted() {
@@ -124,6 +128,14 @@ export default {
       }).catch(res=>{
       })
     },
+
+    resetScore: function (dealerId){
+      var that = this;
+      that.axios.post('/ald/dealer/force_reset_score', {'dealerId': dealerId,}).then(res=>{
+        this.getScoreList();
+      }).catch(res=>{
+      })
+    }
   }
 }
 </script>
