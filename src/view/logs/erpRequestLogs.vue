@@ -27,12 +27,26 @@
         prop="create_time"
         label="创建时间">
       </el-table-column>
+      <el-table-column
+        prop=""
+        label="操作">
+        <template slot-scope="scope">
+          <el-button type="primary" size="mini" @click="showData(scope.row.id)">查询详情</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <div style="float: right;margin-top: 23px;margin-right: 79px;">
       <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
                      layout="prev, pager, next" :page-count="total">
       </el-pagination>
     </div>
+    <el-dialog title="查看请求数据" :visible.sync="showInfo">
+      <el-form>
+        <el-form-item label="评分数据">
+          <p>{{ info }}</p>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -44,6 +58,8 @@ export default {
       tableData: [],
       total: 0,
       localPage: 1,
+      showInfo: false,
+      info: ''
     }
   },
   mounted() {
@@ -64,6 +80,16 @@ export default {
       }).catch(res=>{
       })
     },
+    showData: function (row_id){
+      var that = this;
+      that.axios.post('/ald/logs/erp_result', {'rowId': row_id,}).then(res=>{
+        if (res.data.code=='ok'){
+          that.info = res.data.data;
+          that.showInfo = true
+        }
+      }).catch(res=>{
+      })
+    }
   }
 }
 </script>
