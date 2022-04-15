@@ -4,9 +4,11 @@
       <el-button type="primary" style="float:right;" size="mini" @click="addPermissionShow=true">添加新权限</el-button>
     </el-row>
     <el-table
-      class="info_table"
+      class="el-table"
       :data="tableData"
-      style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
+      :span-method="objectSpanMethod"
+      border
+      style="width: 98%; margin: 0 1% 1% 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="module_caption"
         label="模块名称">
@@ -90,17 +92,12 @@ export default {
       that.tableData = []
       that.axios.post('/ald/user/get_permission_list', {}).then(res => {
         if (res.data.code == 'ok') {
-          for (var per in res.data.data){
-            var info = res.data.data[per]
-            for (var i = 0; i < info['func'].length; i++) {
-              that.tableData.push({'module': per, 'module_caption': info['caption'], 'func': info['func'][i]['func'],
-              'func_caption': info['func'][i]['caption']})
-            }
-          }
+          that.tableData = res.data.data
         }
       }).catch(res => {
       })
     },
+
     addPermission: function (){
       var that = this;
       if (that.addPermissionInfo.module_caption !== '' && that.addPermissionInfo.module !== ''
@@ -119,6 +116,7 @@ export default {
         })
       }
     },
+
     deletePermissionInfo: function (module, func){
       var that = this;
       that.axios.post('/ald/user/delete_permission', {'module': module, 'func': func}).then(res => {
@@ -127,11 +125,30 @@ export default {
         }
       }).catch(res => {
       })
-    }
-  }
+    },
+
+    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 0 || columnIndex === 1) {
+        if (row.row !== '') {
+          return {
+            rowspan: row.row,
+            colspan: 1
+          };
+        } else {
+          return {
+            rowspan: 0,
+            colspan: 0
+          };
+        }
+      }
+    },
+  },
 }
 </script>
 
 <style scoped>
-
+.el-table >>> tbody tr:hover > td{
+  background-color: rgba(255,255,255, 1)!important;
+  color: #000;
+}
 </style>

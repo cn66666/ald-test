@@ -9,8 +9,7 @@
     <el-table class="el-table"
       :data="permissionTable"
       :span-method="objectSpanMethod"
-      border
-              style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
+      border style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="module_caption"
         label="模块">
@@ -42,14 +41,15 @@
     </el-row>
     <el-table class="el-table"
               :data="btnTable"
+              :span-method="objectSpanMethod"
               border
-              style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
+              style="width: 98%; margin: 0 1% 1% 1%" :row-style="{height: '30px'}">
       <el-table-column
-        prop="permission"
+        prop="caption"
         label="模块">
       </el-table-column>
       <el-table-column
-        prop="caption"
+        prop="permission"
         label="按钮">
       </el-table-column>
       <el-table-column
@@ -69,6 +69,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <el-dialog title="添加用户权限" :visible.sync="showAddPermission">
       <el-form :model="addInfo">
         <el-form-item label="模块" :label-width="formLabelWidth">

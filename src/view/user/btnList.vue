@@ -4,9 +4,11 @@
       <el-button style="float:right;" type="primary" size="mini" @click="addBtnShow=true">添加新按钮</el-button>
     </el-row>
     <el-table
-      class="info_table"
+      class="el-table"
       :data="tableData"
-      style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
+      :span-method="objectSpanMethod"
+      border
+      style="width: 98%; margin: 0 1% 1% 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="permission"
         label="权限名称">
@@ -91,14 +93,7 @@ export default {
       that.tableData = []
       that.axios.post('/ald/user/get_btn_list', {}).then(res => {
         if (res.data.code == 'ok') {
-          for (var btn in res.data.data){
-            var info = res.data.data[btn]
-            var btns = info['btns']
-            for (var i = 0; i < btns.length; i++) {
-              that.tableData.push({'id': btns[i]['id'], 'caption': btns[i]['caption'], 'btn': btns[i]['btn'],
-                'permission': info['permission']})
-            }
-          }
+          that.tableData = res.data.data
         }
       }).catch(res => {
       })
@@ -109,12 +104,12 @@ export default {
       that.perList = []
       that.axios.post('/ald/user/get_permission_list', {}).then(res => {
         if (res.data.code == 'ok') {
+          console.log(res.data.data)
           for (var per in res.data.data){
-            var info = res.data.data[per]
-            for (var i = 0; i < info['func'].length; i++) {
-              that.perList.push({'id': info['func'][i]['id'], 'func_caption': info['func'][i]['caption']})
-            }
+            console.log(per)
+            that.perList.push({'id': res.data.data[per]['id'], 'func_caption': res.data.data[per]['func_caption']})
           }
+          console.log(that.perList)
         }
       }).catch(res => {
       })
@@ -145,11 +140,31 @@ export default {
         }
       }).catch(res => {
       })
-    }
+    },
+
+    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 0) {
+        if (row.row !== '') {
+          return {
+            rowspan: row.row,
+            colspan: 1
+          };
+        } else {
+          return {
+            rowspan: 0,
+            colspan: 0
+          };
+        }
+      }
+    },
   },
 }
 </script>
 
 <style scoped>
 
+.el-table >>> tbody tr:hover > td{
+  background-color: rgba(255,255,255, 1)!important;
+  color: #000;
+}
 </style>
