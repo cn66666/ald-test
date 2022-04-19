@@ -104,12 +104,7 @@ export default {
       that.perList = []
       that.axios.post('/ald/user/get_permission_list', {}).then(res => {
         if (res.data.code == 'ok') {
-          console.log(res.data.data)
-          for (var per in res.data.data){
-            console.log(per)
-            that.perList.push({'id': res.data.data[per]['id'], 'func_caption': res.data.data[per]['func_caption']})
-          }
-          console.log(that.perList)
+          that.perList = res.data.data.choose_list
         }
       }).catch(res => {
       })

@@ -92,7 +92,7 @@ export default {
       that.tableData = []
       that.axios.post('/ald/user/get_permission_list', {}).then(res => {
         if (res.data.code == 'ok') {
-          that.tableData = res.data.data
+          that.tableData = res.data.data.result
         }
       }).catch(res => {
       })

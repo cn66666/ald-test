@@ -175,14 +175,12 @@ export default {
           that.roleCaption = res.data.data.role
           that.permissionTable = res.data.data.table
           that.btnTable = res.data.data.btns
-          that.allPerInfo = res.data.data.all_permission
-          that.allBtnInfo = res.data.data.all_btn
-          for (var per in res.data.data.all_permission){
-            that.perList.push({'caption': res.data.data.all_permission[per]['caption'], 'module': per})
-          }
-          for (var btn in res.data.data.all_btn){
-            var info = res.data.data.all_btn[btn]
-            that.allBtnPermission.push(info['permission'])
+          that.allPerInfo = res.data.data.add_permission
+          that.allBtnInfo = res.data.data.add_btn
+          that.perList = res.data.data.add_module
+          for (var btn in res.data.data.choose_list){
+            var info = res.data.data.choose_list[btn]
+            that.allBtnPermission.push(info['func_caption'])
           }
           that.addInfo.func = ''
           that.addInfo.btn = ''
@@ -218,12 +216,8 @@ export default {
       that.funcList = []
       that.addInfo.func = ''
       for (var per in that.allPerInfo){
-        var caption = that.allPerInfo[per]['caption']
-        var funcs = that.allPerInfo[per]['func']
         if (that.addInfo.module === per){
-          for (var i = 0; i < funcs.length; i++) {
-            that.funcList.push({'caption': funcs[i]['caption'], 'func': funcs[i]['func']})
-          }
+          that.funcList = that.allPerInfo[per]
         }
       }
     },
@@ -268,13 +262,10 @@ export default {
       var that = this;
       that.allBtnCaption = []
       that.addInfo.btn = ''
-      for (var btn in that.allBtnInfo){
-        var permission = that.allBtnInfo[btn]['permission']
-        var btns = that.allBtnInfo[btn]['btns']
-        if (permission === that.addInfo.btn_permission){
-          for (var i = 0; i < that.allBtnInfo[btn]['btns'].length; i++) {
-            that.allBtnCaption.push(btns[i]['caption'])
-          }
+      for (var per in that.allBtnInfo){
+        console.log(that.allBtnInfo)
+        if (that.addInfo.btn_permission === per){
+          that.allBtnCaption = that.allBtnInfo[per]
         }
       }
     },
