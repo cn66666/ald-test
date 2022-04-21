@@ -226,6 +226,18 @@ export default new Router({
           meta: { title: '客户注销清单' },
           component: resolve => require(['../view/dealer/dealerInactiveList'], resolve),
         },
+        {
+          path: '/admin/business/inactiveOrderInfoList',
+          name: 'inactiveOrderInfoList',
+          meta: { title: '销售单状态' },
+          component: resolve => require(['../view/business/inactiveOrderInfoList'], resolve),
+        },
+        {
+          path: '/admin/business/inactiveFulfilList',
+          name: 'inactiveFulfilList',
+          meta: { title: '履行单通过清单' },
+          component: resolve => require(['../view/business/inactiveFulfilList'], resolve),
+        },
       ]
     },
     {

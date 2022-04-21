@@ -5,7 +5,7 @@
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="company_name"
-        label="客户名称" width="350%">
+        label="客户名称" width="300%">
         <template slot-scope="scope">
           <el-tooltip effect="dark" :content="scope.row.company_name" placement="top">
             <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.id'>
@@ -37,6 +37,14 @@
 
           <push-function-btn btn-name="查看发票逾期" btn-type="replace" size="mini"
                              check-btn="showInvoiceOverdueLog" check-role="dealerOverdueList" url="/admin/business/invoiceOverdueLogs"
+                             params-key='dealerId' :params-value='scope.row.id'></push-function-btn>
+
+          <push-function-btn btn-name="查看销售单状态" btn-type="replace" size="mini"
+                             check-btn="showInactiveOrderInfo" check-role="orderInfoList" url="/admin/business/inactiveOrderInfoList"
+                             params-key='dealerId' :params-value='scope.row.id'></push-function-btn>
+
+          <push-function-btn btn-name="查看履行单通过清单" btn-type="replace" size="mini"
+                             check-btn="showInactiveFulfilInfo" check-role="fulfilList" url="/admin/business/inactiveFulfilList"
                              params-key='dealerId' :params-value='scope.row.id'></push-function-btn>
         </template>
       </el-table-column>
