@@ -220,6 +220,12 @@ export default new Router({
           meta: { title: '发票逾期详情' },
           component: resolve => require(['../view/business/invoiceOverdueLogs'], resolve),
         },
+        {
+          path: '/admin/dealer/dealerInactiveList',
+          name: 'dealerInactiveList',
+          meta: { title: '客户注销清单' },
+          component: resolve => require(['../view/dealer/dealerInactiveList'], resolve),
+        },
       ]
     },
     {

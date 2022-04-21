@@ -13,7 +13,8 @@
         <template slot="label">
           客户状态
         </template>
-        <span v-if="dealerInfo.state_code === 'active'">已激活</span>
+        <span v-if="dealerInfo.is_delete === true">已注销</span>
+        <span v-else-if="dealerInfo.state_code === 'active'">已激活</span>
         <span v-else-if="dealerInfo.state_code === 'intercept'">已拦截</span>
         <span v-else-if="dealerInfo.state_code === 'apply'">申请中</span>
         <span v-else></span>
@@ -61,10 +62,12 @@
           特批额度
         </template>
         <span style="margin-right: 30px">{{ dealerInfo.special_quota | moneyFormat }}</span>
-        <push-function-btn btn-name="进行额度特批" btn-type="function" size="mini"
-                           check-btn="showSpecialQuota" check-role="quotaList" :check-function='showSpecialQuota'
-                           params-key='dealerId' :params-value='{"dealerId" : dealerId,
-                             "special_quota": dealerInfo.special_quota}'></push-function-btn>
+        <span v-if="dealerInfo.is_delete === false">
+          <push-function-btn btn-name="进行额度特批" btn-type="function" size="mini"
+                             check-btn="showSpecialQuota" check-role="quotaList" :check-function='showSpecialQuota'
+                             params-key='dealerId' :params-value='{"dealerId" : dealerId,
+                               "special_quota": dealerInfo.special_quota}'></push-function-btn>
+        </span>
       </el-descriptions-item>
       <el-descriptions-item>
         <template slot="label">
@@ -87,7 +90,10 @@
         <span v-if="dealerInfo.is_skip === true" style="margin-right: 30px">已跳过</span>
         <span v-else-if="dealerInfo.is_skip === false" style="margin-right: 30px">未跳过</span>
         <span v-else></span>
-        <el-button type="primary" size="mini" @click="showQuotaForm=true">更改逾期特批</el-button>
+
+        <span v-if="dealerInfo.is_delete === false">
+          <el-button type="primary" size="mini" @click="showQuotaForm=true">更改逾期特批</el-button>
+        </span>
       </el-descriptions-item>
     </el-descriptions>
     <br>

@@ -71,6 +71,7 @@ export default {
       addBtn: false,
       dealerId: null,
       addForm: {
+        dealerId: '',
         companyCode: '',
         companyName: '',
         coopDate: null,
@@ -100,6 +101,7 @@ export default {
       that.axios.post('/ald/dealer/dealer_apply_info', {'dealerId': that.dealerId}).then(res=>{
         that.addBtn = false;
         if (res.data.code=='ok'){
+          that.addForm.dealerId = that.dealerId;
           that.addForm.companyCode = res.data.data.company_code;
           that.addForm.companyName = res.data.data.company_name;
           that.addForm.coopDate = res.data.data.coop_date;
