@@ -2,7 +2,7 @@
   <div>
     <el-table
       :data="tableData"
-      style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
+      style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}" v-loading="loading">
       <el-table-column
         prop="api_url"
         label="请求地址">
@@ -40,7 +40,7 @@
                      layout="prev, pager, next" :page-count="total">
       </el-pagination>
     </div>
-    <el-dialog title="查看请求数据" :visible.sync="showInfo">
+    <el-dialog title="查看请求数据" :visible.sync="showInfo" :lock-scroll="false">
       <el-form>
         <el-form-item label="评分数据">
           <p>{{ info }}</p>
@@ -59,7 +59,8 @@ export default {
       total: 0,
       localPage: 1,
       showInfo: false,
-      info: ''
+      info: '',
+      loading: false
     }
   },
   mounted() {
@@ -72,12 +73,15 @@ export default {
     },
     getErpReuquestLogs: function (){
       var that = this;
+      that.loading = true;
       that.axios.post('/ald/logs/erp_logs', {'page': that.localPage,}).then(res=>{
         if (res.data.code=='ok'){
           that.tableData = res.data.data.data_list;
           that.total = res.data.data.total
         }
       }).catch(res=>{
+      }).finally(function (){
+        that.loading = false;
       })
     },
     showData: function (row_id){

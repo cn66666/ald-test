@@ -161,10 +161,10 @@ export default new Router({
           component: resolve => require(['../view/business/fulfilList'], resolve),
         },
         {
-          path: '/admin/business/fulfilApplyList',
-          name: 'fulfilApplyList',
+          path: '/admin/business/fulfilErrorList',
+          name: 'fulfilErrorList',
           meta: { title: '履行单拦截清单' },
-          component: resolve => require(['../view/business/fulfilApplyList'], resolve),
+          component: resolve => require(['../view/business/fulfilErrorList'], resolve),
         },
         {
           path: '/admin/business/fulfilInfo',

@@ -21,6 +21,11 @@
           :value="item">
         </el-option>
       </el-select>
+      <div style="width: 250px; float:right;">
+        <el-input placeholder="请输入销售单号" v-model="info.orderCode" class="input-with-select" @change="getOrderInfoList">
+          <el-button slot="append" icon="el-icon-search" @click="getOrderInfoList"></el-button>
+        </el-input>
+      </div>
     </el-row>
     <el-table
       class="info_table"
@@ -90,7 +95,8 @@ export default {
       orderState: ['全部', '等待核准', '待履行', '待开票', '已开票', '已关闭', '已取消', '待开票/部分完成', '部分完成'],
       info: {
         orderType: '',
-        companyName: ''
+        companyName: '',
+        orderCode: ''
       }
     }
   },
@@ -109,8 +115,15 @@ export default {
       var that = this;
       that.axios.post('/ald/business/order_info_list', {'page': that.localPage, 'info': that.info}).then(res=>{
         if (res.data.code=='ok'){
-          that.orderInfoList = res.data.data.data_list;
-          that.total = res.data.data.total
+          if (that.info.orderCode === ''){
+            that.orderInfoList = res.data.data.data_list;
+            that.total = res.data.data.total
+            that.localPage = that.localPage // 重新设置当前页码
+          } else{
+            that.orderInfoList = res.data.data
+            that.total = 1
+            that.localPage = 1 // 重新设置当前页码
+          }
         }
       }).catch(res=>{
       })

@@ -25,23 +25,23 @@
       </el-table-column>
       <el-table-column
         prop="quota_money"
-        label="总额度" width="120%">
+        label="总额度(万元)" width="120%">
         <template slot-scope="scope">
-          {{ scope.row.quota_money | moneyFormat}}
+          {{ scope.row.quota_money | tenFormat}}
         </template>
       </el-table-column>
       <el-table-column
         prop="quota_used"
-        label="已用额度" width="120%">
+        label="已用额度(万元)" width="120%">
         <template slot-scope="scope">
-          {{ scope.row.quota_used | moneyFormat}}
+          {{ scope.row.quota_used | tenFormat}}
         </template>
       </el-table-column>
       <el-table-column
         prop="quota_balance"
-        label="剩余额度" width="120%">
+        label="剩余额度(万元)" width="120%">
         <template slot-scope="scope">
-          {{ scope.row.quota_balance | moneyFormat}}
+          {{ scope.row.quota_balance | tenFormat}}
         </template>
       </el-table-column>
       <el-table-column

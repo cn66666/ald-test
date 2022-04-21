@@ -12,7 +12,7 @@
           <template slot="append">万元</template></el-input>
       </el-form-item>
       <el-form-item label="结算时长" prop="endDay" style="width: 50%">
-        <el-input v-model="addForm.endDay">
+        <el-input v-model="addForm.endDay" :disabled="change">
           <template slot="append">天</template></el-input>
       </el-form-item>
       <el-form-item>
@@ -44,6 +44,7 @@ export default {
     };
     return {
       addBtn: false,
+      change: true,
       addForm: {
         applyType: '',
         saleMoney: 0,

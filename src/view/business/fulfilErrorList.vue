@@ -6,13 +6,6 @@
       <el-table-column
         prop="company_name"
         label="客户名称" width="250%">
-        <template slot-scope="scope">
-          <el-tooltip effect="dark" :content="scope.row.company_name" placement="top">
-            <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.dealer_id'>
-              <el-button type="text">{{scope.row.company_name}}</el-button>
-            </router-link>
-          </el-tooltip>
-        </template>
       </el-table-column>
       <el-table-column
         prop="order_code"
@@ -50,7 +43,7 @@
 <script>
 import PushFunctionBtn from "../../components/pushFunctionBtn";
 export default {
-  name: "fulfilApplyList",
+  name: "fulfilErrorList",
   components: {PushFunctionBtn},
   data() {
     return {
@@ -71,7 +64,7 @@ export default {
     },
     getFulfilApplyList: function (){
       var that = this;
-      that.axios.post('/ald/business/fulfil_apply', {'page': that.localPage, 'stateCode': 'error'}).then(res=>{
+      that.axios.post('/ald/business/fulfil_error', {'page': that.localPage}).then(res=>{
         if (res.data.code=='ok'){
           that.applyList = res.data.data.data_list;
           that.total = res.data.data.total
