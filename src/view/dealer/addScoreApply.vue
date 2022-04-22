@@ -92,6 +92,13 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           var that = this;
+          if (that.addForm.endDay === 0){
+            this.$message({
+              message: '客户结算时长不能为0',
+              type: 'warning'
+            });
+            return
+          }
           that.addBtn = true;
           that.axios.post('/ald/dealer/add_score_apply', {'addForm': that.addForm, 'dealerId': that.dealer_id}).then(res=>{
             that.addBtn = false;
