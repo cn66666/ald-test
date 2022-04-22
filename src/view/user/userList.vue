@@ -58,8 +58,10 @@
             </div>
             <el-button slot="reference" size="mini">注销</el-button>
           </el-popover>
-          <el-button v-if="scope.row.is_delete === false"
-                     size="mini" round @click="changeUser(scope.row.id, scope.row.phone, scope.row.code, scope.row.name)">修改账号</el-button>
+          <el-button v-if="scope.row.is_delete === false" size="mini" round
+                     @click="changeUser(scope.row.id, scope.row.phone, scope.row.code, scope.row.name)">修改账号</el-button>
+          <el-button v-if="scope.row.is_delete === false" size="mini" round
+                     @click="clearLoginLog(scope.row.id)">清除登录次数</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -220,6 +222,23 @@ export default {
       }).catch(res=>{
       })
     },
+    clearLoginLog: function (userId){
+      var that = this;
+      that.axios.post('/ald/user/clear_login', {'userId': userId}).then(res=>{
+        if (res.data.code=='ok'){
+          this.$message({
+            message: '清除成功',
+            type: 'success'
+          });
+        }else {
+          this.$message({
+            message: res.data.msg,
+            type: 'warning'
+          });
+        }
+      }).catch(res=>{
+      })
+    }
   }
 }
 </script>
