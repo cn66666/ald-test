@@ -20,6 +20,7 @@
         label="操作">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="showData(scope.row.id)">查询详情</el-button>
+          <el-button type="primary" size="mini" @click="downloadLogs(scope.row.start_date, scope.row.end_date, scope.row.id)">下载excel</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -81,7 +82,24 @@ export default {
         }
       }).catch(res=>{
       })
-    }
+    },
+    downloadLogs: function (start_date, end_date, row_id){
+      var that = this;
+      var data = 'row_id=' + row_id
+      that.axios({
+        method: "get",
+        url: '/ald/logs/download_invoice_logs?' + data,
+        responseType: 'blob'
+      }).then((res) => {
+        let blob = new Blob([res.data])
+        let objectUrl = URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = objectUrl;
+        link.setAttribute("download", start_date + '-' + end_date + '发票历史详情.xls');
+        document.body.appendChild(link);
+        link.click();
+      })
+    },
   }
 }
 </script>
