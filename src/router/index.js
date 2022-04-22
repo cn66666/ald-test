@@ -19,13 +19,13 @@ export default new Router({
         {
           path: '/admin/user/userList',
           name: 'userList',
-          meta: { title: '管理员列表' },
+          meta: { title: '用户列表' },
           component: resolve => require(['../view/user/userList'], resolve),
         },
         {
           path: '/admin/user/addUser',
           name: 'addUser',
-          meta: { title: '添加管理员' },
+          meta: { title: '添加用户' },
           component: resolve => require(['../view/user/addUser'], resolve),
         },
         {
@@ -237,6 +237,12 @@ export default new Router({
           name: 'inactiveFulfilList',
           meta: { title: '履行单通过清单' },
           component: resolve => require(['../view/business/inactiveFulfilList'], resolve),
+        },
+        {
+          path: '/admin/logs/erpInvoiceHistoryLogs',
+          name: 'erpInvoiceHistoryLogs',
+          meta: { title: '历史开票请求历史' },
+          component: resolve => require(['../view/logs/erpInvoiceHistoryLogs'], resolve),
         },
       ]
     },

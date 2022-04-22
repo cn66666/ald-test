@@ -12,12 +12,12 @@
       <el-table-column
         prop="id"
         label="No."
-        style="width: 10%">
+        width="70%">
       </el-table-column>
       <el-table-column
         prop="role"
         label="角色"
-        style="width: 15%">
+        width="100%">
       </el-table-column>
       <el-table-column
         prop="name"
@@ -37,7 +37,7 @@
       <el-table-column
         prop="is_delete"
         label="状态"
-        style="width: 15%">
+        width="70%">
         <template slot-scope="scope">
           <i class="el-icon-delete" v-if="scope.row.is_delete"></i>
           <i class="el-icon-check" v-else></i>
