@@ -1,7 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import VueRouter from "vue-router";
 
 Vue.use(Router)
+
+var originalPush = VueRouter.prototype.push;
+
+VueRouter.prototype.push = function push(location){
+  return originalPush.call(this, location).catch(err => err);
+}
 
 export default new Router({
   routes: [
@@ -216,7 +223,7 @@ export default new Router({
         },
         {
           path: '/admin/business/invoiceOverdueLogs',
-          name: 'overdueLogs',
+          name: 'invoiceOverdueLogs',
           meta: { title: '发票逾期详情' },
           component: resolve => require(['../view/business/invoiceOverdueLogs'], resolve),
         },
