@@ -50,18 +50,14 @@
         prop="fulfil_sum"
         label="履行单金额" width="200%">
         <template slot-scope="scope">
-          <router-link :to='"/admin/business/fulfilInfo?orderId=" + scope.row.id'>
-            <el-button type="text" >{{scope.row.fulfil_sum | moneyFormat}}</el-button>
-          </router-link>
+          <el-button type="text" @click="queryFulfilInfo(scope.row.id)">{{scope.row.fulfil_sum | moneyFormat}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
         prop="invoice_sum"
         label="开票金额" width="200%">
         <template slot-scope="scope">
-          <router-link :to='"/admin/business/invoiceInfo?orderId=" + scope.row.id'>
-            <el-button type="text" >{{scope.row.invoice_sum | moneyFormat}}</el-button>
-          </router-link>
+          <el-button type="text" @click="queryInvoiceInfo(scope.row.id)">{{scope.row.invoice_sum | moneyFormat}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -103,7 +99,24 @@ export default {
   },
   mounted() {
     var that = this;
+    console.log(that.$route.params)
+    var dealerId = that.$route.params.dealerId;
+    var orderType = that.$route.params.orderType;
+    var orderCode = that.$route.params.orderCode;
+    var localPage = that.$route.params.pageNum;
+    if (orderType){
+      that.info.orderType = orderType
+    }
+    if (orderCode){
+      that.info.orderCode = orderCode
+    }
+    if (localPage){
+      that.localPage = localPage
+    }
     that.getDealerNmaeList()
+    if (dealerId){
+      that.info.dealerId = dealerId
+    }
     that.getOrderInfoList()
   },
   methods: {
@@ -137,6 +150,16 @@ export default {
         }
       }).catch(res=>{
       })
+    },
+    queryInvoiceInfo: function (orderId){
+      var that = this;
+      that.$router.push({name: 'invoiceInfo', params:{orderId: orderId, dealerId: that.info.dealerId, orderType: that.info.orderType,
+          orderCode: that.info.orderCode, pageNum: that.localPage}})
+    },
+    queryFulfilInfo: function (orderId){
+      var that = this;
+      that.$router.push({name: 'fulfilInfo', params:{orderId: orderId, dealerId: that.info.dealerId, orderType: that.info.orderType,
+          orderCode: that.info.orderCode, pageNum: that.localPage}})
     },
   }
 }

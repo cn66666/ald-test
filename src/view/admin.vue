@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%; height: 100%">
     <div style="height: 80%">
-      <div style="text-align:center;line-height:420px;border:1px;solid=#ddd;font-size:50px;color:#260D3E;font-weight:bold">伊莱特客户信用评级系统</div>
+      <div style="text-align:center;line-height:420px;border:1px;solid:#ddd;font-size:50px;color:#260D3E;font-weight:bold">伊莱特客户信用评级系统</div>
     </div>
     <div style="height: 20%; color: #666666">
       <div style="width: 20%; float: left; padding: 0 0 0 20px">
@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import router from "../router";
+
 export default {
   name: "admin",
   data() {
@@ -47,6 +49,9 @@ export default {
     }
   },
   mounted() {
+    if(localStorage.getItem("token") === null) {
+      router.push({path:"/login"})
+    }
   },
   methods: {
   }

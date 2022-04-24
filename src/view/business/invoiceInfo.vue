@@ -61,6 +61,7 @@
 
 <script>
 import PushFunctionBtn from "../../components/pushFunctionBtn";
+import router from "../../router";
 export default {
   name: "invoiceinfo",
   components: {PushFunctionBtn},
@@ -69,18 +70,27 @@ export default {
       invoiceList: [],
       total: 1,
       localPage: 1,
-      orderId: null
+      orderId: null,
+      dealerId: '',
+      orderType: '',
+      orderCode: '',
+      pageNum: ''
     }
   },
   mounted() {
     var that = this;
-    that.orderId = this.$route.query.orderId;
+    that.dealerId = that.$route.params.dealerId;
+    that.orderType = that.$route.params.orderType;
+    that.orderCode = that.$route.params.orderCode;
+    that.pageNum = that.$route.params.pageNum;
+    that.orderId = that.$route.params.orderId;
     that.getOrderInvoiceListList()
   },
   methods: {
     handleCurrentChange(val) {
-      this.localPage = val;
-      this.getOrderInvoiceListList();
+      var that = this;
+      that.localPage = val;
+      that.getOrderInvoiceListList();
     },
     getOrderInvoiceListList: function (){
       var that = this;
@@ -93,7 +103,9 @@ export default {
       })
     },
     goBack() {
-      this.$router.go(-1)
+      var that = this;
+      that.$router.push({name: 'orderInfoList', params:{dealerId: that.dealerId, orderType: that.orderType,
+          orderCode: that.orderCode, pageNum: that.pageNum}})
     },
   }
 }

@@ -42,7 +42,7 @@
     </div>
     <el-dialog title="查看请求数据" :visible.sync="showInfo" :lock-scroll="false">
       <el-form>
-        <el-form-item label="评分数据">
+        <el-form-item label="">
           <p>{{ info }}</p>
         </el-form-item>
       </el-form>

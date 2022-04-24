@@ -50,18 +50,27 @@ export default {
       fulfilList: [],
       total: 1,
       localPage: 1,
-      orderId: null
+      orderId: null,
+      dealerId: '',
+      orderType: '',
+      orderCode: '',
+      pageNum: ''
     }
   },
   mounted() {
     var that = this;
-    that.orderId = this.$route.query.orderId;
+    that.dealerId = that.$route.params.dealerId;
+    that.orderType = that.$route.params.orderType;
+    that.orderCode = that.$route.params.orderCode;
+    that.pageNum = that.$route.params.pageNum;
+    that.orderId = this.$route.params.orderId;
     that.getOrderFulfilList()
   },
   methods: {
     handleCurrentChange(val) {
-      this.localPage = val;
-      this.getOrderFulfilList();
+      var that = this;
+      that.localPage = val;
+      that.getOrderFulfilList();
     },
     getOrderFulfilList: function (){
       var that = this;
@@ -74,7 +83,9 @@ export default {
       })
     },
     goBack() {
-      this.$router.go(-1)
+      var that = this;
+      that.$router.push({name: 'orderInfoList', params:{dealerId: that.dealerId, orderType: that.orderType,
+          orderCode: that.orderCode, pageNum: that.pageNum}})
     },
   }
 }
