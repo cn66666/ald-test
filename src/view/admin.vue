@@ -50,7 +50,8 @@ export default {
   },
   mounted() {
     if(localStorage.getItem("token") === null) {
-      router.push({path:"/login"})
+      var that = this;
+      that.$router.push({path:"/login"})
     }
   },
   methods: {
