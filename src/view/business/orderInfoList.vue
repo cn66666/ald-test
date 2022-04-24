@@ -5,7 +5,7 @@
                          check-btn="refreshOrder" check-role="orderInfoList" url="/ald/business/refresh_order"></push-function-btn>
       <push-function-btn btn-name="手动更新旧订单" btn-type="reload" size="mini"
                          check-btn="uploadOrder" check-role="orderInfoList" url="/ald/business/upload_order"></push-function-btn>
-      <el-select v-model="info.dealerId" placeholder="请选择变更类型" @change="getOrderInfoList">
+      <el-select v-model="info.dealerId" placeholder="请选择变更类型" @change="getOrderInfoList(1)">
         <el-option
           v-for="item in companyList"
           :key="item.name"
@@ -13,7 +13,7 @@
           :value="item.id">
         </el-option>
       </el-select>
-      <el-select v-model="info.orderType" placeholder="请选择单据类型" @change="getOrderInfoList">
+      <el-select v-model="info.orderType" placeholder="请选择单据类型" @change="getOrderInfoList(1)">
         <el-option
           v-for="item in orderState"
           :key="item"
@@ -22,7 +22,7 @@
         </el-option>
       </el-select>
       <div style="width: 250px; float:right;">
-        <el-input placeholder="请输入销售单号" v-model="info.orderCode" class="input-with-select" @change="getOrderInfoList">
+        <el-input placeholder="请输入销售单号" v-model="info.orderCode" class="input-with-select" @change="getOrderInfoList(1)">
           <el-button slot="append" icon="el-icon-search" @click="getOrderInfoList"></el-button>
         </el-input>
       </div>
@@ -97,9 +97,9 @@ export default {
       }
     }
   },
-  mounted() {
+
+  created() {
     var that = this;
-    console.log(that.$route.params)
     var dealerId = that.$route.params.dealerId;
     var orderType = that.$route.params.orderType;
     var orderCode = that.$route.params.orderCode;
@@ -110,29 +110,33 @@ export default {
     if (orderCode){
       that.info.orderCode = orderCode
     }
-    if (localPage){
-      that.localPage = localPage
+    if (localPage === undefined){
+      localPage = 1
     }
     that.getDealerNmaeList()
     if (dealerId){
       that.info.dealerId = dealerId
     }
-    that.getOrderInfoList()
+    that.getOrderInfoList(localPage)
   },
+  // watch: {    // 监听
+  //   localPage (val){
+  //     console.log(val)
+  //   }
+  // },
   methods: {
     handleCurrentChange(val) {
       var that = this;
-      that.localPage = val;
-      that.getOrderInfoList();
+      that.getOrderInfoList(val);
     },
-    getOrderInfoList: function (){
+    getOrderInfoList: function (localPage){
       var that = this;
-      that.axios.post('/ald/business/order_info_list', {'page': that.localPage, 'info': that.info}).then(res=>{
+      that.axios.post('/ald/business/order_info_list', {'page': localPage, 'info': that.info}).then(res=>{
         if (res.data.code=='ok'){
           if (that.info.orderCode === ''){
             that.orderInfoList = res.data.data.data_list;
             that.total = res.data.data.total
-            that.localPage = that.localPage // 重新设置当前页码
+            that.localPage = localPage // 重新设置当前页码
           } else{
             that.orderInfoList = res.data.data
             that.total = 1
@@ -154,7 +158,7 @@ export default {
     queryInvoiceInfo: function (orderId){
       var that = this;
       that.$router.push({name: 'invoiceInfo', params:{orderId: orderId, dealerId: that.info.dealerId, orderType: that.info.orderType,
-          orderCode: that.info.orderCode, pageNum: that.localPage}})
+          orderCode: that.info.orderCode, pageNum: that.localPage, name: 'orderInfoList'}})
     },
     queryFulfilInfo: function (orderId){
       var that = this;

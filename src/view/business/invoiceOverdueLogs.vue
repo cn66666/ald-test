@@ -10,9 +10,7 @@
         prop="order_code"
         label="销售单号" width="150%">
         <template slot-scope="scope">
-          <router-link :to='"/admin/business/invoiceInfo?orderId=" + scope.row.order_id'>
-            <el-button type="text" >{{scope.row.order_code}}</el-button>
-          </router-link>
+          <el-button type="text" @click="queryInvoiceInfo(scope.row.order_id)">{{scope.row.order_code}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -79,26 +77,41 @@ export default {
   },
   mounted() {
     var that = this;
-    that.info.dealer_id = this.$route.query.dealerId;
-    this.geInovicetOverdueLogs()
+    var localPage = that.$route.params.pageNum;
+    if (localPage === undefined){
+      localPage = 1
+    }
+    var dealerId = that.$route.query.dealerId;
+    if (dealerId === undefined){
+      dealerId = that.$route.params.dealerId;
+    }
+    that.info.dealer_id = dealerId;
+    this.geInovicetOverdueLogs(localPage)
   },
   methods: {
     goBack() {
-      this.$router.go(-1)
+      var that = this;
+      that.$router.push({path: '/admin/dealer/dealerInfo?dealerId=' + that.info.dealer_id})
     },
     handleCurrentChange(val) {
-      this.localPage = val;
-      this.geInovicetOverdueLogs();
-    },
-    geInovicetOverdueLogs: function (){
       var that = this;
-      that.axios.post('/ald/business/invoice_overdue_logs', {'page': that.localPage, 'info': that.info}).then(res=>{
+      that.geInovicetOverdueLogs(val);
+    },
+    geInovicetOverdueLogs: function (localPage){
+      var that = this;
+      that.axios.post('/ald/business/invoice_overdue_logs', {'page': localPage, 'info': that.info}).then(res=>{
         if (res.data.code=='ok'){
           that.tableData = res.data.data.data_list;
           that.total = res.data.data.total
+          that.localPage = localPage // 重新设置当前页码
         }
       }).catch(res=>{
       })
+    },
+    queryInvoiceInfo: function (orderId){
+      var that = this;
+      that.$router.push({name: 'invoiceInfo', params:{pageNum: that.localPage, dealerId: that.info.dealer_id, orderId: orderId,
+          name: 'invoiceOverdueLogs'}})
     },
   }
 }

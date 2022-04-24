@@ -74,7 +74,8 @@ export default {
       dealerId: '',
       orderType: '',
       orderCode: '',
-      pageNum: ''
+      pageNum: '',
+      name: ''
     }
   },
   mounted() {
@@ -84,6 +85,7 @@ export default {
     that.orderCode = that.$route.params.orderCode;
     that.pageNum = that.$route.params.pageNum;
     that.orderId = that.$route.params.orderId;
+    that.name = that.$route.params.name;
     that.getOrderInvoiceListList()
   },
   methods: {
@@ -104,7 +106,7 @@ export default {
     },
     goBack() {
       var that = this;
-      that.$router.push({name: 'orderInfoList', params:{dealerId: that.dealerId, orderType: that.orderType,
+      that.$router.push({name: that.name, params:{dealerId: that.dealerId, orderType: that.orderType,
           orderCode: that.orderCode, pageNum: that.pageNum}})
     },
   }
