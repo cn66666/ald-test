@@ -49,10 +49,10 @@ export default {
     }
   },
   mounted() {
-    if(localStorage.getItem("token") === null) {
-      var that = this;
-      that.$router.push({path:"/login"})
-    }
+    var that = this;
+    that.axios.post('/ald/check', {}).then(res => {
+    }).catch(res => {
+    })
   },
   methods: {
   }
