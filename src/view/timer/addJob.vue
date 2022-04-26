@@ -12,11 +12,11 @@
         <el-select v-model="ruleForm.jobType" placeholder="请选择任务类型" @change="changeId()">
           <el-option label="客户查询" value="dealerQuery"></el-option>
           <el-option label="司法诉讼拦截" value="lawQuery"></el-option>
-          <el-option label="逾期拦截" value="overdueQuery"></el-option>
           <el-option label="开票查询" value="invoiceQuery"></el-option>
           <el-option label="开票额度校验" value="invoiceQuotaChange"></el-option>
           <el-option label="订单查询" value="orderQuery"></el-option>
           <el-option label="订单维护" value="orderMaintain"></el-option>
+          <el-option label="逾期拦截" value="overdueQuery"></el-option>
           <el-option label="滞纳金计算" value="overdueCount"></el-option>
           <el-option label="季度额度申请" value="quaterApply"></el-option>
           <el-option label="季度额度确认" value="quaterTakeEffect"></el-option>
