@@ -22,9 +22,7 @@
         prop="order_code"
         label="销售单号" width="200%">
         <template slot-scope="scope">
-          <router-link :to='"/admin/business/fulfilInfo?orderId=" + scope.row.order_id'>
-            <el-button type="text" >{{scope.row.order_code}}</el-button>
-          </router-link>
+            <el-button type="text" @click="toOrderList(scope.row.order_code)">{{scope.row.order_code}}</el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -90,7 +88,11 @@ export default {
         }
       }).catch(res=>{
       })
-    }
+    },
+    toOrderList: function (order_code){
+      var that = this;
+      that.$router.push({name: 'orderInfoList', params:{dealerId: '', orderType: '', orderCode: order_code, pageNum: 1}})
+    },
   }
 }
 </script>
