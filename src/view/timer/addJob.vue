@@ -33,6 +33,7 @@
           <el-option label="检测数据" value="checkInvoiceData"></el-option>
           <el-option label="变更数据" value="checkInvoiceQuota"></el-option>
           <el-option label="检查重复数据" value="checkAllData"></el-option>
+          <el-option label="变更重复数据" value="checkAllQuota"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="时间填写" prop="dateTime">
