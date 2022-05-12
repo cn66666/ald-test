@@ -6,6 +6,10 @@
       :data="invoiceOverdueList"
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
+        prop="erp_id"
+        label="发票id" width="150%">
+      </el-table-column>
+      <el-table-column
         prop="invoice_code"
         label="发票号码" width="200%">
       </el-table-column>
@@ -118,7 +122,6 @@ export default {
   mounted() {
     var that = this;
     that.dealerId = this.$route.query.dealerId;
-    console.log(that.dealerId)
     this.getInvoiceOverdueList()
   },
   methods: {
