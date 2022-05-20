@@ -36,6 +36,7 @@
               <span v-if="scope.row.job_type === 'cron'">指定时间循环任务</span>
               <span v-else-if="scope.row.job_type === 'date'">一次性任务</span>
               <span v-else-if="scope.row.job_type === 'interval'">间隔循环任务</span>
+              <span v-else-if="scope.row.job_type === 'one'">一次性任务</span>
               <span v-else>未知错误</span>
             </template>
           </el-table-column>
@@ -109,6 +110,7 @@
               <span v-if="scope.row.job_type === 'cron'">指定时间循环任务</span>
               <span v-else-if="scope.row.job_type === 'date'">一次性任务</span>
               <span v-else-if="scope.row.job_type === 'interval'">间隔循环任务</span>
+              <span v-else-if="scope.row.job_type === 'one'">一次性任务</span>
               <span v-else>未知错误</span>
             </template>
           </el-table-column>
@@ -179,6 +181,7 @@
               <span v-if="scope.row.job_type === 'cron'">指定时间循环任务</span>
               <span v-else-if="scope.row.job_type === 'date'">一次性任务</span>
               <span v-else-if="scope.row.job_type === 'interval'">间隔循环任务</span>
+              <span v-else-if="scope.row.job_type === 'one'">一次性任务</span>
               <span v-else>未知错误</span>
             </template>
           </el-table-column>

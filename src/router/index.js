@@ -251,6 +251,18 @@ export default new Router({
           meta: { title: '历史开票请求历史' },
           component: resolve => require(['../view/logs/erpInvoiceHistoryLogs'], resolve),
         },
+        {
+          path: '/admin/logs/dbOperLogs',
+          name: 'dbOperLogs',
+          meta: { title: '数据变更日志' },
+          component: resolve => require(['../view/logs/dbOperLogs'], resolve),
+        },
+        {
+          path: '/admin/logs/debugLogs',
+          name: 'debugLogs',
+          meta: { title: 'debug日志' },
+          component: resolve => require(['../view/logs/debugLogs'], resolve),
+        },
       ]
     },
     {

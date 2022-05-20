@@ -34,7 +34,8 @@
 <!--          <el-option label="变更数据" value="checkInvoiceQuota"></el-option>-->
 <!--          <el-option label="检查重复数据" value="checkAllData"></el-option>-->
 <!--          <el-option label="变更重复数据" value="checkAllQuota"></el-option>-->
-          <el-option label="检查逾期数据" value="checkOverdueData"></el-option>
+<!--          <el-option label="检查逾期数据" value="checkOverdueData"></el-option>-->
+          <el-option label="检查额度日志" value="checkQuotaLog"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="时间填写" prop="dateTime">
@@ -66,6 +67,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" :disabled="addBtn" @click="submitForm('ruleForm', '立即创建')">立即创建</el-button>
+        <el-button type="primary" :disabled="addBtn" @click="submitForm('ruleForm', '立即执行')" v-if="user==='张凯'">立即执行</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
@@ -81,6 +83,7 @@ export default {
       timeChoose: false,
       infoContent: '请选择定时任务类型',
       formLabelWidth: '120px',
+      user: localStorage.getItem('userName'),
       ruleForm: {
         jobType: '',
         dateTime: '',
