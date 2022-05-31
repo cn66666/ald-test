@@ -12,7 +12,7 @@
         <el-select v-model="ruleForm.jobType" placeholder="请选择任务类型" @change="changeId()">
           <el-option label="客户查询" value="dealerQuery"></el-option>
           <el-option label="司法诉讼拦截" value="lawQuery"></el-option>
-          <el-option label="开票查询" value="invoiceQuery"></el-option>
+          <el-option label="开票查询" value="invoiceQueryNew"></el-option>
           <el-option label="开票额度校验" value="invoiceQuotaChange"></el-option>
           <el-option label="订单查询" value="orderQuery"></el-option>
           <el-option label="订单维护" value="orderMaintain"></el-option>
@@ -29,7 +29,7 @@
 <!--          <el-option label="历史订单及额度统计" value="oldOrderSupply"></el-option>-->
           <el-option label="每月开票历史查询" value="invoiceMonthQuery"></el-option>
           <el-option label="历史开票数据补录" value="invoiceQueryErpId"></el-option>
-          <el-option label="客户评分卡重置" value="dealerScoreChange"></el-option>
+<!--          <el-option label="客户评分卡重置" value="dealerScoreChange"></el-option>-->
           <el-option label="客户评分卡重置" value="check32Data"></el-option>
 <!--          <el-option label="检测数据" value="checkInvoiceData"></el-option>-->
 <!--          <el-option label="变更数据" value="checkInvoiceQuota"></el-option>-->
