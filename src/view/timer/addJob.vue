@@ -30,7 +30,7 @@
           <el-option label="每月开票历史查询" value="invoiceMonthQuery"></el-option>
           <el-option label="历史开票数据补录" value="invoiceQueryErpId"></el-option>
 <!--          <el-option label="客户评分卡重置" value="dealerScoreChange"></el-option>-->
-<!--          <el-option label="客户评分卡重置" value="check32Data"></el-option>-->
+          <el-option label="季度额度修改" value="check32Data"></el-option>
 <!--          <el-option label="检测数据" value="checkInvoiceData"></el-option>-->
 <!--          <el-option label="变更数据" value="checkInvoiceQuota"></el-option>-->
 <!--          <el-option label="检查重复数据" value="checkAllData"></el-option>-->
