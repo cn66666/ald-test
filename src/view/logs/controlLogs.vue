@@ -7,10 +7,11 @@
         active-color="#13ce66"
         inactive-color="#ff4949" disabled>
       </el-switch>
+      <span v-if="tableData.length !== 0">运行最后时间: {{tableData[0].create_time}}</span>
     </el-row>
     <el-table
-      :data="tableData"
-      style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
+      :data="tableData" style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}"
+      :row-class-name="tableRowClassName">
       <el-table-column
         prop="id"
         label="No."
@@ -72,6 +73,12 @@ export default {
       that.localPage = val;
       that.getControlList();
     },
+    tableRowClassName({row, rowIndex}) {
+      if (rowIndex <= 3) {
+        return 'warning-row';
+      }
+      return '';
+    },
     getControlList: function (){
       var that = this;
       that.axios.post('/ald/logs/control_logs', {'page': that.localPage,}).then(res=>{
@@ -90,6 +97,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+.el-table .warning-row {
+  background: oldlace;
+}
 </style>
