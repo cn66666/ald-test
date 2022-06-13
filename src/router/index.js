@@ -263,6 +263,12 @@ export default new Router({
           meta: { title: 'debug日志' },
           component: resolve => require(['../view/logs/debugLogs'], resolve),
         },
+        {
+          path: '/admin/logs/controlLogs',
+          name: 'controlLogs',
+          meta: { title: '监控日志' },
+          component: resolve => require(['../view/logs/controlLogs'], resolve),
+        },
       ]
     },
     {
