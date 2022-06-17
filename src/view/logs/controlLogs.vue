@@ -74,7 +74,7 @@ export default {
       that.getControlList();
     },
     tableRowClassName({row, rowIndex}) {
-      if (rowIndex <= 3) {
+      if (rowIndex <= 4) {
         return 'warning-row';
       }
       return '';
