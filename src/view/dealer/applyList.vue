@@ -40,6 +40,8 @@
           <span v-else-if="scope.row.state_code === 'add'">待补充数据</span>
           <span v-else-if="scope.row.state_code === 'unactive'">待激活</span>
           <span v-else-if="scope.row.state_code === 'reckon'">额度计算中</span>
+          <span v-else-if="scope.row.state_code === 'active_error'">激活失败</span>
+          <span v-else-if="scope.row.state_code === 'activeing'">激活中</span>
           <span v-else></span>
         </template>
       </el-table-column>
@@ -81,6 +83,10 @@
 
           <push-function-btn v-if="scope.row.state_code === 'unactive' && scope.row.quota_type === '新客户'" btn-name="重新录入" btn-type="reload" size="mini"
                              check-btn="deleteDealerQuota" check-role="applyList" url="/ald/dealer/delete_quota"
+                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+
+          <push-function-btn v-if="scope.row.state_code === 'active_error'" btn-name="重新激活" btn-type="reload" size="mini"
+                             check-btn="againApplyActive" check-role="applyList" url="/ald/dealer/again_apply_active"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
         </template>
       </el-table-column>
