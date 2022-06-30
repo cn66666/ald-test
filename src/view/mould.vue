@@ -3,7 +3,7 @@
     <el-aside width="200px">
       <el-menu :default-openeds="openeds" style="height: 100%" :router="true" :unique-opened="true" :default-active="onRoutes">
         <p style="height: 40px; font-size: 15px; text-align:center; padding: 10px">伊莱特信用评级系统</p>
-        <p v-if="version==='test'" style="height: 40px; font-size: 15px; text-align:center; padding: 10px">测试环境</p>
+        <p v-if="version==='test'" style="text-align:center;">测试环境</p>
         <el-menu-item index="/admin">
           <i class="el-icon-s-home"></i>
           <span slot="title">首页</span>
