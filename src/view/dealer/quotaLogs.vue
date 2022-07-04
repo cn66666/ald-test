@@ -28,6 +28,7 @@
       </el-select>
       <el-input v-model="info.change_code" placeholder="请输入单据号" style="width: 200px" @input="getQuotaLogs"></el-input>
       <el-button type="primary" @click="downloadQuotaLogs()">下载excel</el-button>
+      <el-button type="primary" @click="showAddLog=true">手动添加变更记录</el-button>
     </el-row>
     <el-table
       class="info_table"
@@ -77,6 +78,33 @@
                      layout="prev, pager, next" :page-count="total">
       </el-pagination>
     </div>
+    <el-dialog title="手动添加变更记录" :visible.sync="showAddLog" >
+      <el-form>
+        <el-form-item label="变更类型" :label-width="formLabelWidth">
+          <el-select v-model="addForm.changeType" placeholder="请选择变更类型" @change="getQuotaLogs">
+              <el-option
+                v-for="item in changeTypeList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="变更金额" :label-width="formLabelWidth">
+          <el-input v-model="addForm.changeMoney">
+            <template slot="append">元</template></el-input>
+        </el-form-item>
+        <el-form-item label="备注" :label-width="formLabelWidth">
+          <el-input v-model="addForm.changeInfo"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="mini" @click="showAddLog=false">关闭</el-button>
+        <push-function-btn btn-name="创建变更记录" btn-type="reload" size="mini"
+                           check-btn="addQuotaLog" check-role="quotaList" url="/ald/dealer/add_quota_log"
+                           params-key='addInfo' :params-value='addForm'></push-function-btn>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -118,11 +146,27 @@ export default {
         value: '退货授权单',
         label: '退货授权单'
       }],
+      showAddLog: false,
+      formLabelWidth: '120px',
+      addForm: {
+        dealerId: '',
+        changeMoney: 0,
+        changeInfo: '',
+        changeType: '',
+      },
+      changeTypeList: [{
+        value: '+',
+        label: '返还额度'
+      }, {
+        value: '-',
+        label: '占用额度'
+      }]
     }
   },
   mounted() {
     var that = this;
     that.info.dealer_id = this.$route.query.dealerId;
+    that.addForm.dealerId = this.$route.query.dealerId;
     this.getQuotaLogs()
   },
   methods: {
