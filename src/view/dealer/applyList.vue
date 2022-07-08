@@ -1,6 +1,22 @@
 <template>
   <div>
-    <el-row class="btn_row">
+    <el-row class="filter_row">
+      <el-select v-model="queryType.applyState" placeholder="请选择客户状态" @change="getApplyDealerList()">
+        <el-option
+          v-for="item in applyState"
+          :key="item.query"
+          :label="item.type"
+          :value="item.query">
+        </el-option>
+      </el-select>
+      <el-select v-model="queryType.dealerType" placeholder="请选择客户类型" @change="getApplyDealerList()">
+        <el-option
+          v-for="item in dealerType"
+          :key="item.query"
+          :label="item.type"
+          :value="item.query">
+        </el-option>
+      </el-select>
       <push-function-btn btn-name="手动更新客户" btn-type="reload" size="mini"
                          check-btn="refreshDealer" check-role="applyList" url="/ald/dealer/refresh_dealer"></push-function-btn>
     </el-row>
@@ -126,21 +142,42 @@ export default {
       showIntercept: false,
       formLabelWidth: '120px',
       interceptList:[],
-      applyInterceptId: null
+      applyInterceptId: null,
+      queryType: {
+        applyState: '',
+        dealerType: '',},
+      dealerType: [
+        {'type': '全部', 'query': ''},
+        {'type': '内销客户', 'query': 'in'},
+        {'type': '出口客户', 'query': 'out'},
+      ],
+      applyState: [
+        {'type': '全部', 'query': ''},
+        {'type': '待录入', 'query': 'input'},
+        {'type': '暂存', 'query': 'save'},
+        {'type': '已拦截', 'query': 'intercept'},
+        {'type': '待补充数据', 'query': 'add'},
+        {'type': '待激活', 'query': 'unactive'},
+        {'type': '额度计算中', 'query': 'reckon'},
+        {'type': '激活失败', 'query': 'active_error'},
+        {'type': '激活中', 'query': 'activeing'}
+      ],
     }
   },
   mounted() {
-    this.getDealerList()
+    var that = this;
+    that.getApplyDealerList()
   },
   methods: {
     handleCurrentChange(val) {
-      this.localPage = val;
-      this.getDealerList();
+      var that = this;
+      that.localPage = val;
+      that.getApplyDealerList();
     },
 
-    getDealerList: function (){
+    getApplyDealerList: function (){
       var that = this;
-      that.axios.post('/ald/dealer/apply_list', {'page': that.localPage,}).then(res=>{
+      that.axios.post('/ald/dealer/apply_list', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
         if (res.data.code=='ok'){
           that.dealerList = res.data.data.data_list;
           that.total = res.data.data.total
@@ -158,7 +195,7 @@ export default {
         if (res.data.code=='ok'){
           that.interceptList = res.data.data
         }else {
-          this.$message({
+          that.$message({
             message: res.data.msg + ':' + res.data.data,
             type: 'warning'
           });

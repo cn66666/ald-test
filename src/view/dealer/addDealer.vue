@@ -125,15 +125,16 @@ export default {
       that.addBtn = true;
       if (that.addForm.coopDate == ''){
         Message.warning("失败:请选择合作起始时间")
+        that.addBtn = false;
         return
       }
       if (that.addForm.saleMoney == ''){
         Message.warning("失败:请填写销售金额")
+        that.addBtn = false;
         return
       }
 
       that.axios.post('/ald/dealer/add_dealer', {'addForm': that.addForm, 'type': type, 'change': that.change}).then(res=>{
-        that.addBtn = false;
         if (res.data.code === 'ok'){
           if (that.addForm.quotaType === '老客户'){
             that.$router.push('/admin/dealer/scoreList')
@@ -142,6 +143,7 @@ export default {
           }
         } else {
           Message.warning(res.data.msg + ':' + res.data.data)
+          that.addBtn = false;
         }
       }).catch(res=>{
       })
