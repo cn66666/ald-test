@@ -22,18 +22,18 @@
       </el-form-item>
       <el-form-item label="客户分类" prop="quotaType" style="width: 50%">
         <el-select v-model="addForm.quotaType" placeholder="请选择">
-          <el-option label="新客户申请" value="新客户"></el-option>
-          <el-option label="老客户录入" value="老客户"></el-option>
+          <el-option label="合作不满一年客户" value="新客户"></el-option>
+          <el-option label="合作满一年客户" value="老客户"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
         <el-button v-if="addForm.quotaType === '新客户'" type="primary" size="mini" :disabled="addBtn" @click="addDealer('暂存')">暂存</el-button>
 
-        <push-function-btn v-if="addForm.quotaType === '新客户'" btn-name="新客户提交申请" btn-type="function" size="mini"
+        <push-function-btn v-if="addForm.quotaType === '新客户'" btn-name="提交申请" btn-type="function" size="mini"
                            check-btn="addNewDealer" check-role="applyList" :check-function='addDealer'
                            params-key='type' params-value='新客户'></push-function-btn>
 
-        <push-function-btn v-if="addForm.quotaType === '老客户'" btn-name="老客户提交申请" btn-type="function" size="mini"
+        <push-function-btn v-if="addForm.quotaType === '老客户'" btn-name="提交申请" btn-type="function" size="mini"
                            check-btn="addOldDealer" check-role="applyList" :check-function='addDealer'
                            params-key='type' params-value='老客户'></push-function-btn>
 
