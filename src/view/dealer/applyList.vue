@@ -9,16 +9,17 @@
           :value="item.query">
         </el-option>
       </el-select>
-      <el-select v-model="queryType.dealerType" placeholder="请选择客户类型" @change="getApplyDealerList()">
-        <el-option
-          v-for="item in dealerType"
-          :key="item.query"
-          :label="item.type"
-          :value="item.query">
-        </el-option>
-      </el-select>
+<!--      <el-select v-model="queryType.dealerType" placeholder="请选择客户类型" @change="getApplyDealerList()">-->
+<!--        <el-option-->
+<!--          v-for="item in dealerType"-->
+<!--          :key="item.query"-->
+<!--          :label="item.type"-->
+<!--          :value="item.query">-->
+<!--        </el-option>-->
+<!--      </el-select>-->
       <push-function-btn btn-name="手动更新客户" btn-type="reload" size="mini"
                          check-btn="refreshDealer" check-role="applyList" url="/ald/dealer/refresh_dealer"></push-function-btn>
+      <el-button type="primary" @click="download()"  size="mini">下载excel</el-button>
     </el-row>
     <el-table
       class="info_table"
@@ -143,9 +144,7 @@ export default {
       formLabelWidth: '120px',
       interceptList:[],
       applyInterceptId: null,
-      queryType: {
-        applyState: '',
-        dealerType: '',},
+      queryType: {},
       dealerType: [
         {'type': '全部', 'query': ''},
         {'type': '内销客户', 'query': 'in'},
@@ -201,6 +200,24 @@ export default {
           });
         }
       }).catch(res=>{
+      })
+    },
+    download: function (){
+      var that = this;
+      var data = 'data=' + JSON.stringify(that.queryType) + '&timestamp=' + new Date().getTime();
+      console.log(data)
+      that.axios({
+        method: "get",
+        url: '/ald/downloads/applyList?' + data,
+        responseType: 'blob'
+      }).then((res) => {
+        let blob = new Blob([res.data])
+        let objectUrl = URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = objectUrl;
+        link.setAttribute("download", '客户申请清单.xls');
+        document.body.appendChild(link);
+        link.click();
       })
     },
   }

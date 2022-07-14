@@ -1,6 +1,85 @@
 <template>
   <div>
+    <el-row class="filter_row">
+      <div style="width: 240px; float:left; margin: 2px;">
+        <el-select v-model="queryType.companyType" placeholder="请选择额度类型" @change="getQuotaList()">
+          <el-option
+            v-for="item in dealerType"
+            :key="item.query"
+            :label="item.type"
+            :value="item.query">
+          </el-option>
+        </el-select>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="客户名称" v-model="queryType.companyName">
+        </el-input>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 130px; float:left;"
+                   placeholder="最小总额度" v-model="queryType.minQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-input  style="width: 130px; float:left;"
+                   placeholder="最大总额度" v-model="queryType.maxQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 130px; float:left;"
+                   placeholder="最小已用额度" v-model="queryType.minUsedQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-input  style="width: 130px; float:left;"
+                   placeholder="最大已用额度" v-model="queryType.maxUsedQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 130px; float:left;"
+                   placeholder="最小剩余额度" v-model="queryType.minLastQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-input  style="width: 130px; float:left;"
+                   placeholder="最大剩余额度" v-model="queryType.maxLastQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-date-picker v-model="queryType.startDate" style="float:left;"
+                        type="date"
+                        placeholder="额度起始日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-date-picker v-model="queryType.endDate" style="float:left;"
+                        type="date"
+                        placeholder="额度截止日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 130px; float:left;"
+                   placeholder="最小逾期天数" v-model="queryType.minDay" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-input  style="width: 130px; float:left;"
+                   placeholder="最大逾期天数" v-model="queryType.maxDay" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-button style="float:left; width: 100px" type="primary" @click="getQuotaList()">查询</el-button>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
+      </div>
+
+    </el-row>
     <el-table
+      class="info_table"
       :data="quotaList"
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
@@ -121,7 +200,13 @@ export default {
       interceptDealerId: null,
       showChangeDate: false,
       dealerId: null,
-      changeDate: ''
+      changeDate: '',
+      queryType: {},
+      dealerType: [
+        {'type': '全部', 'query': ''},
+        {'type': '一年期额度', 'query': '新客户'},
+        {'type': '长期额度', 'query': '老客户'},
+      ],
     }
   },
   mounted() {
@@ -134,7 +219,7 @@ export default {
     },
     getQuotaList: function (){
       var that = this;
-      that.axios.post('/ald/dealer/quota_list', {'page': that.localPage,}).then(res=>{
+      that.axios.post('/ald/dealer/quota_list', {'page': that.localPage, queryType: that.queryType}).then(res=>{
         if (res.data.code=='ok'){
           that.quotaList = res.data.data.data_list;
           that.total = res.data.data.total
@@ -182,7 +267,31 @@ export default {
       }).catch(res=>{
         Message.warning('错误: 请联系管理员')
       })
-    }
+    },
+    numberInput:function (e) {
+      e.returnValue=/\d/.test(e.key)
+    },
+    reset: function () {
+      location.reload()
+    },
+    download: function (){
+      var that = this;
+      var data = 'data=' + JSON.stringify(that.queryType);
+      console.log(data)
+      that.axios({
+        method: "get",
+        url: '/ald/downloads/quotaList?' + data + '&timestamp=' + new Date().getTime(),
+        responseType: 'blob'
+      }).then((res) => {
+        let blob = new Blob([res.data])
+        let objectUrl = URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = objectUrl;
+        link.setAttribute("download", '客户额度清单.xls');
+        document.body.appendChild(link);
+        link.click();
+      })
+    },
   }
 }
 </script>

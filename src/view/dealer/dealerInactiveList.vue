@@ -1,6 +1,35 @@
 <template>
   <div>
+    <el-row class="filter_row">
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="客户名称" v-model="queryType.companyName">
+        </el-input>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-date-picker v-model="queryType.startDate" style="float:left;"
+                        type="date"
+                        placeholder="起始注销日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-date-picker v-model="queryType.endDate" style="float:left;"
+                        type="date"
+                        placeholder="截止注销日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-button style="float:left; width: 100px" type="primary" @click="getInactiveList()">查询</el-button>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
+      </div>
+
+    </el-row>
     <el-table
+      class="info_table"
       :data="quotaList"
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
@@ -74,25 +103,49 @@ export default {
       interceptDealerId: null,
       showChangeDate: false,
       dealerId: null,
-      changeDate: ''
+      changeDate: '',
+      queryType: {},
     }
   },
   mounted() {
-    this.getQuotaList()
+    var that = this;
+    that.getInactiveList()
   },
   methods: {
     handleCurrentChange(val) {
-      this.localPage = val;
-      this.getQuotaList();
-    },
-    getQuotaList: function (){
       var that = this;
-      that.axios.post('/ald/dealer/inactive_list', {'page': that.localPage,}).then(res=>{
+      that.localPage = val;
+      that.getInactiveList();
+    },
+    getInactiveList: function (){
+      var that = this;
+      that.axios.post('/ald/dealer/inactive_list', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
         if (res.data.code=='ok'){
           that.quotaList = res.data.data.data_list;
           that.total = res.data.data.total
         }
       }).catch(res=>{
+      })
+    },
+    reset: function () {
+      location.reload()
+    },
+    download: function (){
+      var that = this;
+      var data = 'data=' + JSON.stringify(that.queryType);
+      console.log(data)
+      that.axios({
+        method: "get",
+        url: '/ald/downloads/dealerInactiveList?' + data + '&timestamp=' + new Date().getTime(),
+        responseType: 'blob'
+      }).then((res) => {
+        let blob = new Blob([res.data])
+        let objectUrl = URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = objectUrl;
+        link.setAttribute("download", '客户注销清单.xls');
+        document.body.appendChild(link);
+        link.click();
       })
     },
   }

@@ -1,11 +1,7 @@
 <template>
   <div>
     <el-row class="filter_row">
-      <push-function-btn btn-name="手动获取新订单" btn-type="reload" size="mini"
-                         check-btn="refreshOrder" check-role="orderInfoList" url="/ald/business/refresh_order"></push-function-btn>
-      <push-function-btn btn-name="手动更新旧订单" btn-type="reload" size="mini"
-                         check-btn="uploadOrder" check-role="orderInfoList" url="/ald/business/upload_order"></push-function-btn>
-      <el-select v-model="info.dealerId" placeholder="请选择变更类型" @change="getOrderInfoList(1)">
+      <el-select v-model="info.dealerId" placeholder="请选择客户名称" @change="getOrderInfoList(1)">
         <el-option
           v-for="item in companyList"
           :key="item.name"
@@ -26,6 +22,11 @@
           <el-button slot="append" icon="el-icon-search" @click="getOrderInfoList"></el-button>
         </el-input>
       </div>
+      <push-function-btn btn-name="手动获取新订单" btn-type="reload" size="mini"
+                         check-btn="refreshOrder" check-role="orderInfoList" url="/ald/business/refresh_order"></push-function-btn>
+      <push-function-btn btn-name="手动更新旧订单" btn-type="reload" size="mini"
+                         check-btn="uploadOrder" check-role="orderInfoList" url="/ald/business/upload_order"></push-function-btn>
+      <el-button type="primary" @click="download()" size="mini">下载excel</el-button>
     </el-row>
     <el-table
       class="info_table"
@@ -165,6 +166,24 @@ export default {
       that.$router.push({name: 'fulfilInfo', params:{orderId: orderId, dealerId: that.info.dealerId, orderType: that.info.orderType,
           orderCode: that.info.orderCode, pageNum: that.localPage}})
     },
+    download: function (){
+    var that = this;
+    var data = 'data=' + JSON.stringify(that.info);
+    console.log(data)
+    that.axios({
+      method: "get",
+      url: '/ald/downloads/orderInfoList?' + data + '&timestamp=' + new Date().getTime(),
+      responseType: 'blob'
+    }).then((res) => {
+      let blob = new Blob([res.data])
+      let objectUrl = URL.createObjectURL(blob);
+      let link = document.createElement("a");
+      link.href = objectUrl;
+      link.setAttribute("download", '销售单状态.xls');
+      document.body.appendChild(link);
+      link.click();
+    })
+  },
   }
 }
 </script>

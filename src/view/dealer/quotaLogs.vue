@@ -203,7 +203,7 @@ export default {
         data += '&start_date=' + that.info.query_date[0]
         data += '&end_date=' + that.info.query_date[1]
       }
-      this.axios({
+      that.axios({
         method: "get",
         url: '/ald/logs/download_quota_logs?' + data,
         responseType: 'blob'

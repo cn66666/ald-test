@@ -1,6 +1,67 @@
 <template>
   <div>
+    <el-row class="filter_row">
+      <div style="width: 240px; float:left; margin: 2px;">
+        <el-select v-model="queryType.stateType" placeholder="请选择履行单状态" @change="getFulfilList()">
+          <el-option
+            v-for="item in stateType"
+            :key="item.query"
+            :label="item.type"
+            :value="item.query">
+          </el-option>
+        </el-select>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="客户名称" v-model="queryType.companyName">
+        </el-input>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="履行单号" v-model="queryType.fulfilCode">
+        </el-input>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="销售单号" v-model="queryType.orderCode">
+        </el-input>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 130px; float:left;"
+                   placeholder="最小履行金额" v-model="queryType.minFulfil" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-input  style="width: 130px; float:left;"
+                   placeholder="最大履行金额" v-model="queryType.maxFulfil" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-date-picker v-model="queryType.startDate" style="float:left;"
+                        type="date"
+                        placeholder="创建起始日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-date-picker v-model="queryType.endDate" style="float:left;"
+                        type="date"
+                        placeholder="创建截止日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-button style="float:left; width: 100px" type="primary" @click="getFulfilList()">查询</el-button>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
+      </div>
+
+    </el-row>
     <el-table
+      class="info_table"
       :data="fulfilList"
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
@@ -68,20 +129,29 @@ export default {
       total: 1,
       localPage: 1,
       isIndeterminate: true,
-      selectList: []
+      selectList: [],
+      queryType: {},
+      stateType: [
+        {'type': '全部', 'query': ''},
+        {'type': '正在处理', 'query': '正在处理'},
+        {'type': '已履行,但出现异常', 'query': '已履行,但出现异常'},
+        {'type': '已取消', 'query': '已取消'},
+      ],
     }
   },
   mounted() {
-    this.getFulfilList()
+    var that = this;
+    that.getFulfilList()
   },
   methods: {
     handleCurrentChange(val) {
-      this.localPage = val;
-      this.getFulfilList();
+      var that = this;
+      that.localPage = val;
+      that.getFulfilList();
     },
     getFulfilList: function (){
       var that = this;
-      that.axios.post('/ald/business/fulfil_apply', {'page': that.localPage, 'stateCode': 'ok'}).then(res=>{
+      that.axios.post('/ald/business/fulfil_apply', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
         if (res.data.code=='ok'){
           that.fulfilList = res.data.data.data_list;
           that.total = res.data.data.total
@@ -92,6 +162,27 @@ export default {
     toOrderList: function (order_code){
       var that = this;
       that.$router.push({name: 'orderInfoList', params:{dealerId: '', orderType: '', orderCode: order_code, pageNum: 1}})
+    },
+    reset: function () {
+      location.reload()
+    },
+    download: function (){
+      var that = this;
+      var data = 'data=' + JSON.stringify(that.queryType);
+      console.log(data)
+      that.axios({
+        method: "get",
+        url: '/ald/downloads/fulfilList?' + data + '&timestamp=' + new Date().getTime(),
+        responseType: 'blob'
+      }).then((res) => {
+        let blob = new Blob([res.data])
+        let objectUrl = URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = objectUrl;
+        link.setAttribute("download", '履行单通过清单.xls');
+        document.body.appendChild(link);
+        link.click();
+      })
     },
   }
 }

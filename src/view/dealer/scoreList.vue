@@ -1,6 +1,77 @@
 <template>
   <div>
+    <el-row class="filter_row">
+      <div style="width: 240px; float:left; margin: 2px;">
+        <el-select v-model="queryType.dealerType" placeholder="请选择额度类型" @change="getScoreList()">
+          <el-option
+            v-for="item in dealerType"
+            :key="item.query"
+            :label="item.type"
+            :value="item.query">
+          </el-option>
+        </el-select>
+      </div>
+      <div style="width: 240px; float:left; margin: 2px;">
+        <el-select v-model="queryType.levelType" placeholder="请选择评级" @change="getScoreList()">
+          <el-option
+            v-for="item in levelType"
+            :key="item.query"
+            :label="item.type"
+            :value="item.query">
+          </el-option>
+        </el-select>
+      </div>
+      <div style="width: 240px; float:left; margin: 2px;">
+        <el-select v-model="queryType.scoreType" placeholder="请选择状态" @change="getScoreList()">
+          <el-option
+            v-for="item in scoreType"
+            :key="item.query"
+            :label="item.type"
+            :value="item.query">
+          </el-option>
+        </el-select>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="客户名称" v-model="queryType.companyName">
+        </el-input>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-date-picker v-model="queryType.oldStartDate" style="float:left;"
+                        type="date"
+                        placeholder="旧额度起始日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-date-picker v-model="queryType.oldEndDate" style="float:left;"
+                        type="date"
+                        placeholder="旧额度截止日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-date-picker v-model="queryType.newStartDate" style="float:left;"
+                        type="date"
+                        placeholder="新额度起始日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-date-picker v-model="queryType.newEndDate" style="float:left;"
+                        type="date"
+                        placeholder="新额度截止日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-button style="float:left; width: 100px" type="primary" @click="getScoreList()">查询</el-button>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
+      </div>
+
+    </el-row>
     <el-table
+      class="info_table"
       :data="scoreList"
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
@@ -112,21 +183,47 @@ export default {
       showIntercept: false,
       formLabelWidth: '120px',
       applyInterceptId: null,
-      user: localStorage.getItem('userName')
+      user: localStorage.getItem('userName'),
+      queryType: {},
+      dealerType: [
+        {'type': '全部', 'query': ''},
+        {'type': '一年期额度', 'query': '新客户'},
+        {'type': '长期额度', 'query': '老客户'},
+      ],
+      scoreType: [
+        {'type': '全部', 'query': ''},
+        {'type': '待补充数据', 'query': 'add'},
+        {'type': '已出评分及额度', 'query': 'have'},
+        {'type': '评分卡计算失败', 'query': 'error'},
+        {'type': '待激活', 'query': 'unactive'},
+        {'type': '额度计算中', 'query': 'reckon'},
+        {'type': '激活中', 'query': 'activeing'},
+        {'type': '激活失败', 'query': 'active_error'},
+      ],
+      levelType: [
+        {'type': '全部', 'query': ''},
+        {'type': 'A', 'query': 'A'},
+        {'type': 'B', 'query': 'B'},
+        {'type': 'C', 'query': 'C'},
+        {'type': 'D', 'query': 'D'},
+        {'type': 'E', 'query': 'E'},
+      ],
     }
   },
   mounted() {
-    this.getScoreList()
+    var that = this;
+    that.getScoreList()
   },
   methods: {
     handleCurrentChange(val) {
-      this.localPage = val;
-      this.getScoreList();
+      var that = this;
+      that.localPage = val;
+      that.getScoreList();
     },
 
     getScoreList: function (){
       var that = this;
-      that.axios.post('/ald/dealer/score_apply', {'page': that.localPage,}).then(res=>{
+      that.axios.post('/ald/dealer/score_apply', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
         if (res.data.code=='ok'){
           that.scoreList = res.data.data.data_list;
           that.total = res.data.data.total
@@ -141,7 +238,28 @@ export default {
         this.getScoreList();
       }).catch(res=>{
       })
-    }
+    },
+    reset: function () {
+      location.reload()
+    },
+    download: function (){
+      var that = this;
+      var data = 'data=' + JSON.stringify(that.queryType);
+      console.log(data)
+      that.axios({
+        method: "get",
+        url: '/ald/downloads/scoreList?' + data + '&timestamp=' + new Date().getTime(),
+        responseType: 'blob'
+      }).then((res) => {
+        let blob = new Blob([res.data])
+        let objectUrl = URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = objectUrl;
+        link.setAttribute("download", '客户评分卡申请.xls');
+        document.body.appendChild(link);
+        link.click();
+      })
+    },
   }
 }
 </script>

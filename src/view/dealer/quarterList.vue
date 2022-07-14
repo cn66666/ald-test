@@ -1,6 +1,65 @@
 <template>
   <div>
+    <el-row class="filter_row">
+      <div style="width: 240px; float:left; margin: 2px;">
+        <el-select v-model="queryType.stateType" placeholder="请选择状态" @change="getQuarterList()">
+          <el-option
+            v-for="item in stateType"
+            :key="item.query"
+            :label="item.type"
+            :value="item.query">
+          </el-option>
+        </el-select>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="客户名称" v-model="queryType.companyName">
+        </el-input>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 130px; float:left;"
+                   placeholder="最小旧额度" v-model="queryType.minOldQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-input  style="width: 130px; float:left;"
+                   placeholder="最大旧额度" v-model="queryType.maxOldQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 130px; float:left;"
+                   placeholder="最小新额度" v-model="queryType.minNewQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-input  style="width: 130px; float:left;"
+                   placeholder="最大新额度" v-model="queryType.maxNewQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-date-picker v-model="queryType.startDate" style="float:left;"
+                        type="date"
+                        placeholder="起始生效日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-date-picker v-model="queryType.endDate" style="float:left;"
+                        type="date"
+                        placeholder="截止生效日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-button style="float:left; width: 100px" type="primary" @click="getQuarterList()">查询</el-button>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
+        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
+      </div>
+
+    </el-row>
     <el-table
+      class="info_table"
       :data="quarterList"
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
@@ -38,8 +97,8 @@
         label="状态" width="150%">
         <template slot-scope="scope">
           <span v-if="scope.row.state_code === 'approval'">季度调额待审批</span>
-          <span v-else-if="scope.row.state_code === 'unactive'">待激活</span>
-          <span v-else-if="scope.row.state_code === 'reckon'">季度额度计算中</span>
+          <span v-else-if="scope.row.state_code === 'unactive'">季度调额待激活</span>
+          <span v-else-if="scope.row.state_code === 'reckon'">季度调额计算中</span>
           <span v-else></span>
         </template>
       </el-table-column>
@@ -96,20 +155,30 @@ export default {
       applyInterceptId: null,
       showChangeDate: false,
       dealerId: null,
-      changeDate: ''
+      changeDate: '',
+      queryType: {
+      },
+      stateType: [
+        {'type': '全部', 'query': ''},
+        {'type': '季度调额待审批', 'query': 'approval'},
+        {'type': '季度调额待激活', 'query': 'unactive'},
+        {'type': '季度调额计算中', 'query': 'reckon'},
+      ],
     }
   },
   mounted() {
-    this.getQuarterList()
+    var that = this;
+    that.getQuarterList()
   },
   methods: {
     handleCurrentChange(val) {
-      this.localPage = val;
-      this.getQuarterList();
+      var that = this;
+      that.localPage = val;
+      that.getQuarterList();
     },
     getQuarterList: function (){
       var that = this;
-      that.axios.post('/ald/dealer/quarter_list', {'page': that.localPage,}).then(res=>{
+      that.axios.post('/ald/dealer/quarter_list', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
         if (res.data.code=='ok'){
           that.quarterList = res.data.data.data_list;
           that.total = res.data.data.total
@@ -134,7 +203,28 @@ export default {
       }).catch(res=>{
         Message.warning('错误: 请联系管理员')
       })
-    }
+    },
+    reset: function () {
+      location.reload()
+    },
+    download: function (){
+      var that = this;
+      var data = 'data=' + JSON.stringify(that.queryType);
+      console.log(data)
+      that.axios({
+        method: "get",
+        url: '/ald/downloads/quarterList?' + data + '&timestamp=' + new Date().getTime(),
+        responseType: 'blob'
+      }).then((res) => {
+        let blob = new Blob([res.data])
+        let objectUrl = URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = objectUrl;
+        link.setAttribute("download", '客户季度调额.xls');
+        document.body.appendChild(link);
+        link.click();
+      })
+    },
   }
 }
 </script>
