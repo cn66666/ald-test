@@ -3,7 +3,7 @@
     <el-aside width="200px">
       <el-menu :default-openeds="openeds" style="height: 100%" :router="true" :unique-opened="true" :default-active="onRoutes">
         <p style="height: 40px; font-size: 15px; text-align:center; padding: 10px">伊莱特信用评级系统</p>
-        <p v-if="version==='test'" style="text-align:center;">测试环境</p>
+<!--        <p v-if="version==='test'" style="text-align:center;">测试环境</p>-->
         <el-menu-item index="/admin">
           <i class="el-icon-s-home"></i>
           <span slot="title">首页</span>
@@ -32,7 +32,7 @@
           <router-view/>
         </div>
       </el-main>
-      <el-footer style="height: 5%"><div data-v-29a933e9="" style="height: 30px; line-height: 30px; text-align: center;"><span data-v-29a933e9="" style="font-size: 12px;"> Copyright <span data-v-29a933e9="">2022</span>北京微星优财网络科技有限公司 &nbsp;&nbsp;&nbsp; 京ICP备15011399号</span></div></el-footer>
+<!--      <el-footer style="height: 5%"><div data-v-29a933e9="" style="height: 30px; line-height: 30px; text-align: center;"><span data-v-29a933e9="" style="font-size: 12px;"> Copyright <span data-v-29a933e9="">2022</span>北京微星优财网络科技有限公司 &nbsp;&nbsp;&nbsp; 京ICP备15011399号</span></div></el-footer>-->
     </el-container>
   </el-container>
 </template>
