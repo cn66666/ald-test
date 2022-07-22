@@ -9,7 +9,7 @@
           <div style="width: 45%; position: relative; left: 300px; top: -320px;">
             <img src="/static/logo2x.png" style="width: 70px; height: 70px;">
             <h3 class="login_title">伊莱特客户信用评级系统
-<!--              <span v-if="version === 'test'" style="color: red; font-size: 10px">测试</span>-->
+              <span v-if="version === 'test'" style="color: #ff0000; font-size: 10px">测试</span>
             </h3>
             <el-input v-model="userName" prefix-icon="el-icon-user" style="margin-top: 20px;" placeholder="输入用户名" @input="userNameChange($event)"></el-input>
             <el-input v-model="password" prefix-icon="el-icon-lock"  placeholder="输入密码" show-password @input="pwdChange($event)"></el-input>
