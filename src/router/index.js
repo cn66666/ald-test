@@ -269,6 +269,18 @@ export default new Router({
           meta: { title: '监控日志' },
           component: resolve => require(['../view/logs/controlLogs'], resolve),
         },
+        {
+          path: '/admin/dealer/dealerPublicList',
+          name: 'dealerPublicList',
+          meta: { title: '公开信息查询' },
+          component: resolve => require(['../view/dealer/dealerPublicList'], resolve),
+        },
+        {
+          path: '/admin/dealer/dealerPublicReport',
+          name: 'dealerPublicReport',
+          meta: { title: '公开信息报告' },
+          component: resolve => require(['../view/dealer/dealerPublicReport'], resolve),
+        },
       ]
     },
     {

@@ -13,6 +13,7 @@ import utils from "./assets/js/utils";
 import el from "element-ui/src/locale/lang/el";
 import numberFormat from './assets/js/filter'
 import tenNumberFormat from './assets/js/tenFilter'
+import rateNumberFormat from './assets/js/rateFilter'
 
 
 router.beforeEach((to, from, next) => {
@@ -38,6 +39,7 @@ Vue.use(VueAxios,axios,qs,CollapseTransition);
 Vue.prototype.$utils = utils;
 Vue.filter("moneyFormat", numberFormat);
 Vue.filter("tenFormat", tenNumberFormat);
+Vue.filter("rateFormat", rateNumberFormat);
 
 //axios 框架
 axios.defaults.timeout = 60000;//1分钟超时时间
