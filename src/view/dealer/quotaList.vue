@@ -94,6 +94,15 @@
         </template>
       </el-table-column>
       <el-table-column
+        prop=""
+        label="客户类型" width="100%">
+        <template slot-scope="scope">
+          <span v-if="scope.row.is_export === false">内销客户</span>
+          <span v-else-if="scope.row.is_export === true">出口客户</span>
+          <span v-else>-</span>
+        </template>
+      </el-table-column>
+      <el-table-column
         prop="limit_type"
         label="额度类型" width="90%">
         <template slot-scope="scope">

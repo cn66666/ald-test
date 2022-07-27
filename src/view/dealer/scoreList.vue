@@ -86,8 +86,17 @@
         </template>
       </el-table-column>
       <el-table-column
+        prop=""
+        label="客户类型" width="100%">
+        <template slot-scope="scope">
+          <span v-if="scope.row.is_export === false">内销客户</span>
+          <span v-else-if="scope.row.is_export === true">出口客户</span>
+          <span v-else>-</span>
+        </template>
+      </el-table-column>
+      <el-table-column
         prop="quota_type"
-        label="当前客户类型" width="100%">
+        label="当前额度类型" width="100%">
         <template slot-scope="scope">
           <span v-if="scope.row.quota_type === '新客户'">一年期额度</span>
           <span v-else-if="scope.row.quota_type === '老客户'">长期额度</span>

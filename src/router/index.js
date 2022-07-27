@@ -281,6 +281,12 @@ export default new Router({
           meta: { title: '公开信息报告' },
           component: resolve => require(['../view/dealer/dealerPublicReport'], resolve),
         },
+        {
+          path: '/admin/dealer/exportInfoList',
+          name: 'exportInfoList',
+          meta: { title: '出口客户信息列表' },
+          component: resolve => require(['../view/dealer/exportInfoList'], resolve),
+        },
       ]
     },
     {

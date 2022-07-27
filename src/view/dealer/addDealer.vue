@@ -12,22 +12,33 @@
       <el-form-item label="销售代表" prop="salePerson" style="width: 50%">
         <el-input v-model="addForm.salePerson" :disabled="change"></el-input>
       </el-form-item>
+      <el-form-item label="客户分类" prop="companyType" style="width: 50%">
+        <el-select v-model="addForm.companyType" placeholder="请选择客户分类" style="float: left">
+          <el-option label="内销客户" value="内销客户"></el-option>
+          <el-option label="出口客户" value="出口客户"></el-option>
+        </el-select>
+        <div v-if="addForm.companyType==='出口客户'" style="float: left; margin-left: 10px">
+          <el-button type="text" @click="showZxbForm=true">填写中信保数据</el-button>
+        </div>
+      </el-form-item>
       <el-form-item label="合作起始时间" prop="coopDate" style="width: 50%">
         <el-date-picker type="date" placeholder="选择日期" value-format="yyyy-MM-dd"
                         v-model="addForm.coopDate"></el-date-picker>
       </el-form-item>
       <el-form-item label="计划销售金额" prop="saleMoney" style="width: 50%">
         <el-input v-model="addForm.saleMoney">
-          <template slot="append">万元</template></el-input>
+          <template slot="append">万元</template>
+        </el-input>
       </el-form-item>
-      <el-form-item label="客户分类" prop="quotaType" style="width: 50%">
-        <el-select v-model="addForm.quotaType" placeholder="请选择">
+      <el-form-item label="额度分类" prop="quotaType" style="width: 50%">
+        <el-select v-model="addForm.quotaType" placeholder="请选择额度分类">
           <el-option label="合作不满一年客户" value="新客户"></el-option>
           <el-option label="合作满一年客户" value="老客户"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button v-if="addForm.quotaType === '新客户'" type="primary" size="mini" :disabled="addBtn" @click="addDealer('暂存')">暂存</el-button>
+        <el-button v-if="addForm.quotaType === '新客户' && addForm.companyType === '内销客户'" type="primary" size="mini"
+                   :disabled="addBtn" @click="addDealer('暂存')">暂存</el-button>
 
         <push-function-btn v-if="addForm.quotaType === '新客户'" btn-name="提交申请" btn-type="function" size="mini"
                            check-btn="addNewDealer" check-role="applyList" :check-function='addDealer'
@@ -39,6 +50,45 @@
 
       </el-form-item>
     </el-form>
+
+    <el-dialog title="中信保数据补充" :visible.sync="showZxbForm">
+      <el-form :model="addForm.zxbInfo" :rules="rules" ref="addForm">
+        <el-form-item label="成立时长" :label-width="formLabelWidth">
+          <el-input v-model="addForm.zxbInfo.createYear" type="number" min="0" style="width: 250px">
+            <template slot="append">年</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="国家" :label-width="formLabelWidth">
+          <el-select v-model="addForm.zxbInfo.country" placeholder="请选择国家" style="width: 250px">
+            <el-option v-for="country in countryList" :label="country" :value="country" :key="country"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="支付方式" :label-width="formLabelWidth">
+          <el-select v-model="addForm.zxbInfo.payType" placeholder="请选择支付方式" style="width: 250px">
+            <el-option label="1" value="1"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="信用期限" :label-width="formLabelWidth">
+          <el-input v-model="addForm.zxbInfo.creditTime" style="width: 250px"></el-input>
+        </el-form-item>
+        <el-form-item label="拒收风险赔付比例" :label-width="formLabelWidth">
+          <el-input v-model="addForm.zxbInfo.paidRate" style="width: 250px">
+            <template slot="append">%</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="其他商业风险(包含政治风险)赔付比例" :label-width="formLabelWidth">
+          <el-input v-model="addForm.zxbInfo.otherPaidRate" style="width: 250px">
+            <template slot="append">%</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="是否存在理赔记录" :label-width="formLabelWidth">
+          <el-select v-model="addForm.zxbInfo.payLog" placeholder="请选择是否存在理赔记录" style="width: 250px">
+            <el-option label="是" value="是"></el-option>
+            <el-option label="否" value="否"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -70,17 +120,33 @@ export default {
     return {
       addBtn: false,
       dealerId: null,
+      showZxbForm: false,
+      formLabelWidth: '300px',
+      countryList: [1,2,3,4],
       addForm: {
         dealerId: '',
         companyCode: '',
         companyName: '',
+        companyType: '',
         coopDate: null,
         salePerson: '',
         saleMoney: '',
         quotaType: '',
+        zxbInfo: {
+          createYear: 0,
+          country: '',
+          payType: '',
+          creditTime: 0,
+          paidRate: 0,
+          otherPaidRate: 0,
+          payLog: ''
+        }
       },
       change: false,
       rules: {
+        companyType: [
+          { required: true, message: '请选择客户分类',},
+        ],
         coopDate: [
           { required: true, message: '请填写合作起始时间',},
         ],
@@ -88,7 +154,7 @@ export default {
           { required: true, validator: validatePass,},
         ],
         quotaType: [
-          { required: true, message: '请选择客户分类',},
+          { required: true, message: '请选择额度分类',},
         ],
       }
     };
@@ -107,6 +173,7 @@ export default {
           that.addForm.coopDate = res.data.data.coop_date;
           that.addForm.salePerson = res.data.data.sale_person;
           that.addForm.saleMoney = res.data.data.sale_money;
+          that.addForm.companyType = res.data.data.company_type;
           that.addForm.quotaType = '新客户';
           that.change = true
         } else {
@@ -123,12 +190,17 @@ export default {
     addDealer: function (type){
       var that = this;
       that.addBtn = true;
-      if (that.addForm.coopDate == ''){
+      if (that.addForm.companyType === ''){
+        Message.warning("失败:请填写客户类型")
+        that.addBtn = false;
+        return
+      }
+      if (that.addForm.coopDate === ''){
         Message.warning("失败:请选择合作起始时间")
         that.addBtn = false;
         return
       }
-      if (that.addForm.saleMoney == ''){
+      if (that.addForm.saleMoney === ''){
         Message.warning("失败:请填写销售金额")
         that.addBtn = false;
         return
