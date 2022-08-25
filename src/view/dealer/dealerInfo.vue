@@ -5,7 +5,8 @@
     <div style="margin: 20px">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="客户信息" name="客户信息">
-          <el-descriptions :column="2" size="small" border style="margin: 1%;">
+          <el-descriptions :column="2" size="small" border style="margin: 1%;" :labelStyle="{'width': '10%'}"
+                           :contentStyle="{'width': '10%'}">
             <el-descriptions-item>
               <template slot="label">
                 客户名称
@@ -64,19 +65,15 @@
               <template slot="label">
                 特批额度
               </template>
-              <span style="margin-right: 30px">{{ dealerInfo.special_quota | moneyFormat }}</span>
-              <span v-if="dealerInfo.is_delete === false">
-          <push-function-btn btn-name="进行额度特批" btn-type="function" size="mini"
-                             check-btn="showSpecialQuota" check-role="quotaList" :check-function='showSpecialQuota'
-                             params-key='dealerId' :params-value='{"dealerId" : dealerId,
-                               "special_quota": dealerInfo.special_quota}'></push-function-btn>
-        </span>
+              <span v-if="dealerInfo.special_quota !== 0">{{ dealerInfo.special_quota | moneyFormat }}</span>
+              <span v-else>未进行额度特批</span>
             </el-descriptions-item>
             <el-descriptions-item>
               <template slot="label">
                 特批额度截止日期
               </template>
-              {{ dealerInfo.special_date }}
+              <span v-if="dealerInfo.special_quota !== 0">{{ dealerInfo.special_date }}</span>
+              <span v-else>未进行额度特批</span>
             </el-descriptions-item>
             <el-descriptions-item>
               <template slot="label">
@@ -93,12 +90,65 @@
               <span v-if="dealerInfo.is_skip === true" style="margin-right: 30px">已跳过</span>
               <span v-else-if="dealerInfo.is_skip === false" style="margin-right: 30px">未跳过</span>
               <span v-else></span>
-
-              <span v-if="dealerInfo.is_delete === false">
-          <el-button type="primary" size="mini" @click="showQuotaForm=true">更改逾期特批</el-button>
-        </span>
+            </el-descriptions-item>
+            <el-descriptions-item v-if="dealerInfo.is_export === true">
+              <template slot="label">
+                贸易类型
+              </template>
+              出口客户
+            </el-descriptions-item>
+            <el-descriptions-item v-if="dealerInfo.is_export === true">
+              <template slot="label">
+                成立时长
+              </template>
+              {{dealerInfo.export_info.create_year}}
+            </el-descriptions-item>
+            <el-descriptions-item v-if="dealerInfo.is_export === true">
+              <template slot="label">
+                国家
+              </template>
+              {{dealerInfo.export_info.country}}
+            </el-descriptions-item>
+            <el-descriptions-item v-if="dealerInfo.is_export === true">
+              <template slot="label">
+                支付方式
+              </template>
+              {{dealerInfo.export_info.pay_type}}
+            </el-descriptions-item>
+            <el-descriptions-item v-if="dealerInfo.is_export === true">
+              <template slot="label">
+                信用期限
+              </template>
+              {{dealerInfo.export_info.credit_day}}
+            </el-descriptions-item>
+            <el-descriptions-item v-if="dealerInfo.is_export === true">
+              <template slot="label">
+                拒收风险赔偿比例
+              </template>
+              {{dealerInfo.export_info.risk_rate}}
+            </el-descriptions-item>
+            <el-descriptions-item v-if="dealerInfo.is_export === true">
+              <template slot="label">
+                其他商业风险赔偿比例
+              </template>
+              {{dealerInfo.export_info.other_risk_rate}}
+            </el-descriptions-item>
+            <el-descriptions-item v-if="dealerInfo.is_export === true">
+              <template slot="label">
+                是否存在理赔记录
+              </template>
+              {{dealerInfo.export_info.pay_log}}
             </el-descriptions-item>
           </el-descriptions>
+          <div v-if="dealerInfo.is_delete === false">
+            <push-function-btn btn-name="进行额度特批" btn-type="function" size="mini"
+                               check-btn="showSpecialQuota" check-role="quotaList" :check-function='showSpecialQuota'
+                               params-key='dealerId' :params-value='{"dealerId" : dealerId,
+                               "special_quota": dealerInfo.special_quota}'></push-function-btn>
+
+            <el-button type="primary" size="mini" @click="showQuotaForm=true">更改逾期特批</el-button>
+          </div>
+
         </el-tab-pane>
         <el-tab-pane label="额度变更记录" name="额度变更记录">
           <span style="margin-left: 10px">近20条额度变更记录
@@ -182,6 +232,36 @@
             <el-table-column
               prop="late_day"
               label="逾期天数">
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+        <el-tab-pane label="用户操作日志" name="用户操作日志">
+          <span style="margin-left: 10px">
+            近20条用户操作日志
+          <el-button type="primary" size="mini" @click="showDealerOperLogs()">查看用户操作日志</el-button>
+          </span>
+          <el-table
+            :data="dealerInfo.oper_logs.data_list"
+            border
+            style="width: 98%; margin: 1%">
+            <el-table-column
+              prop="user_name"
+              label="操作人"
+              width="200">
+            </el-table-column>
+            <el-table-column
+              prop="func_name"
+              label="操作功能"
+              width="200">
+            </el-table-column>
+            <el-table-column
+              prop="create_time"
+              label="操作时间"
+              width="200">
+            </el-table-column>
+            <el-table-column
+              prop="content"
+              label="变更内容">
             </el-table-column>
           </el-table>
         </el-tab-pane>
@@ -308,6 +388,10 @@ export default {
     },
     handleClick(tab, event) {
       console.log(tab, event);
+    },
+    showDealerOperLogs: function (){
+      var that = this;
+      that.$router.push('/admin/dealer/dealerOperLogs?dealerId=' + that.dealerId)
     }
   }
 

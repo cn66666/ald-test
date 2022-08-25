@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="补充评分卡信息" style="margin: 1%">
+    <el-page-header @back="goBack" :content="companyName" style="margin: 1%">
     </el-page-header>
     <el-form :model="addForm" status-icon :rules="rules" ref="addForm" label-width="130px" class="demo-ruleForm" style="margin-top: 20px">
       <el-form-item label="去年业务规划" prop="oldSaleMoney" style="width: 50%">
@@ -17,6 +17,9 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" :disabled="addBtn" @click="addScore('addForm')">提交</el-button>
+        <p style="margin-top: 10px"><el-tag v-if="errorShow" type="warning">该客户为出口客户,但是未在系统中查询到上传的该客户相关出口信息.可在
+          <el-link href="/#/admin/dealer/exportInfoList" target="_blank" type="primary">出口信息列表</el-link>中查询.
+          </el-tag></p>
       </el-form-item>
     </el-form>
   </div>
@@ -51,6 +54,9 @@ export default {
         endDay: 0,
         oldSaleMoney: 0
       },
+      errorShow: false,
+      errorInfo: '',
+      companyName: '',
       rules: {
         saleMoney: [
           {required: true, validator: validatePass,},
@@ -74,6 +80,10 @@ export default {
         if (res.data.code=='ok'){
           that.addForm.applyType = res.data.data.quota_type;
           that.addForm.endDay = res.data.data.end_day;
+          that.companyName = res.data.data.company_name + '的补充评分卡信息';
+          if (res.data.data.is_error === true){
+            that.errorShow = true;
+          }
         } else {
           this.$message({
             message: res.data.msg + ':' + res.data.data,

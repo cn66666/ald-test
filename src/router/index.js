@@ -287,6 +287,36 @@ export default new Router({
           meta: { title: '出口客户信息列表' },
           component: resolve => require(['../view/dealer/exportInfoList'], resolve),
         },
+        {
+          path: '/admin/dealer/dealerOperLogs',
+          name: 'dealerOperLogs',
+          meta: { title: '用户操作日志' },
+          component: resolve => require(['../view/dealer/dealerOperLogs'], resolve),
+        },
+        {
+          path: '/admin/dealer/payDaySetting',
+          name: 'payDaySetting',
+          meta: { title: '账期天数配置' },
+          component: resolve => require(['../view/dealer/payDaySetting'], resolve),
+        },
+        {
+          path: '/admin/user/noticeList',
+          name: 'noticeList',
+          meta: { title: '通知列表' },
+          component: resolve => require(['../view/user/noticeList'], resolve),
+        },
+        {
+          path: '/admin/user/noticeUserConfig',
+          name: 'noticeUserConfig',
+          meta: { title: '负责人配置' },
+          component: resolve => require(['../view/user/noticeUserConfig'], resolve),
+        },
+        {
+          path: '/admin/user/noticeConfig',
+          name: 'noticeConfig',
+          meta: { title: '通知配置' },
+          component: resolve => require(['../view/user/noticeConfig'], resolve),
+        },
       ]
     },
     {

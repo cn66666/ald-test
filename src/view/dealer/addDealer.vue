@@ -13,7 +13,11 @@
         <el-input v-model="addForm.salePerson" :disabled="change"></el-input>
       </el-form-item>
       <el-form-item label="客户分类" prop="companyType" style="width: 50%">
-        <el-select v-model="addForm.companyType" placeholder="请选择客户分类" style="float: left">
+        <el-select v-model="addForm.companyType" placeholder="请选择客户分类" style="float: left" v-if="isExport===true" disabled>
+          <el-option label="内销客户" value="内销客户"></el-option>
+          <el-option label="出口客户" value="出口客户"></el-option>
+        </el-select>
+        <el-select v-model="addForm.companyType" placeholder="请选择客户分类" style="float: left" v-else>
           <el-option label="内销客户" value="内销客户"></el-option>
           <el-option label="出口客户" value="出口客户"></el-option>
         </el-select>
@@ -52,37 +56,37 @@
     </el-form>
 
     <el-dialog title="中信保数据补充" :visible.sync="showZxbForm">
-      <el-form :model="addForm.zxbInfo" :rules="rules" ref="addForm">
+      <el-form :model="addForm.exportInfo" :rules="rules" ref="addForm">
         <el-form-item label="成立时长" :label-width="formLabelWidth">
-          <el-input v-model="addForm.zxbInfo.createYear" type="number" min="0" style="width: 250px">
+          <el-input v-model="addForm.exportInfo.createYear" type="number" min="0" style="width: 250px">
             <template slot="append">年</template>
           </el-input>
         </el-form-item>
         <el-form-item label="国家" :label-width="formLabelWidth">
-          <el-select v-model="addForm.zxbInfo.country" placeholder="请选择国家" style="width: 250px">
+          <el-select v-model="addForm.exportInfo.country" placeholder="请选择国家" style="width: 250px">
             <el-option v-for="country in countryList" :label="country" :value="country" :key="country"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="支付方式" :label-width="formLabelWidth">
-          <el-select v-model="addForm.zxbInfo.payType" placeholder="请选择支付方式" style="width: 250px">
+          <el-select v-model="addForm.exportInfo.payType" placeholder="请选择支付方式" style="width: 250px">
             <el-option label="1" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="信用期限" :label-width="formLabelWidth">
-          <el-input v-model="addForm.zxbInfo.creditTime" style="width: 250px"></el-input>
+          <el-input v-model="addForm.exportInfo.creditDay" style="width: 250px"></el-input>
         </el-form-item>
         <el-form-item label="拒收风险赔付比例" :label-width="formLabelWidth">
-          <el-input v-model="addForm.zxbInfo.paidRate" style="width: 250px">
+          <el-input v-model="addForm.exportInfo.riskRate" style="width: 250px">
             <template slot="append">%</template>
           </el-input>
         </el-form-item>
         <el-form-item label="其他商业风险(包含政治风险)赔付比例" :label-width="formLabelWidth">
-          <el-input v-model="addForm.zxbInfo.otherPaidRate" style="width: 250px">
+          <el-input v-model="addForm.exportInfo.otherRiskRate" style="width: 250px">
             <template slot="append">%</template>
           </el-input>
         </el-form-item>
         <el-form-item label="是否存在理赔记录" :label-width="formLabelWidth">
-          <el-select v-model="addForm.zxbInfo.payLog" placeholder="请选择是否存在理赔记录" style="width: 250px">
+          <el-select v-model="addForm.exportInfo.payLog" placeholder="请选择是否存在理赔记录" style="width: 250px">
             <el-option label="是" value="是"></el-option>
             <el-option label="否" value="否"></el-option>
           </el-select>
@@ -123,6 +127,7 @@ export default {
       showZxbForm: false,
       formLabelWidth: '300px',
       countryList: [1,2,3,4],
+      isExport: false,
       addForm: {
         dealerId: '',
         companyCode: '',
@@ -132,13 +137,13 @@ export default {
         salePerson: '',
         saleMoney: '',
         quotaType: '',
-        zxbInfo: {
+        exportInfo: {
           createYear: 0,
           country: '',
           payType: '',
-          creditTime: 0,
-          paidRate: 0,
-          otherPaidRate: 0,
+          creditDay: 0,
+          riskRate: 0,
+          otherRiskRate: 0,
           payLog: ''
         }
       },
@@ -175,6 +180,15 @@ export default {
           that.addForm.saleMoney = res.data.data.sale_money;
           that.addForm.companyType = res.data.data.company_type;
           that.addForm.quotaType = '新客户';
+          if (res.data.data.export_info.country){
+            that.isExport = true;
+            that.addForm.companyType = '出口客户';
+            that.addForm.exportInfo.country = res.data.data.export_info.country;
+            that.addForm.exportInfo.payType = res.data.data.export_info.payType;
+            that.addForm.exportInfo.creditDay = res.data.data.export_info.creditDay;
+            that.addForm.exportInfo.riskRate = res.data.data.export_info.riskRate;
+            that.addForm.exportInfo.otherRiskRate = res.data.data.export_info.otherRiskRate;
+          }
           that.change = true
         } else {
           this.$message({
@@ -208,10 +222,14 @@ export default {
 
       that.axios.post('/ald/dealer/add_dealer', {'addForm': that.addForm, 'type': type, 'change': that.change}).then(res=>{
         if (res.data.code === 'ok'){
-          if (that.addForm.quotaType === '老客户'){
-            that.$router.push('/admin/dealer/scoreList')
+          if (that.add.companyType === '内销客户'){
+            if (that.addForm.quotaType === '老客户'){
+              that.$router.push('/admin/dealer/scoreList')
+            }else {
+              that.$router.push('/admin/dealer/applyList')
+            }
           }else {
-            that.$router.push('/admin/dealer/applyList')
+            that.$router.push('/admin/dealer/scoreList')
           }
         } else {
           Message.warning(res.data.msg + ':' + res.data.data)
