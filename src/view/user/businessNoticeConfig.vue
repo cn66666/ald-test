@@ -1,11 +1,11 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="负责人配置详情" style="margin: 1%">
+    <el-page-header @back="goBack" content="业务负责人配置详情" style="margin: 1%">
     </el-page-header>
-    <div style="margin: 1% 3%; height: 50px; width: 90%">
-      <h2 v-if="configData.user_type === 'business'">业务负责人: {{configData.user_name}}</h2>
-      <h2 v-else-if="configData.user_type === 'order'">跟单负责人: {{configData.user_name}}</h2>
-      <h2 v-else-if="configData.user_type === 'finance'">财务负责人: {{configData.user_name}}</h2>
+    <div style="margin: 1% 3%; height: 100px; width: 90%">
+      <h2 v-if="userType === 'business'">业务负责人: {{userName}}</h2>
+      <h2 v-else-if="userType === 'order'">跟单负责人: {{userName}}</h2>
+      <h2 v-else-if="userType === 'finance'">财务负责人: {{userName}}</h2>
       <br>
       <span style="float:left; line-height: 40px">日报提醒时间为每日8点</span>
       <div style="float:left; margin-left: 10px">
@@ -135,6 +135,8 @@ export default {
   data() {
     return {
       userId: null,
+      userType: '',
+      userName: '',
       configData: {
         'setTime': '',
         'daily': {
@@ -256,6 +258,8 @@ export default {
       var that = this;
       that.axios.post('/ald/notice/notice_user_config', {'userId': that.userId}).then(res=>{
         if (res.data.code==='ok'){
+          that.userName = res.data.data.user_name;
+          that.userType = res.data.data.user_type;
           that.configData = res.data.data.config;
         }
       }).catch(res=>{
@@ -290,7 +294,6 @@ export default {
         if (name === 'quota'){
           that.quotaNoticeShow = true
         }
-
       }
     },
     saveConfig: function () {

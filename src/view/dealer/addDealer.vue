@@ -62,14 +62,14 @@
             <template slot="append">年</template>
           </el-input>
         </el-form-item>
-        <el-form-item label="国家" :label-width="formLabelWidth">
-          <el-select v-model="addForm.exportInfo.country" placeholder="请选择国家" style="width: 250px">
-            <el-option v-for="country in countryList" :label="country" :value="country" :key="country"></el-option>
+        <el-form-item label="国家/地区" :label-width="formLabelWidth">
+          <el-select v-model="addForm.exportInfo.country" placeholder="请选择国家/地区" style="width: 250px">
+            <el-option v-for="country in countryList" :label="country.country" :value="country.country_code" :key="country.country_code"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="支付方式" :label-width="formLabelWidth">
           <el-select v-model="addForm.exportInfo.payType" placeholder="请选择支付方式" style="width: 250px">
-            <el-option label="1" value="1"></el-option>
+            <el-option v-for="pay in payList" :label="pay" :value="pay" :key="pay"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="信用期限" :label-width="formLabelWidth">
@@ -126,7 +126,8 @@ export default {
       dealerId: null,
       showZxbForm: false,
       formLabelWidth: '300px',
-      countryList: [1,2,3,4],
+      countryList: [],
+      payList: ['LC', 'DP', 'DA', 'OA'],
       isExport: false,
       addForm: {
         dealerId: '',
@@ -189,6 +190,7 @@ export default {
             that.addForm.exportInfo.riskRate = res.data.data.export_info.riskRate;
             that.addForm.exportInfo.otherRiskRate = res.data.data.export_info.otherRiskRate;
           }
+          that.countryList = res.data.data.countryList
           that.change = true
         } else {
           this.$message({
@@ -222,7 +224,7 @@ export default {
 
       that.axios.post('/ald/dealer/add_dealer', {'addForm': that.addForm, 'type': type, 'change': that.change}).then(res=>{
         if (res.data.code === 'ok'){
-          if (that.add.companyType === '内销客户'){
+          if (that.addForm.companyType === '内销客户'){
             if (that.addForm.quotaType === '老客户'){
               that.$router.push('/admin/dealer/scoreList')
             }else {

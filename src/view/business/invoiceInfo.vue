@@ -96,7 +96,7 @@ export default {
     },
     getOrderInvoiceListList: function (){
       var that = this;
-      that.axios.post('/ald/business/order_invoice_list', {'orderId': that.orderId, 'page': that.localPage}).then(res=>{
+      that.axios.post('/ald/business/invoice_list', {'orderId': that.orderId, 'page': that.localPage}).then(res=>{
         if (res.data.code=='ok'){
           that.invoiceList = res.data.data.data_list;
           that.total = res.data.data.total

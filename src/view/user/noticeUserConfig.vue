@@ -25,14 +25,14 @@
         </el-table-column>
         <el-table-column
           prop="user_phone"
-          label="联系方式">
+          label="联系方式" width="200">
         </el-table-column>
         <el-table-column
           prop=""
           label="操作">
           <template slot-scope="scope">
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
-                       @click="pushNoticeConfig(scope.row.id)">配置</el-button>
+                       @click="businessNoticeConfig(scope.row.id)">配置</el-button>
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
                        @click="showChangeForm('business', scope.row)">修改</el-button>
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
@@ -61,14 +61,14 @@
         </el-table-column>
         <el-table-column
           prop="user_phone"
-          label="联系方式">
+          label="联系方式" width="200">
         </el-table-column>
         <el-table-column
           prop=""
           label="操作">
           <template slot-scope="scope">
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
-                       @click="pushNoticeConfig(scope.row.id)">配置</el-button>
+                       @click="orderNoticeConfig(scope.row.id)">配置</el-button>
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
                        @click="showChangeForm('order', scope.row)">修改</el-button>
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
@@ -97,14 +97,14 @@
         </el-table-column>
         <el-table-column
           prop="user_phone"
-          label="联系方式">
+          label="联系方式" width="200">
         </el-table-column>
         <el-table-column
           prop=""
           label="操作">
           <template slot-scope="scope">
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
-                       @click="pushNoticeConfig(scope.row.id)">配置</el-button>
+                       @click="financeNoticeConfig(scope.row.id)">配置</el-button>
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
                        @click="showChangeForm('finance', scope.row)">修改</el-button>
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
@@ -311,10 +311,18 @@ export default {
       }).catch(res=>{
       })
     },
-    pushNoticeConfig: function (userId) {
+    businessNoticeConfig: function (userId) {
       var that = this;
-      that.$router.push('/admin/user/noticeConfig?userId=' + userId)
-    }
+      that.$router.push('/admin/user/businessNoticeConfig?userId=' + userId)
+    },
+    orderNoticeConfig: function (userId) {
+      var that = this;
+      that.$router.push('/admin/user/orderNoticeConfig?userId=' + userId)
+    },
+    financeNoticeConfig: function (userId) {
+      var that = this;
+      that.$router.push('/admin/user/financeNoticeConfig?userId=' + userId)
+    },
   }
 }
 </script>

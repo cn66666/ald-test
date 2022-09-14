@@ -146,12 +146,20 @@
                                params-key='dealerId' :params-value='{"dealerId" : dealerId,
                                "special_quota": dealerInfo.special_quota}'></push-function-btn>
 
-            <el-button type="primary" size="mini" @click="showQuotaForm=true">更改逾期特批</el-button>
+            <push-function-btn btn-name="更改逾期特批" btn-type="replace" size="mini"
+                               check-btn="checkOverdueSkip" check-role="quotaList" url="/admin/dealer/dealerOverdueSkip"
+                               params-key='dealerId' :params-value='dealerId'></push-function-btn>
+
+
+            <push-function-btn btn-name="进行账期调整" btn-type="replace" size="mini"
+                               check-btn="changeQuotaDay" check-role="quotaList" url="/admin/dealer/changeQuotaDay"
+                               params-key='dealerId' :params-value='dealerId'></push-function-btn>
+
           </div>
 
         </el-tab-pane>
         <el-tab-pane label="额度变更记录" name="额度变更记录">
-          <span style="margin-left: 10px">近20条额度变更记录
+          <span style="margin-left: 10px">近10条额度变更记录
           <push-function-btn btn-name="查看额度变更" btn-type="replace" size="mini"
                              check-btn="showQuotaLog" check-role="quotaList" url="/admin/dealer/quotaLogs"
                              params-key='dealerId' :params-value='dealerId'></push-function-btn>
@@ -180,7 +188,7 @@
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="滞纳金变更记录" name="滞纳金变更记录">
-          <span style="margin-left: 10px">近20条滞纳金变更记录
+          <span style="margin-left: 10px">近10条滞纳金变更记录
           <push-function-btn btn-name="查看滞纳金变更" btn-type="replace" size="mini"
                              check-btn="showOverdueLog" check-role="dealerOverdueList" url="/admin/business/overdueLogs"
                              params-key='dealerId' :params-value='dealerId'></push-function-btn>
@@ -210,7 +218,7 @@
         </el-tab-pane>
         <el-tab-pane label="发票逾期记录" name="发票逾期记录">
           <span style="margin-left: 10px">
-            近20条发票逾期记录
+            近10条发票逾期记录
             <push-function-btn btn-name="查看发票逾期" btn-type="replace" size="mini"
                              check-btn="showInvoiceOverdueLog" check-role="dealerOverdueList" url="/admin/business/invoiceOverdueLogs"
                              params-key='dealerId' :params-value='dealerId'></push-function-btn>
@@ -235,9 +243,48 @@
             </el-table-column>
           </el-table>
         </el-tab-pane>
+        <el-tab-pane label="客户回款情况" name="客户回款情况">
+          <span style="margin-left: 10px">
+            近10条客户回款情况
+            <el-button type="primary" size="mini" @click="showDealerOrderInvoice()">查看客户回款情况</el-button>
+          </span>
+          <el-table
+            :data="dealerInfo.order_info_list"
+            border
+            style="width: 98%; margin: 1%">
+            <el-table-column
+              prop="order_code"
+              label="销售单号">
+            </el-table-column>
+            <el-table-column
+              prop="order_date"
+              label="销售单创建日期">
+            </el-table-column>
+            <el-table-column
+              prop="order_state"
+              label="销售单状态">
+            </el-table-column>
+            <el-table-column
+              prop="invoice_sum"
+              label="发票总金额">
+            </el-table-column>
+            <el-table-column
+              prop="invoice_count"
+              label="发票总数">
+            </el-table-column>
+            <el-table-column
+              prop="invoice_pay_money"
+              label="已结金额">
+            </el-table-column>
+            <el-table-column
+              prop="invoice_no_money"
+              label="未结金额">
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
         <el-tab-pane label="用户操作日志" name="用户操作日志">
           <span style="margin-left: 10px">
-            近20条用户操作日志
+            近10条用户操作日志
           <el-button type="primary" size="mini" @click="showDealerOperLogs()">查看用户操作日志</el-button>
           </span>
           <el-table
@@ -283,21 +330,6 @@
         <push-function-btn btn-name="确认特批额度" btn-type="function" size="mini"
                            check-btn="addSpecialQuota" check-role="quotaList" :check-function='addSpecialQuota'
                            params-key='addInfo' :params-value='addForm'></push-function-btn>
-      </div>
-    </el-dialog>
-
-    <el-dialog title="跳过发票逾期校验" :visible.sync="showQuotaForm">
-      <el-form>
-        <el-form-item label="" :label-width="formLabelWidth">
-          <span v-if="dealerInfo.is_skip === true" style="margin-right: 30px">当前<span style="color: red">已允许</span>跳过发票逾期校验</span>
-          <span v-else-if="dealerInfo.is_skip === false" style="margin-right: 30px">当前<span style="color: red">未允许</span>跳过发票逾期校验</span>
-          <span v-else></span>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <push-function-btn btn-name="更改逾期特批" btn-type="reload" size="mini"
-                           check-btn="checkOverdueSkip" check-role="quotaList" url="/ald/dealer/overdue_skip"
-                           params-key='dealerId' :params-value='dealerId'></push-function-btn>
       </div>
     </el-dialog>
   </div>
@@ -392,6 +424,10 @@ export default {
     showDealerOperLogs: function (){
       var that = this;
       that.$router.push('/admin/dealer/dealerOperLogs?dealerId=' + that.dealerId)
+    },
+    showDealerOrderInvoice: function () {
+      var that = this;
+      that.$router.push('/admin/business/orderInvoiceList?dealerId=' + that.dealerId)
     }
   }
 

@@ -41,7 +41,7 @@ export default {
   mounted() {
     var that = this;
     var host = window.location.href;
-    if (host.indexOf('ssl-ald') !== -1){
+    if (host.search('ssl-ald') !== -1){
       that.version = 'test'
     }
   },
