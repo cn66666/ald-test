@@ -86,6 +86,10 @@
                              check-btn="showApplyIntercept" check-role="applyList" :check-function='showApplyIntercept'
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
+          <push-function-btn v-if="scope.row.state_code === 'intercept'" btn-name="跳过拦截" btn-type="function" size="mini"
+                             check-btn="showApplyIntercept" check-role="applyList" :check-function='skipApplyIntercept'
+                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+
           <push-function-btn v-if="scope.row.state_code === 'add'" btn-name="前往数据采集页面" btn-type="replace_new"
                              check-btn="getDealerData" url="/xingyun/upload"
                              params-key='code' :params-value='scope.row.code' check-role="applyList"></push-function-btn>
@@ -118,12 +122,20 @@
         <el-form-item label="拦截原因" :label-width="formLabelWidth">
           <p v-for="(item)  in interceptList" :key="item">{{ item }};</p>
         </el-form-item>
+        <el-form-item label="备注信息" prop="info" :label-width="formLabelWidth">
+          <el-input v-model="addForm.info"></el-input>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+
+    <el-dialog title="进行跳过拦截" :visible.sync="showForm">
+      <el-form>
+        <el-form-item label="备注信息" prop="info" :label-width="formLabelWidth">
+          <el-input v-model="addForm.info"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" size="mini" @click="showIntercept=false">关闭</el-button>
-        <push-function-btn btn-name="跳过拦截" btn-type="reload" size="mini"
-                           check-btn="skipApplyIntercept" check-role="applyList" url="/ald/dealer/skip_apply_intercept"
-                           params-key='dealerId' :params-value='applyInterceptId'></push-function-btn>
+        <el-button type="primary" size="mini" @click="">确认跳过拦截</el-button>
       </div>
     </el-dialog>
   </div>
@@ -141,10 +153,15 @@ export default {
       total: 1,
       localPage: 1,
       showIntercept: false,
+      showForm:false,
       formLabelWidth: '120px',
       interceptList:[],
       applyInterceptId: null,
       queryType: {},
+      addForm: {
+        info:'',
+        dealerId: ''
+      },
       dealerType: [
         {'type': '全部', 'query': ''},
         {'type': '内销客户', 'query': 'in'},
@@ -202,10 +219,16 @@ export default {
       }).catch(res=>{
       })
     },
+
+    skipApplyIntercept: function (dealerId){
+      var that = this;
+      that.addForm.dealerId = dealerId
+      that.showForm = true
+    },
+
     download: function (){
       var that = this;
       var data = 'data=' + JSON.stringify(that.queryType) + '&timestamp=' + new Date().getTime();
-      console.log(data)
       that.axios({
         method: "get",
         url: '/ald/downloads/applyList?' + data,

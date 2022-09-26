@@ -31,6 +31,7 @@
           <el-option label="历史开票数据补录" value="invoiceQueryErpId"></el-option>
           <el-option label="检查数据" value="checkAllData"></el-option>
           <el-option label="数据修复" value="changeOverdueData"></el-option>
+          <el-option label="生成日报" value="getDailyNotice"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="时间填写" prop="dateTime">

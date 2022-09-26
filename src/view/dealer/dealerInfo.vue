@@ -243,6 +243,37 @@
             </el-table-column>
           </el-table>
         </el-tab-pane>
+        <el-tab-pane label="客户发货情况" name="客户发货情况">
+          <span style="margin-left: 10px">
+            近10条客户发货情况
+            <el-button type="primary" size="mini" @click="showDealerOrderFulfil()">查看客户发货情况</el-button>
+          </span>
+          <el-table
+            :data="dealerInfo.fulfil_info_list"
+            border
+            style="width: 98%; margin: 1%">
+            <el-table-column
+              prop="order_code"
+              label="销售单号">
+            </el-table-column>
+            <el-table-column
+              prop="order_date"
+              label="销售单创建日期">
+            </el-table-column>
+            <el-table-column
+              prop="order_state"
+              label="销售单状态">
+            </el-table-column>
+            <el-table-column
+              prop="fulfil_sum"
+              label="履行单总金额">
+            </el-table-column>
+            <el-table-column
+              prop="fulfil_count"
+              label="履行单总数">
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
         <el-tab-pane label="客户回款情况" name="客户回款情况">
           <span style="margin-left: 10px">
             近10条客户回款情况
@@ -324,6 +355,9 @@
           <el-date-picker type="date" placeholder="选择日期" value-format="yyyy-MM-dd"
                           v-model="addForm.special_date"></el-date-picker>
         </el-form-item>
+        <el-form-item label="备注信息" prop="info" :label-width="formLabelWidth">
+          <el-input v-model="addForm.info"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" size="mini" @click="showForm=false">关闭</el-button>
@@ -345,13 +379,18 @@ export default {
     return {
       activeName: '客户信息',
       dealerId: null,
-      dealerInfo: {},
+      dealerInfo: {
+        oper_logs: {
+          data_list: []
+        }
+      },
       showForm: false,
       showQuotaForm: false,
       formLabelWidth: '120px',
       addForm: {
         special_quota: 0,
-        special_date: ''
+        special_date: '',
+        info: ''
       }
     }
   },
@@ -428,9 +467,12 @@ export default {
     showDealerOrderInvoice: function () {
       var that = this;
       that.$router.push('/admin/business/orderInvoiceList?dealerId=' + that.dealerId)
-    }
+    },
+    showDealerOrderFulfil: function () {
+      var that = this;
+      that.$router.push('/admin/business/orderFulfilList?dealerId=' + that.dealerId)
+    },
   }
-
 }
 </script>
 

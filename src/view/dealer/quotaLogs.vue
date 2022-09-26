@@ -3,12 +3,14 @@
     <el-page-header @back="goBack" content="额度变更详情" style="margin: 1%">
     </el-page-header>
     <el-row class="filter_row">
-      <el-date-picker
-        v-model="info.query_date"
-        type="daterange"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期" @change="getQuotaLogs" value-format="yyyy-MM-dd">
+      <el-date-picker v-model="info.startDate"
+                      type="date"
+                      placeholder="发生起始日期" value-format="yyyy-MM-dd"  @change="getQuotaLogs">
+      </el-date-picker>
+      <span style="height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+      <el-date-picker v-model="info.endDate"
+                      type="date"
+                      placeholder="发生截止日期" value-format="yyyy-MM-dd" @change="getQuotaLogs">
       </el-date-picker>
       <el-select v-model="info.state_code" placeholder="请选择变更类型" @change="getQuotaLogs">
         <el-option
@@ -118,7 +120,7 @@ export default {
       tableData: [],
       total: 0,
       localPage: 1,
-      info: {'state_code': null, 'dealer_id': null, 'change_type': null, 'query_date': null, 'change_code': null},
+      info: {'state_code': null, 'dealer_id': null, 'change_type': null, 'startDate': null, 'endDate': null, 'change_code': null},
       showInfo: false,
       stateCodeOptions: [{
         value: '',
