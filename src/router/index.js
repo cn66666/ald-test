@@ -324,12 +324,6 @@ export default new Router({
           component: resolve => require(['../view/user/orderNoticeConfig'], resolve),
         },
         {
-          path: '/admin/user/financeNoticeConfig',
-          name: 'financeNoticeConfig',
-          meta: { title: '财务负责人通知配置' },
-          component: resolve => require(['../view/user/financeNoticeConfig'], resolve),
-        },
-        {
           path: '/admin/dealer/changeQuotaDay',
           name: 'changeQuotaDay',
           meta: { title: '客户账期调整' },
@@ -346,6 +340,18 @@ export default new Router({
           name: 'orderInvoiceList',
           meta: { title: '客户回款情况' },
           component: resolve => require(['../view/business/orderInvoiceList'], resolve),
+        },
+        {
+          path: '/admin/user/dailyNoticeConfig',
+          name: 'dailyNoticeConfig',
+          meta: { title: '客户日报配置' },
+          component: resolve => require(['../view/user/dailyNoticeConfig'], resolve),
+        },
+        {
+          path: '/admin/business/orderFulfilList',
+          name: 'orderFulfilList',
+          meta: { title: '客户发货情况' },
+          component: resolve => require(['../view/business/orderFulfilList'], resolve),
         },
       ]
     },

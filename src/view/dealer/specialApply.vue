@@ -24,6 +24,9 @@
       <el-form-item label="特批额度" prop="specialMoney" style="width: 50%">
         <el-input v-model="infoForm.specialMoney"></el-input>
       </el-form-item>
+      <el-form-item label="备注信息" prop="info" style="width: 50%">
+        <el-input v-model="infoForm.info"></el-input>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" :disabled="addBtn" @click="addSpecialMoney('infoForm')">启用特殊审批</el-button>
       </el-form-item>
@@ -63,7 +66,9 @@ export default {
         saleMoney: '',
         limitType: '',
         specialMoney: '',
-        dealerId: null
+        dealerId: null,
+        info: '',
+        permissionType: '新客户特批'
       },
       change: false,
       rules: {

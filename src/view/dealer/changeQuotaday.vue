@@ -17,6 +17,9 @@
       <el-form-item label="试算额度结果" label-width="200px">
         <el-input v-model="quotaDayInfo.reckonQuota" :disabled="change" style="width: 50%"></el-input>
       </el-form-item>
+      <el-form-item label="备注" label-width="200px">
+        <el-input v-model="quotaDayInfo.info"  style="width: 50%"></el-input>
+      </el-form-item>
       <el-form-item label-width="200px">
         <el-button type="primary" size="mini" @click="reckonQuotaDay()">额度试算</el-button>
         <push-function-btn btn-name="账期调整额度" btn-type="reload" size="mini"
@@ -41,6 +44,7 @@ export default {
         quota: '-',
         reckonDay: 0,
         reckonQuota: '-',
+        info: ''
       },
       change: true,
       reckon: false

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="客户回款情况" style="margin: 1%">
+    <el-page-header @back="goBack" content="客户发货情况" style="margin: 1%">
     </el-page-header>
     <el-row class="filter_row">
       <div style="width: 240px; float:left; margin: 2px;">
@@ -32,17 +32,17 @@
         <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-button style="float:left; width: 100px" type="primary" @click="getOrderInvoiceList()">查询</el-button>
+        <el-button style="float:left; width: 100px" type="primary" @click="getOrderFulfilList()">查询</el-button>
         <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
         <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <el-button style="float:left; width: 100px" type="primary" @click="downloadOrderInvoiceList()">下载excel</el-button>
+        <el-button style="float:left; width: 100px" type="primary" @click="downloadOrderFulfilList()">下载excel</el-button>
       </div>
     </el-row>
     <el-table
       class="info_table"
       :span-method="objectSpanMethod"
-      :data="orderInvoiceList"
+      :data="orderFulfilList"
       style="width: 98%; margin: 0 1%">
       <el-table-column
         prop="order_code"
@@ -57,40 +57,27 @@
         label="销售单状态">
       </el-table-column>
       <el-table-column
-        prop="invoice_sum"
-        label="发票总金额">
+        prop="fulfil_code"
+        label="履行单号">
       </el-table-column>
       <el-table-column
-        prop="invoice_code"
-        label="发票号码">
+        prop="state_code"
+        label="履行单状态">
       </el-table-column>
       <el-table-column
-        prop="invoice_state"
-        label="发票状态">
+        prop="fulfil_money"
+        label="履行单金额">
       </el-table-column>
       <el-table-column
-        prop="invoice_money"
-        label="发票金额">
+        prop="create_time"
+        label="履行单创建日期">
       </el-table-column>
       <el-table-column
-        prop="invoice_date"
-        label="发票日期">
-      </el-table-column>
-      <el-table-column
-        prop="due_date"
-        label="到期日">
-      </el-table-column>
-      <el-table-column
-        prop="pay_money"
-        label="回款金额">
-      </el-table-column>
-      <el-table-column
-        prop="late_day"
-        label="逾期天数">
-      </el-table-column>
-      <el-table-column
-        prop="unpaid_money"
-        label="滞纳金">
+        prop=""
+        label="操作">
+        <template slot-scope="scope">
+          <el-button v-if="scope.row.fulfil_id" type="primary" size="mini" @click="queryGoodsInfo(scope.row.fulfil_id, scope.row.fulfil_code)">查看发货情况</el-button>
+        </template>
       </el-table-column>
     </el-table>
     <div style="float: right;margin-top: 23px;margin-right: 79px;">
@@ -98,15 +85,49 @@
                      layout="prev, pager, next" :page-count="total">
       </el-pagination>
     </div>
+    <el-dialog :title="showTitle" :visible.sync="showForm">
+      <el-form>
+        <el-table
+          class="info_table"
+          :span-method="objectSpanMethod"
+          :data="goodsList"
+          style="width: 98%; margin: 0 1%">
+          <el-table-column
+            prop="goods_name"
+            label="商品名称">
+          </el-table-column>
+          <el-table-column
+            prop="goods_money"
+            label="商品金额">
+          </el-table-column>
+          <el-table-column
+            prop="goods_count"
+            label="商品总数">
+          </el-table-column>
+          <el-table-column
+            prop="goods_state"
+            label="商品状态">
+          </el-table-column>
+          <el-table-column
+            prop="goods_send"
+            label="商品已发货数量">
+          </el-table-column>
+          <el-table-column
+            prop="goods_not_send"
+            label="商品未发货数量">
+          </el-table-column>
+        </el-table>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 export default {
-  name: "orderInvoiceList",
+  name: "orderFulfilList",
   data() {
     return {
-      orderInvoiceList: [],
+      orderFulfilList: [],
       total: 1,
       localPage: 1,
       orderState: ['全部', '等待核准', '待履行', '待开票', '已开票', '已关闭', '已取消', '待开票/部分完成', '部分完成'],
@@ -117,34 +138,37 @@ export default {
         startDate: '',
         endDate: '',
       },
-      spanArr: []
+      spanArr: [],
+      showForm: false,
+      showTitle: '',
+      goodsList: []
     }
   },
   mounted() {
     var that = this;
     that.queryType.dealerId = this.$route.query.dealerId;
-    this.getOrderInvoiceList()
+    this.getOrderFulfilList()
   },
   methods: {
     handleCurrentChange(val) {
       this.localPage = val;
-      this.getOrderInvoiceList();
+      this.getOrderFulfilList();
     },
-    getOrderInvoiceList: function (){
+    getOrderFulfilList: function (){
       var that = this;
-      that.axios.post('/ald/business/order_invoice_list', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
+      that.axios.post('/ald/business/fulfil_goods_list', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
         if (res.data.code=='ok'){
-          that.orderInvoiceList = res.data.data.invoice_list;
+          that.orderFulfilList = res.data.data.fulfil_list;
           that.total = res.data.data.total
           that.spanArr = []
           let contactDot = 0;
-          that.orderInvoiceList.forEach( (item,index) => {
+          that.orderFulfilList.forEach( (item,index) => {
             //遍历tableData数据，给spanArr存入一个1，第二个item.id和前一个item.id是否相同，相同就给
             //spanArr前一位加1，spanArr再存入0，因为spanArr为n的项表示n项合并，为0的项表示该项不显示,后面有spanArr打印结果
             if(index===0){
               that.spanArr.push(1)
             }else{
-              if(item.id === this.orderInvoiceList[index-1].id){
+              if(item.id === this.orderFulfilList[index-1].id){
                 that.spanArr[contactDot] += 1;
                 that.spanArr.push(0)
               }else{
@@ -153,7 +177,6 @@ export default {
               }
             }
           })
-          console.log(this.spanArr)
         }
       }).catch(res=>{
       })
@@ -165,7 +188,7 @@ export default {
       location.reload()
     },
     objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
-        if(columnIndex === 0||columnIndex===1||columnIndex===2||columnIndex===3){
+        if(columnIndex === 0||columnIndex===1||columnIndex===2){
           const _row = this.spanArr[rowIndex]
           const _col = _row>0?1:0;
           //该形式为行合并
@@ -175,12 +198,24 @@ export default {
           }
         }
       },
-    downloadOrderInvoiceList: function (){
+    queryGoodsInfo: function (fulfilId, fulfilCode){
+      var that = this;
+      that.goodsList = []
+      that.showTitle = '履行单' + fulfilCode + '的发货情况'
+      that.axios.post('/ald/business/goods_list', {'fulfilId': fulfilId}).then(res=>{
+        if (res.data.code=='ok'){
+          that.goodsList = res.data.data
+          that.showForm = true
+        }
+      }).catch(res=>{
+      })
+    },
+    downloadOrderFulfilList: function (){
       var that = this;
       var data = 'data=' + JSON.stringify(that.queryType) + '&timestamp=' + new Date().getTime();
       that.axios({
         method: "get",
-        url: '/ald/downloads/orderInvoiceList?' + data,
+        url: '/ald/downloads/orderFulfilList?' + data,
         responseType: 'blob'
       }).then((res) => {
         let blob = new Blob([res.data])

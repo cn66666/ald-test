@@ -19,15 +19,17 @@
         </el-select>
       </el-form-item>
       <el-form-item label="逾期金额下限" label-width="200px">
-        <el-input v-model="setting.minMoney" type="number" min="1"  style="width: 30%"></el-input>
+        <el-input v-model="setting.minMoney" type="number" min="1"  style="width: 30%"><template slot="append">元</template></el-input>
       </el-form-item>
       <el-form-item label="逾期金额门槛比例" label-width="200px">
-        <el-input v-model="setting.minMoneyRate" type="number" min="0" max="100" style="width: 30%"></el-input>
+        <el-input v-model="setting.minMoneyRate" type="number" min="0" max="100" style="width: 30%"><template slot="append">%</template></el-input>
+      </el-form-item>
+      <el-form-item label="备注" label-width="200px">
+        <el-input v-model="setting.info"  style="width: 30%"></el-input>
       </el-form-item>
       <el-form-item label-width="200px">
         <el-button type="primary" size="mini" @click="defaultSetting()">默认配置</el-button>
         <el-button type="primary" size="mini" @click="saveSetting()">保存配置</el-button>
-
       </el-form-item>
     </el-form>
   </div>
@@ -44,8 +46,9 @@ export default {
         isSkip: '0',
         maxDay: 30,
         isClose: '0',
-        minMoney: 100000,
-        minMoneyRate: 5,
+        minMoney: 0,
+        minMoneyRate: 0,
+        info: ''
       },
     }
   },

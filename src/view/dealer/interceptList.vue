@@ -74,6 +74,7 @@
                              check-btn="removeSpecialIntercept" check-role="interceptList" url="/ald/dealer/special_remove_intercept"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
+
         </template>
       </el-table-column>
     </el-table>
@@ -82,6 +83,28 @@
                      layout="prev, pager, next" :page-count="total">
       </el-pagination>
     </div>
+
+    <el-dialog title="进行普通移出" :visible.sync="showForm">
+      <el-form>
+        <el-form-item label="备注信息" prop="info" :label-width="formLabelWidth">
+          <el-input v-model="addForm.info"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="mini" @click="">确认移出</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="进行特殊移出" :visible.sync="specialShowForm">
+      <el-form>
+        <el-form-item label="备注信息" prop="info" :label-width="formLabelWidth">
+          <el-input v-model="addForm.info"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="mini" @click="">确认移出</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -97,8 +120,13 @@ export default {
       total: 1,
       localPage: 1,
       formLabelWidth: '120px',
-      queryType: {
-      },
+      queryType: {},
+      showForm: false,
+      specialShowForm: false,
+      addForm: {
+        info:'',
+        dealerId: '',
+      }
     }
   },
   mounted() {
@@ -120,6 +148,21 @@ export default {
       }).catch(res=>{
       })
     },
+
+    skipIntercept: function (dealerId){
+      var that = this;
+      that.addForm.dealerId = dealerId
+      that.addForm.info = ''
+      that.showForm = true
+    },
+
+    skipSpecialIntercept: function (dealerId){
+      var that = this;
+      that.addForm.dealerId = dealerId
+      that.addForm.info = ''
+      that.specialShowForm = true
+    },
+
     reset: function () {
       location.reload()
     },

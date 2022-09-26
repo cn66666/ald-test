@@ -32,7 +32,7 @@
           label="操作">
           <template slot-scope="scope">
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
-                       @click="businessNoticeConfig(scope.row.id)">配置</el-button>
+                       @click="businessNoticeConfig(scope.row.id)">通知配置</el-button>
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
                        @click="showChangeForm('business', scope.row)">修改</el-button>
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
@@ -68,7 +68,7 @@
           label="操作">
           <template slot-scope="scope">
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
-                       @click="orderNoticeConfig(scope.row.id)">配置</el-button>
+                       @click="orderNoticeConfig(scope.row.id)">通知配置</el-button>
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
                        @click="showChangeForm('order', scope.row)">修改</el-button>
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
@@ -103,8 +103,6 @@
           prop=""
           label="操作">
           <template slot-scope="scope">
-            <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
-                       @click="financeNoticeConfig(scope.row.id)">配置</el-button>
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"
                        @click="showChangeForm('finance', scope.row)">修改</el-button>
             <el-button style="width: 100px; float: left; margin-left: 20px" type="primary" size="mini"

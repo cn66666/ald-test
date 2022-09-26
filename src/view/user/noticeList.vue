@@ -29,23 +29,24 @@
       <el-table-column
         prop="business_leader"
         label="业务负责人"
-        width="300">
+        width="200">
       </el-table-column>
       <el-table-column
         prop="order_leader"
         label="跟单负责人"
-        width="300">
+        width="200">
       </el-table-column>
       <el-table-column
         prop="finance_leader"
         label="财务负责人"
-        width="300">
+        width="200">
       </el-table-column>
       <el-table-column
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <el-button style="width: 100px" type="primary" size="mini" @click="pushNoticeUserConfig(scope.row.id)">配置</el-button>
+          <el-button style="width: 100px" type="primary" size="mini" @click="pushDailyNoticeConfig(scope.row.id)">日报配置</el-button>
+          <el-button style="width: 100px" type="primary" size="mini" @click="pushNoticeUserConfig(scope.row.id)">负责人配置</el-button>
           <el-button style="width: 100px" type="primary" size="mini">日志</el-button>
         </template>
       </el-table-column>
@@ -88,6 +89,10 @@ export default {
         }
       }).catch(res=>{
       })
+    },
+    pushDailyNoticeConfig: function (dealerId) {
+      var that = this;
+      that.$router.push('/admin/user/dailyNoticeConfig?dealerId=' + dealerId)
     },
     pushNoticeUserConfig: function (dealerId) {
       var that = this;
