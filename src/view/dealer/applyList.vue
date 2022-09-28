@@ -17,9 +17,9 @@
 <!--          :value="item.query">-->
 <!--        </el-option>-->
 <!--      </el-select>-->
-      <push-function-btn btn-name="手动更新客户" btn-type="reload" size="mini"
+      <push-function-btn btn-name="手动更新客户" btn-type="reload" size=""
                          check-btn="refreshDealer" check-role="applyList" url="/ald/dealer/refresh_dealer"></push-function-btn>
-      <el-button type="primary" @click="download()"  size="mini">下载excel</el-button>
+      <el-button type="primary" @click="download()">下载excel</el-button>
     </el-row>
     <el-table
       class="info_table"

@@ -72,7 +72,6 @@ export default {
             message: res.data.msg + ':' + res.data.data,
             type: 'warning'
           });
-
         }
       }).catch(res=>{
       })

@@ -22,11 +22,11 @@
           <el-button slot="append" icon="el-icon-search" @click="getOrderInfoList"></el-button>
         </el-input>
       </div>
-      <push-function-btn btn-name="手动获取新订单" btn-type="reload" size="mini"
+      <push-function-btn btn-name="手动获取新订单" btn-type="reload" size=""
                          check-btn="refreshOrder" check-role="orderInfoList" url="/ald/business/refresh_order"></push-function-btn>
-      <push-function-btn btn-name="手动更新旧订单" btn-type="reload" size="mini"
+      <push-function-btn btn-name="手动更新旧订单" btn-type="reload" size=""
                          check-btn="uploadOrder" check-role="orderInfoList" url="/ald/business/upload_order"></push-function-btn>
-      <el-button type="primary" @click="download()" size="mini">下载excel</el-button>
+      <el-button type="primary" @click="download()">下载excel</el-button>
     </el-row>
     <el-table
       class="info_table"

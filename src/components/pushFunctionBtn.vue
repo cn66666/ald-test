@@ -1,5 +1,5 @@
 <template>
-  <el-button type="primary" size="mini" @click="click()" :loading="loading">{{ btnName }}</el-button>
+  <el-button type="primary" :size="size" @click="click()" :loading="loading">{{ btnName }}</el-button>
 </template>
 
 <script>
