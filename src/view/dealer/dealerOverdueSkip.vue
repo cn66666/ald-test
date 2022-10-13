@@ -25,7 +25,7 @@
         <el-input v-model="setting.minMoneyRate" type="number" min="0" max="100" style="width: 30%"><template slot="append">%</template></el-input>
       </el-form-item>
       <el-form-item label="备注" label-width="200px">
-        <el-input v-model="setting.info"  style="width: 30%"></el-input>
+        <el-input v-model="setting.remark"  style="width: 30%"></el-input>
       </el-form-item>
       <el-form-item label-width="200px">
         <el-button type="primary" size="mini" @click="defaultSetting()">默认配置</el-button>
@@ -37,6 +37,8 @@
 </template>
 
 <script>
+import {Message} from "element-ui";
+
 export default {
   name: "dealerOverdueSkip",
   data() {
@@ -46,9 +48,9 @@ export default {
         isSkip: '0',
         maxDay: 30,
         isClose: '0',
-        minMoney: 0,
-        minMoneyRate: 0,
-        info: ''
+        minMoney: 100000,
+        minMoneyRate: 5,
+        remark: ''
       },
     }
   },
@@ -69,6 +71,7 @@ export default {
         isClose: '0',
         minMoney: 100000,
         minMoneyRate: 5,
+        remark: ''
       }
     },
     getSetting: function (){
@@ -87,6 +90,7 @@ export default {
             settings['isClose'] = '1'
           }
           that.setting = settings
+          that.setting.remark = ''
         }else {
           that.setting = {
             isSkip: '0',
@@ -94,6 +98,7 @@ export default {
             isClose: '0',
             minMoney: 100000,
             minMoneyRate: 5,
+            remark: ''
           }
         }
       }).catch(res=>{
@@ -107,6 +112,7 @@ export default {
         isClose: that.setting.isSkip,
         minMoney: that.setting.minMoney,
         minMoneyRate: that.setting.minMoneyRate,
+        remark: that.setting.remark
       }
       if (that.setting.isSkip === '0'){
         settings.isSkip = false
@@ -118,15 +124,13 @@ export default {
       } else {
         settings.isClose = true
       }
+      console.log(settings)
       that.axios.post('/ald/dealer/save_overdue_setting', {'dealerId': that.dealerId,
         'setting': settings}).then(res=>{
         if (res.data.code==='ok'){
-          that.$message({
-            message: '保存成功',
-            type: 'success'
-          });
+          Message.success('成功: 申请审批中')
         }else {
-
+          Message.warning('失败: ' + res.data.data)
         }
       }).catch(res=>{
       })

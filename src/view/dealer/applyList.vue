@@ -86,12 +86,8 @@
                              check-btn="showApplyIntercept" check-role="applyList" :check-function='showApplyIntercept'
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
-          <push-function-btn v-if="scope.row.state_code === 'intercept'" btn-name="跳过拦截" btn-type="function" size="mini"
-                             check-btn="showApplyIntercept" check-role="applyList" :check-function='skipApplyIntercept'
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
-
           <push-function-btn v-if="scope.row.state_code === 'add'" btn-name="前往数据采集页面" btn-type="replace_new"
-                             check-btn="getDealerData" url="/xingyun/upload"
+                             check-btn="getDealerData" url="/xingyun/upload"  size="mini"
                              params-key='code' :params-value='scope.row.code' check-role="applyList"></push-function-btn>
 
           <push-function-btn v-if="scope.row.state_code === 'add'" btn-name="跳过数据采集页面" btn-type="reload" size="mini"
@@ -120,29 +116,21 @@
     <el-dialog title="查看拦截原因" :visible.sync="showIntercept">
       <el-form>
         <el-form-item label="拦截原因" :label-width="formLabelWidth">
-          <p v-for="(item)  in interceptList" :key="item">{{ item }};</p>
+          <p v-for="(item,index)  in interceptList" :key="index">{{ item }};</p>
         </el-form-item>
         <el-form-item label="备注信息" prop="info" :label-width="formLabelWidth">
-          <el-input v-model="addForm.info"></el-input>
+          <el-input v-model="addForm.remark"></el-input>
         </el-form-item>
       </el-form>
+      <el-button type="primary" size="mini" @click="skipApplyIntercept()">确认跳过拦截</el-button>
     </el-dialog>
 
-    <el-dialog title="进行跳过拦截" :visible.sync="showForm">
-      <el-form>
-        <el-form-item label="备注信息" prop="info" :label-width="formLabelWidth">
-          <el-input v-model="addForm.info"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" size="mini" @click="">确认跳过拦截</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import PushFunctionBtn from "../../components/pushFunctionBtn";
+import {Message} from "element-ui";
 
 export default {
   name: "applyList",
@@ -153,13 +141,11 @@ export default {
       total: 1,
       localPage: 1,
       showIntercept: false,
-      showForm:false,
       formLabelWidth: '120px',
       interceptList:[],
-      applyInterceptId: null,
       queryType: {},
       addForm: {
-        info:'',
+        remark:'',
         dealerId: ''
       },
       dealerType: [
@@ -205,25 +191,28 @@ export default {
     showApplyIntercept: function (dealerId){
       var that = this;
       that.interceptList = []
-      that.applyInterceptId=dealerId
+      that.addForm.dealerId=dealerId
       that.showIntercept=true;
       that.axios.post('/ald/dealer/show_apply_intercept', {'dealerId': dealerId,}).then(res=>{
         if (res.data.code=='ok'){
           that.interceptList = res.data.data
         }else {
-          that.$message({
-            message: res.data.msg + ':' + res.data.data,
-            type: 'warning'
-          });
+          Message.warning('失败: ' + res.data.data)
         }
       }).catch(res=>{
       })
     },
 
-    skipApplyIntercept: function (dealerId){
+    skipApplyIntercept: function (){
       var that = this;
-      that.addForm.dealerId = dealerId
-      that.showForm = true
+      that.axios.post('/ald/dealer/skip_apply_intercept', that.addForm).then(res=>{
+        if (res.data.code=='ok'){
+          Message.success('成功: 申请审批中')
+        }else {
+          Message.warning('失败: ' + res.data.data)
+        }
+      }).catch(res=>{
+      })
     },
 
     download: function (){

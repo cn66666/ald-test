@@ -18,13 +18,11 @@
         <el-input v-model="quotaDayInfo.reckonQuota" :disabled="change" style="width: 50%"></el-input>
       </el-form-item>
       <el-form-item label="备注" label-width="200px">
-        <el-input v-model="quotaDayInfo.info"  style="width: 50%"></el-input>
+        <el-input v-model="quotaDayInfo.remark"  style="width: 50%"></el-input>
       </el-form-item>
       <el-form-item label-width="200px">
         <el-button type="primary" size="mini" @click="reckonQuotaDay()">额度试算</el-button>
-        <push-function-btn btn-name="账期调整额度" btn-type="reload" size="mini"
-                           check-btn="changeQuotaDayMoney" check-role="quotaList" url="/ald/dealer/change_quota_day"
-                           params-key='dealerId' :params-value='dealerId' back></push-function-btn>
+        <el-button type="primary" size="mini" @click="changeQuotaDay()">账期调整额度</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -32,6 +30,7 @@
 
 <script>
 import PushFunctionBtn from "../../components/pushFunctionBtn";
+import {Message} from "element-ui";
 export default {
   name: "changeQuotaDay",
   components: {PushFunctionBtn},
@@ -42,12 +41,13 @@ export default {
         erpDay: '-',
         aldDay: '-',
         quota: '-',
-        reckonDay: 0,
+        reckonDay: 1,
         reckonQuota: '-',
-        info: ''
+        remark: ''
       },
       change: true,
-      reckon: false
+      reckon: false,
+      update: false
     }
   },
   mounted() {
@@ -68,10 +68,7 @@ export default {
           that.quotaDayInfo.quota = res.data.data.quota
           that.reckon = true
         }else {
-          that.$message({
-            message: res.data.msg + ':' + res.data.data,
-            type: 'warning'
-          });
+          Message.warning('失败: ' + res.data.data)
         }
       }).catch(res=>{
       })
@@ -82,16 +79,32 @@ export default {
         that.axios.post('/ald/dealer/reckon_quota_day', {'dealerId': that.dealerId, 'reckonDay': that.quotaDayInfo.reckonDay}).then(res=>{
           if (res.data.code==='ok'){
             that.quotaDayInfo.reckonQuota = res.data.data
+            that.update = true
           }else {
-            that.$message({
-              message: res.data.msg + ':' + res.data.data,
-              type: 'warning'
-            });
+            Message.warning('失败: ' + res.data.data)
           }
         }).catch(res=>{
         })
       }
     },
+    changeQuotaDay: function () {
+      var that = this;
+      if (that.update === true){
+        that.axios.post('/ald/dealer/change_quota_day', {'dealerId': that.dealerId, 'reckonDay': that.quotaDayInfo.reckonDay,
+          'remark': that.quotaDayInfo.remark}).then(res=>{
+          if (res.data.code==='ok'){
+            Message.success('成功: 申请审批中')
+            that.update = false
+          }else {
+            Message.warning('失败: ' + res.data.data)
+          }
+        }).catch(res=>{
+        })
+      } else {
+        Message.warning('失败: 请先进行试算')
+      }
+
+    }
   }
 }
 </script>

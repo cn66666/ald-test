@@ -356,7 +356,7 @@
                           v-model="addForm.special_date"></el-date-picker>
         </el-form-item>
         <el-form-item label="备注信息" prop="info" :label-width="formLabelWidth">
-          <el-input v-model="addForm.info"></el-input>
+          <el-input v-model="addForm.remark"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -390,7 +390,7 @@ export default {
       addForm: {
         special_quota: 0,
         special_date: '',
-        info: ''
+        remark: ''
       }
     }
   },
@@ -448,7 +448,7 @@ export default {
       }
       that.axios.post('/ald/dealer/add_special_quota', {'addForm': that.addForm, 'dealerId': that.dealerId}).then(res=>{
         if (res.data.code=='ok'){
-          location.reload()
+          Message.success('成功: 申请审批中')
           return
         }else {
           Message.warning('失败: ' + res.data.data)
