@@ -68,6 +68,8 @@ axios.interceptors.request.use(function (config) {
         return config
       }else if (config.url === "/ald/dealer/get_code"){
         return config
+      }else if (config.url === "/dailyNotice/report"){
+        return config
       }
       router.push({path:"/login"})
     }

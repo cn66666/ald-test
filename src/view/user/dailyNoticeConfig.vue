@@ -80,7 +80,7 @@
     </div>
     <div style="margin: 1% 3%;  width: 90%">
       <div style="min-height: 30px">
-        <h4 style="float: left">跟单负责人日报配置</h4>
+        <h4 style="float: left">财务负责人日报配置</h4>
       </div>
       <el-table
         :data="financeDaily"

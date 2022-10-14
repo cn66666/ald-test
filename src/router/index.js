@@ -353,6 +353,12 @@ export default new Router({
           meta: { title: '客户发货情况' },
           component: resolve => require(['../view/business/orderFulfilList'], resolve),
         },
+        {
+          path: '/admin/user/noticeLogList',
+          name: 'noticeLogList',
+          meta: { title: '客户消息通知日志' },
+          component: resolve => require(['../view/user/noticeLogList'], resolve),
+        },
       ]
     },
     {
@@ -364,6 +370,12 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: resolve => require(['../view/login'], resolve),
+    },
+    {
+      path: '/dailyNotice/report',
+      name: 'report',
+      meta: { title: '客户日报' },
+      component: resolve => require(['../view/dailyNotice/report'], resolve),
     },
     {
       path: '/xingyun/upload',

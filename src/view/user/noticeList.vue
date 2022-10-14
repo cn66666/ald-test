@@ -47,7 +47,7 @@
         <template slot-scope="scope">
           <el-button style="width: 100px" type="primary" size="mini" @click="pushDailyNoticeConfig(scope.row.id)">日报配置</el-button>
           <el-button style="width: 100px" type="primary" size="mini" @click="pushNoticeUserConfig(scope.row.id)">负责人配置</el-button>
-          <el-button style="width: 100px" type="primary" size="mini">日志</el-button>
+          <el-button style="width: 100px" type="primary" size="mini" @click="pushNoticeLogList(scope.row.id)">日志</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -97,6 +97,10 @@ export default {
     pushNoticeUserConfig: function (dealerId) {
       var that = this;
       that.$router.push('/admin/user/noticeUserConfig?dealerId=' + dealerId)
+    },
+    pushNoticeLogList: function (dealerId) {
+      var that = this;
+      that.$router.push('/admin/user/noticeLogList?dealerId=' + dealerId)
     }
   }
 }
