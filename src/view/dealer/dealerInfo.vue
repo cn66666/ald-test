@@ -349,7 +349,7 @@
       <el-form>
         <el-form-item label="特批额度" :label-width="formLabelWidth">
           <el-input v-model="addForm.special_quota">
-            <template slot="append">元</template></el-input>
+            <template slot="append">万元</template></el-input>
         </el-form-item>
         <el-form-item label="特批结束日期" prop="special_date" :label-width="formLabelWidth">
           <el-date-picker type="date" placeholder="选择日期" value-format="yyyy-MM-dd"
