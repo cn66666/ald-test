@@ -12,7 +12,8 @@
         <el-input v-model="quotaDayInfo.quota" :disabled="change" style="width: 50%"></el-input>
       </el-form-item>
       <el-form-item label="调整账期" label-width="200px">
-        <el-input v-model="quotaDayInfo.reckonDay" type="number" min="1"  style="width: 50%"></el-input>
+        <el-input v-model="quotaDayInfo.reckonDay" type="number" min="1"  style="width: 50%">
+          <template slot="append">天</template></el-input>
       </el-form-item>
       <el-form-item label="试算额度结果" label-width="200px">
         <el-input v-model="quotaDayInfo.reckonQuota" :disabled="change" style="width: 50%"></el-input>
