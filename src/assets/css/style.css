@@ -46,6 +46,9 @@
 .el-table--border  td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
   border-right: 1px solid #F5F6F8!important;
 }
+.el-table--border::after, .el-table--group::after, .el-table::before{
+  background-color: #F5F6F8;
+}
 /**
 改变表格内行线颜色
 */
