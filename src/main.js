@@ -3,6 +3,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import Vue from 'vue';
 import './assets/css/common.css';
+import './assets/css/style.css';
 import VueAxios from 'vue-axios';
 import axios from 'axios';
 import { Loading, Message,MessageBox} from 'element-ui';

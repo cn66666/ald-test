@@ -385,5 +385,17 @@ export default new Router({
         title: '行云数据采集',
         icon: '/static/xingyun.ico'
       }
+    },
+    {
+      path: '/home',
+      name: 'home',
+      meta: { title: '系统首页', icon: ''},
+      component: resolve => require(['../view/home/home'], resolve),
+    },
+    {
+      path: '/paper',
+      name: 'paper',
+      meta: { title: '信用评级系统-日报', icon: ''},
+      component: resolve => require(['../view/paper/paper'], resolve),
     }]
 })
