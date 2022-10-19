@@ -59,3 +59,43 @@
 .el-table thead tr th{
   border-color: #F5F6F8;
 }
+
+
+.el-submenu__title{
+  line-height: 40px;
+  height: 40px;
+  font-weight: 500;
+  margin:10px 0;
+  color: #787A8E;
+}
+.el-menu-item-group__title{
+    display: none!important;
+}
+.el-submenu__title:hover::before,
+.el-submenu__title.is-active::before{
+    position: absolute;
+    left: 0;
+    top: 0px;
+    content: "";
+    width: 4px;
+    height: 40px;
+    background: #2E69FF;
+    display: block;
+}
+.el-submenu__icon-arrow{
+  position: absolute;
+  top: 24px;
+  right: 36px;
+  content: "";
+  display: block;
+  width: 4px;
+  height: 4px;
+  border: 2px solid #787a8e;
+  border-left: 0;
+  border-bottom: 0;
+  transform: rotate(45deg);
+  font-size: 0;
+}
+.el-submenu.is-opened>.el-submenu__title .el-submenu__icon-arrow{
+  transform: rotate(135deg);
+}
