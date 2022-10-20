@@ -168,6 +168,8 @@
 </template>
 
 <script>
+import {Message} from "element-ui";
+
 export default {
   name: "noticeUserConfig",
   data() {
@@ -245,6 +247,8 @@ export default {
         if (res.data.code==='ok'){
           that.showAdd = false
           location.reload()
+        } else {
+          Message.warning('失败: ' + res.data.data)
         }
       }).catch(res=>{
       })
@@ -284,6 +288,8 @@ export default {
         if (res.data.code==='ok'){
           that.showAdd = false
           location.reload()
+        } else {
+          Message.warning('失败: ' + res.data.data)
         }
       }).catch(res=>{
       })

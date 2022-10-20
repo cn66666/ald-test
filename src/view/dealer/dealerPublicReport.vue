@@ -268,7 +268,7 @@
             </el-table-column>
             <el-table-column
               prop="percent"
-              label="投资比例(%)">
+              label="投资金额">
               <template slot-scope="scope">
                 {{ scope.row.percent | rateFormat}}
               </template>

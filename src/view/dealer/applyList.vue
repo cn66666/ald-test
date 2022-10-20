@@ -78,10 +78,6 @@
                              check-btn="changeDealer" check-role="applyList" url="/ald/dealer/dealer_apply"
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
 
-          <push-function-btn v-if="scope.row.state_code === 'save'" btn-name="特殊审批" btn-type="replace" size="mini"
-                             check-btn="specialApply" check-role="applyList" url="/admin/dealer/specialApply"
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
-
           <push-function-btn v-if="scope.row.state_code === 'intercept'" btn-name="查询拦截原因" btn-type="function" size="mini"
                              check-btn="showApplyIntercept" check-role="applyList" :check-function='showApplyIntercept'
                              params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
