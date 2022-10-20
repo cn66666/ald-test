@@ -397,15 +397,15 @@ export default {
   mounted() {
     var that = this;
     that.dealerId = this.$route.query.dealerId;
-    that.getDealerInfo()
+    that.getDealerInfo('客户信息')
   },
   methods: {
     goBack() {
       this.$router.go(-1)
     },
-    getDealerInfo: function (){
+    getDealerInfo: function (tab_name){
       var that = this;
-      that.axios.post('/ald/dealer/dealer_info', {'dealerId': that.dealerId,}).then(res=>{
+      that.axios.post('/ald/dealer/dealer_info', {'dealerId': that.dealerId, 'tabName': tab_name}).then(res=>{
         if (res.data.code==='ok'){
           that.dealerInfo = res.data.data
         }
@@ -458,7 +458,8 @@ export default {
       })
     },
     handleClick(tab, event) {
-      console.log(tab, event);
+      var that = this;
+      that.getDealerInfo(tab.name)
     },
     showDealerOperLogs: function (){
       var that = this;

@@ -57,6 +57,10 @@
 
     <el-dialog title="中信保数据补充" :visible.sync="showZxbForm">
       <el-form :model="addForm.exportInfo" :rules="rules" ref="addForm">
+        <el-form-item label="批复金额" :label-width="formLabelWidth">
+          <el-input v-model="addForm.exportInfo.exportQuota" :disabled="change" style="width: 250px">
+          </el-input>
+        </el-form-item>
         <el-form-item label="成立时长" :label-width="formLabelWidth">
           <el-input v-model="addForm.exportInfo.createYear" type="number" min="0" style="width: 250px">
             <template slot="append">年</template>
@@ -145,7 +149,8 @@ export default {
           creditDay: 0,
           riskRate: 0,
           otherRiskRate: 0,
-          payLog: ''
+          payLog: '',
+          exportQuota: 0,
         }
       },
       change: false,
@@ -189,6 +194,7 @@ export default {
             that.addForm.exportInfo.creditDay = res.data.data.export_info.creditDay;
             that.addForm.exportInfo.riskRate = res.data.data.export_info.riskRate;
             that.addForm.exportInfo.otherRiskRate = res.data.data.export_info.otherRiskRate;
+            that.addForm.exportInfo.exportQuota = res.data.data.export_info.exportQuota;
           }
           that.countryList = res.data.data.countryList
           that.change = true

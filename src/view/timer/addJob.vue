@@ -18,7 +18,8 @@
           <el-option label="订单维护" value="orderMaintain"></el-option>
           <el-option label="逾期拦截" value="overdueQuery"></el-option>
           <el-option label="滞纳金计算" value="overdueCount"></el-option>
-          <el-option label="季度额度申请" value="quaterApply"></el-option>
+          <el-option label="内销客户季度额度申请" value="quaterApply"></el-option>
+          <el-option label="出口客户季度额度更新" value="quaterExportApply"></el-option>
           <el-option label="季度额度确认" value="quaterTakeEffect"></el-option>
           <el-option label="特批额度取消" value="quotaSpecial"></el-option>
           <el-option label="年度评分卡申请" value="scoreApply"></el-option>
