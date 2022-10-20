@@ -81,7 +81,7 @@ export default {
   },
   created() {
     var that = this;
-    that.checkLogin()
+    // that.checkLogin()
   },
   methods: {
     logout: function () {

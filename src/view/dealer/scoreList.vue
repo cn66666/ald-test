@@ -186,7 +186,8 @@ export default {
   components: {PushFunctionBtn},
   data() {
     return {
-      scoreList: [],
+      scoreList: [
+        {'id': 2, 'dealer_id': 11, 'company_code': 'C000524', 'company_name': 'C000524 天津市华明宇功商贸有限公司', 'quota_type': '老客户', 'old_quota': '', 'new_quota': '', 'level': '', 'new_date': '', 'old_date': '', 'state_code': 'add', 'is_export': false, 'back': true}, {'id': 1, 'dealer_id': 9, 'company_code': 'C000515', 'company_name': 'C000515 苏九精料零售', 'quota_type': '老客户', 'old_quota': '', 'new_quota': '', 'level': '', 'new_date': '', 'old_date': '', 'state_code': 'add', 'is_export': false, 'back': true}],
       total: 1,
       localPage: 1,
       showIntercept: false,
