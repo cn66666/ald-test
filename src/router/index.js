@@ -21,7 +21,7 @@ export default new Router({
         {
           path: '/admin',
           name: 'admin',
-          component: resolve => require(['../view/admin'], resolve),
+          component: resolve => require(['../view/admin/admin'], resolve),
         },
         {
           path: '/admin/user/userList',
@@ -385,12 +385,6 @@ export default new Router({
         title: '行云数据采集',
         icon: '/static/xingyun.ico'
       }
-    },
-    {
-      path: '/home',
-      name: 'home',
-      meta: { title: '系统首页', icon: ''},
-      component: resolve => require(['../view/home/home'], resolve),
     },
     {
       path: '/paper',

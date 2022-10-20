@@ -34,13 +34,13 @@
             </el-dropdown-menu>
           </el-dropdown>
         </el-header>
-        <el-main class="main">
-          <bread></bread>
-          <div class="info" style="height: 100%; background-color: white; overflow: auto; border-radius: 5px">
+        <el-main>
+          <div class="main">
+            <bread></bread>
             <router-view/>
+            <el-footer style="height: 5%"><div data-v-29a933e9="" style="height: 30px; line-height: 30px; text-align: center;"><span data-v-29a933e9="" style="font-size: 12px;"> Copyright <span data-v-29a933e9="">2022</span>北京微星优财网络科技有限公司 &nbsp;&nbsp;&nbsp; 京ICP备15011399号</span></div></el-footer>
           </div>
         </el-main>
-        <el-footer style="height: 5%"><div data-v-29a933e9="" style="height: 30px; line-height: 30px; text-align: center;"><span data-v-29a933e9="" style="font-size: 12px;"> Copyright <span data-v-29a933e9="">2022</span>北京微星优财网络科技有限公司 &nbsp;&nbsp;&nbsp; 京ICP备15011399号</span></div></el-footer>
       </el-container>
     </el-container>
 </template>
