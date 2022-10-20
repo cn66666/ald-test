@@ -28,6 +28,10 @@
           label="联系方式" width="200">
         </el-table-column>
         <el-table-column
+          prop="user_dd"
+          label="钉钉id" width="200">
+        </el-table-column>
+        <el-table-column
           prop=""
           label="操作">
           <template slot-scope="scope">
@@ -62,6 +66,10 @@
         <el-table-column
           prop="user_phone"
           label="联系方式" width="200">
+        </el-table-column>
+        <el-table-column
+          prop="user_dd"
+          label="钉钉id" width="200">
         </el-table-column>
         <el-table-column
           prop=""
@@ -100,6 +108,10 @@
           label="联系方式" width="200">
         </el-table-column>
         <el-table-column
+          prop="user_dd"
+          label="钉钉id" width="200">
+        </el-table-column>
+        <el-table-column
           prop=""
           label="操作">
           <template slot-scope="scope">
@@ -120,9 +132,6 @@
         <el-form-item label="联系方式" label-width="100px">
           <el-input v-model="addForm.userPhone" style="width: 80%"></el-input>
         </el-form-item>
-        <el-form-item label="钉钉信息" label-width="100px">
-          <el-input v-model="addForm.userdd" style="width: 80%"></el-input>
-        </el-form-item>
         <el-form-item label="负责人岗位" label-width="100px">
           <el-input v-model="addForm.userRemark" style="width: 80%"></el-input>
         </el-form-item>
@@ -139,9 +148,6 @@
         </el-form-item>
         <el-form-item label="联系方式" label-width="100px">
           <el-input v-model="changeForm.userPhone" style="width: 80%"></el-input>
-        </el-form-item>
-        <el-form-item label="钉钉信息" label-width="100px">
-          <el-input v-model="changeForm.userdd" style="width: 80%"></el-input>
         </el-form-item>
         <el-form-item label="负责人岗位" label-width="100px">
           <el-input v-model="changeForm.userRemark" style="width: 80%"></el-input>
@@ -177,7 +183,6 @@ export default {
         userType: '',
         userName: '',
         userPhone: '',
-        userdd: '',
         userRemark: '',
       },
       changeForm: {
@@ -185,7 +190,6 @@ export default {
         userType: '',
         userName: '',
         userPhone: '',
-        userdd: '',
         userRemark: '',
       },
       deleteShow: false,
