@@ -374,7 +374,7 @@ export default new Router({
     {
       path: '/dailyNotice/report',
       name: 'report',
-      meta: { title: '客户日报' },
+      meta: { title: '信用评级系统-客户日报' },
       component: resolve => require(['../view/dailyNotice/report'], resolve),
     },
     {
@@ -385,11 +385,5 @@ export default new Router({
         title: '行云数据采集',
         icon: '/static/xingyun.ico'
       }
-    },
-    {
-      path: '/paper',
-      name: 'paper',
-      meta: { title: '信用评级系统-日报', icon: ''},
-      component: resolve => require(['../view/paper/paper'], resolve),
-    }]
+    },]
 })

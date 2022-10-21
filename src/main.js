@@ -53,7 +53,7 @@ axios.defaults.paramsSerializer = function(data){
 
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
-  if (config.method == 'post'){
+  if (config.method === 'post'){
     if(localStorage.getItem("token") !== null) {
       config.headers.withCredentials = true
       config.headers.Authorization = localStorage.getItem("token")
@@ -63,13 +63,14 @@ axios.interceptors.request.use(function (config) {
       config.data['userCode'] = localStorage.getItem("userCode")
       return config;
     }else{
+      console.log(config.url)
       if (config.url === "/ald/login"){
         return config
       }else if (config.url === "/xingyun/upload"){
         return config
       }else if (config.url === "/ald/dealer/get_code"){
         return config
-      }else if (config.url === "/dailyNotice/report"){
+      }else if (config.url === "/ald/notice/report"){
         return config
       }
       router.push({path:"/login"})
