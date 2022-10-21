@@ -80,7 +80,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <div style="float: right;margin-top: 23px;margin-right: 79px;">
+    <div style="text-align: right;margin-top: 23px;margin-right: 79px;">
       <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
                      layout="prev, pager, next" :page-count="total">
       </el-pagination>

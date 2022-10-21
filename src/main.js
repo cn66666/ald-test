@@ -72,7 +72,7 @@ axios.interceptors.request.use(function (config) {
       }else if (config.url === "/dailyNotice/report"){
         return config
       }
-      // router.push({path:"/login"})
+      router.push({path:"/login"})
     }
   }else {
     return config;
