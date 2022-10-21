@@ -153,7 +153,6 @@ export default {
               }
             }
           })
-          console.log(this.spanArr)
         }
       }).catch(res=>{
       })

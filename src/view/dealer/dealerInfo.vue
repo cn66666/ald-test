@@ -313,6 +313,26 @@
             </el-table-column>
           </el-table>
         </el-tab-pane>
+        <el-tab-pane label="最新评分卡解析" name="最新评分卡解析">
+          <el-table
+            class="info_table"
+            :span-method="objectSpanMethod"
+            :data="dealerInfo.analysis_score"
+            style="width: 98%; margin: 0 1%">
+            <el-table-column
+              prop="class"
+              label="分类">
+            </el-table-column>
+            <el-table-column
+              prop="type"
+              label="项目">
+            </el-table-column>
+            <el-table-column
+              prop="analysis"
+              label="评价">
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
         <el-tab-pane label="用户操作日志" name="用户操作日志">
           <span style="margin-left: 10px">
             近10条用户操作日志
@@ -391,7 +411,8 @@ export default {
         special_quota: 0,
         special_date: '',
         remark: ''
-      }
+      },
+      spanArr: [],
     }
   },
   mounted() {
@@ -408,6 +429,26 @@ export default {
       that.axios.post('/ald/dealer/dealer_info', {'dealerId': that.dealerId, 'tabName': tab_name}).then(res=>{
         if (res.data.code==='ok'){
           that.dealerInfo = res.data.data
+          if (tab_name === '最新评分卡解析'){
+            that.spanArr = []
+            let contactDot = 0;
+            that.dealerInfo.analysis_score.forEach( (item,index) => {
+              //遍历tableData数据，给spanArr存入一个1，第二个item.id和前一个item.id是否相同，相同就给
+              //spanArr前一位加1，spanArr再存入0，因为spanArr为n的项表示n项合并，为0的项表示该项不显示,后面有spanArr打印结果
+              if(index===0){
+                that.spanArr.push(1)
+              }else{
+                if(item.class === this.dealerInfo.analysis_score[index-1].class){
+                  that.spanArr[contactDot] += 1;
+                  that.spanArr.push(0)
+                }else{
+                  contactDot = index
+                  that.spanArr.push(1)
+                }
+              }
+            })
+          }
+
         }
       }).catch(res=>{
       })
@@ -456,6 +497,17 @@ export default {
         }
       }).catch(res=>{
       })
+    },
+    objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
+      if(columnIndex === 0){
+        const _row = this.spanArr[rowIndex]
+        const _col = _row>0?1:0;
+        //该形式为行合并
+        return{
+          rowspan:_row,
+          colspan:_col
+        }
+      }
     },
     handleClick(tab, event) {
       var that = this;
