@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="履行单通过清单" style="margin: 1%">
+    <el-page-header @back="goBack" content="履行单通过清单" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-table
       :data="fulfilList"

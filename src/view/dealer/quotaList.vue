@@ -76,7 +76,6 @@
         <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
       </div>
-
     </el-row>
     <el-table
       class="info_table"

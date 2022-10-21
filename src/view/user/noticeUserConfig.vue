@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="客户通知配置" style="margin: 1%">
+    <el-page-header @back="goBack" content="客户通知配置" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-row style="margin-left: 5%">
       <h3>{{ noticeInfo.company_name }}</h3>

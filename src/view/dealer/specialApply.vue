@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="新客户特殊审批" style="margin: 1%">
+    <el-page-header @back="goBack" content="新客户特殊审批" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-form :model="infoForm" status-icon :rules="rules" ref="infoForm" label-width="130px" class="demo-ruleForm" style="margin-top: 20px">
       <el-form-item label="客户名称" prop="companyName" style="width: 50%">

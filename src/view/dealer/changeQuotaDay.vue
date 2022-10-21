@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="客户账期调整" style="margin: 1%"></el-page-header>
+    <el-page-header @back="goBack" content="客户账期调整" style="padding-left: 15px; padding-top: 15px"></el-page-header>
     <el-form>
       <el-form-item label="ERP账期" label-width="200px">
         <el-input v-model="quotaDayInfo.erpDay" :disabled="change" style="width: 50%"></el-input>

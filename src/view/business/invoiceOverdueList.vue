@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="开票逾期明细" style="margin: 1%">
+    <el-page-header @back="goBack" content="开票逾期明细" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-table
       :data="invoiceOverdueList"

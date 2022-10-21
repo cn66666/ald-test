@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="滞纳金变更详情" style="margin: 1%">
+    <el-page-header @back="goBack" content="滞纳金变更详情" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-row class="filter_row">
       <el-date-picker v-model="queryType.startDate"

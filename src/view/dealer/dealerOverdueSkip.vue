@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="客户信息" style="margin: 1%">
+    <el-page-header @back="goBack" content="客户信息" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-form>
       <el-form-item label="发票逾期校验" label-width="200px">

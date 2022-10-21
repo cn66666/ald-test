@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="日报配置详情" style="margin: 1%">
+    <el-page-header @back="goBack" content="日报配置详情" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <div style="margin: 1% 3%; height: 50px; width: 90%">
       <span style="float:left; line-height: 40px">日报提醒时间为每日8点</span>

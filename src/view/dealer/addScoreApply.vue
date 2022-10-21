@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" :content="companyName" style="margin: 1%">
+    <el-page-header @back="goBack" :content="companyName" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-form :model="addForm" status-icon :rules="rules" ref="addForm" label-width="130px" class="demo-ruleForm" style="margin-top: 20px">
       <el-form-item label="去年业务规划" prop="oldSaleMoney" style="width: 50%">

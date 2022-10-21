@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="业务负责人配置详情" style="margin: 1%">
+    <el-page-header @back="goBack" content="业务负责人配置详情" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <div style="margin: 1% 3%; height: 100px; width: 90%">
       <h2>业务负责人: {{userName}}</h2>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="发票逾期详情" style="margin: 1%">
+    <el-page-header @back="goBack" content="发票逾期详情" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-row class="filter_row">
       <el-select v-model="queryType.stateType" placeholder="请选择开票状态" @change="getInovicetOverdueLogs(1)">

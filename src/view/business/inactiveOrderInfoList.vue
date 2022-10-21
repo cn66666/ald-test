@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="销售单状态" style="margin: 1%">
+    <el-page-header @back="goBack" content="销售单状态" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-table
       class="info_table"

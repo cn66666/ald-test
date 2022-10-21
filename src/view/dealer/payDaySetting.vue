@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="补充客户信息" style="margin: 1%">
+    <el-page-header @back="goBack" content="补充客户信息" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-form :model="dealerInfo" status-icon :rules="rules" ref="addForm" label-width="130px" class="demo-ruleForm" style="margin-top: 20px">
       <el-form-item label="ERP账期" prop="companyCode" style="width: 50%">

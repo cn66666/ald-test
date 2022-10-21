@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="客户信息" style="margin: 1%">
+    <el-page-header @back="goBack" content="客户信息" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <div style="margin: 20px">
       <el-tabs v-model="activeName" @tab-click="handleClick">

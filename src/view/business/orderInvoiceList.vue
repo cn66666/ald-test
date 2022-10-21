@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="客户回款情况" style="margin: 1%">
+    <el-page-header @back="goBack" content="客户回款情况" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-row class="filter_row">
       <div style="width: 240px; float:left; margin: 2px;">
