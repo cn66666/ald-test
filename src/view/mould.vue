@@ -3,7 +3,7 @@
       <el-aside class="left-aside" width="200px">
         <img :src="logo" alt="" class="logo" @click="toIndex()">
          <el-col :span="24">
-            <el-menu class="el-menu-vertical-demo">
+            <el-menu class="el-menu-vertical-demo" :default-openeds="openeds" :router="true" :unique-opened="true" :default-active="onRoutes">
               <el-submenu v-for="(menu, index) in menuList" :index="menu.id + ''" :key="index">
                 <template slot="title">
                   <div class="menu">
@@ -12,7 +12,7 @@
                   </div>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item v-for="(submenu, s_index) in menu.submenu" :index="submenu.url" :key="s_index" @click="toPage(submenu.url)">
+                  <el-menu-item v-for="(submenu, s_index) in menu.submenu" :index="submenu.url" :key="s_index">
                     {{ submenu.name }}
                   </el-menu-item>
                 </el-menu-item-group>
@@ -105,6 +105,13 @@ export default {
       that.version = '测试环境'
     }
 
+  },
+  computed: {
+    onRoutes() {
+      let page = this.$route.path;
+      localStorage.setItem("lastPage", page);
+      return page;
+    }
   },
   watch: {
     $route(to, from) {// 监听路由
