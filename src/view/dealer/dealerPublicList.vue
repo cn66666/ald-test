@@ -36,7 +36,7 @@
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="toPublicReport(scope.row.id)">查看</el-button>
+          <el-button v-if="scope.row.state_code === 'ok'" type="primary" size="mini" @click="toPublicReport(scope.row.id)">查看</el-button>
         </template>
       </el-table-column>
     </el-table>
