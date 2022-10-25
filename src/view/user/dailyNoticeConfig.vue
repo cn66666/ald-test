@@ -3,9 +3,9 @@
     <el-page-header @back="goBack" content="日报配置详情" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <div style="margin: 1% 3%; height: 50px; width: 90%">
-      <span style="float:left; line-height: 40px">日报提醒时间为每日8点</span>
-      <div style="float:left; margin-left: 100px">
-        <el-button style="width: 100px" type="primary" size="mini" @click="saveConfig()">保存</el-button>
+      <div>
+        <span style="line-height: 40px">日报提醒时间为每日8点</span>
+        <el-button style="width: 100px; margin-left: 40px" type="primary" size="mini" @click="defaultConfig()">改为默认配置</el-button>
       </div>
     </div>
     <div style="margin: 1% 3%;  width: 90%">
@@ -18,7 +18,7 @@
         style="width: 100%; margin-top: 20px">
         <el-table-column
           prop="id"
-          label="序号" width="50">
+          label="序号" width="70">
         </el-table-column>
         <el-table-column
           prop="title"
@@ -36,9 +36,14 @@
           prop=""
           label="操作">
           <template slot-scope="scope">
-            <el-button v-if="checkOpenType('businessDaily', scope.row.name) === true" style="width: 100px" type="primary" size="mini" @click="openConfig('businessDaily', scope.row.name)">开启</el-button>
-            <el-button v-else-if="checkOpenType('businessDaily', scope.row.name) === false" style="width: 100px" type="primary" size="mini" @click="openConfig('businessDaily', scope.row.name)">关闭</el-button>
-            <el-button v-if="scope.row.config === true" style="width: 100px" type="primary" size="mini" @click="configChoose('businessDaily', scope.row.name)">设置</el-button>
+            <el-switch
+              v-model="scope.row.open"
+              active-color="#409EFF"
+              inactive-color="#ff4949"
+              @change="openConfig(scope.row.id, 'businessDaily', scope.row.name)">
+            </el-switch>
+            <el-button v-if="scope.row.config === true" style="width: 100px; margin-left: 30px" type="primary" size="mini"
+                       @click="configChoose('businessDaily', scope.row.name)">设置</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -53,7 +58,7 @@
         style="width: 100%; margin-top: 20px">
         <el-table-column
           prop="id"
-          label="序号" width="50">
+          label="序号" width="70">
         </el-table-column>
         <el-table-column
           prop="title"
@@ -71,9 +76,13 @@
           prop=""
           label="操作">
           <template slot-scope="scope">
-            <el-button v-if="checkOpenType('orderDaily', scope.row.name) === true" style="width: 100px" type="primary" size="mini" @click="openConfig('daily', scope.row.name)">开启</el-button>
-            <el-button v-else-if="checkOpenType('orderDaily', scope.row.name) === false" style="width: 100px" type="primary" size="mini" @click="openConfig('daily', scope.row.name)">关闭</el-button>
-            <el-button v-if="scope.row.config === true" style="width: 100px" type="primary" size="mini" @click="configChoose('orderDaily', scope.row.name)">设置</el-button>
+            <el-switch
+              v-model="scope.row.open"
+              active-color="#409EFF"
+              inactive-color="#ff4949"
+              @change="openConfig(scope.row.id, 'orderDaily', scope.row.name)">
+            </el-switch>
+            <el-button v-if="scope.row.config === true" style="width: 100px; margin-left: 30px" type="primary" size="mini" @click="configChoose('orderDaily', scope.row.name)">设置</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -88,7 +97,7 @@
         style="width: 100%; margin-top: 20px">
         <el-table-column
           prop="id"
-          label="序号" width="50">
+          label="序号" width="70">
         </el-table-column>
         <el-table-column
           prop="title"
@@ -106,9 +115,13 @@
           prop=""
           label="操作">
           <template slot-scope="scope">
-            <el-button v-if="checkOpenType('financeDaily', scope.row.name) === true" style="width: 100px" type="primary" size="mini" @click="openConfig('daily', scope.row.name)">开启</el-button>
-            <el-button v-else-if="checkOpenType('financeDaily', scope.row.name) === false" style="width: 100px" type="primary" size="mini" @click="openConfig('daily', scope.row.name)">关闭</el-button>
-            <el-button v-if="scope.row.config === true" style="width: 100px" type="primary" size="mini" @click="configChoose('financeDaily', scope.row.name)">设置</el-button>
+            <el-switch
+              v-model="scope.row.open"
+              active-color="#409EFF"
+              inactive-color="#ff4949"
+              @change="openConfig(scope.row.id, 'financeDaily', scope.row.name)">
+            </el-switch>
+            <el-button v-if="scope.row.config === true" style="width: 100px; margin-left: 30px" type="primary" size="mini" @click="configChoose('financeDaily', scope.row.name)">设置</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -117,7 +130,9 @@
     <el-dialog title="发票日报日期设置" :visible.sync="businessInvoiceDailyShow" style="width: 100%">
       <el-form>
         <el-form-item label="发票到期小于该日期进行提醒" >
-          <el-input v-model="configData.businessDaily.config.invoice" style="width: 20%" type="number" min="1">
+          <el-input v-model="configData.businessDaily.config.invoice"
+                    @change="updateConfig('businessDaily', 'config', 'invoice', configData.businessDaily.config.invoice)"
+                    style="width: 20%" type="number" min="1">
             <template slot="append">天</template></el-input>
         </el-form-item>
       </el-form>
@@ -126,17 +141,20 @@
     <el-dialog title="特批额度失效日报设置" :visible.sync="businessSpecialDailyShow" style="width: 100%">
       <el-form>
         <el-form-item label="特批额度失效小于该日期时进行提醒" >
-          <el-input v-model="configData.businessDaily.config.specialQuota" style="width: 20%" type="number" min="1">
+          <el-input v-model="configData.businessDaily.config.specialQuota"
+                    @change="updateConfig('businessDaily', 'config', 'specialQuota', configData.businessDaily.config.specialQuota)"
+                    style="width: 20%" type="number" min="1">
             <template slot="append">天</template></el-input>
         </el-form-item>
       </el-form>
     </el-dialog>
 
-
     <el-dialog title="发票日报日期设置" :visible.sync="orderInvoiceDailyShow" style="width: 100%">
       <el-form>
         <el-form-item label="发票到期小于该日期进行提醒" >
-          <el-input v-model="configData.orderDaily.config.invoice" style="width: 20%" type="number" min="1">
+          <el-input v-model="configData.orderDaily.config.invoice"
+                    @change="updateConfig('orderDaily', 'config', 'invoice', configData.orderDaily.config.invoice)"
+                    style="width: 20%" type="number" min="1">
             <template slot="append">天</template></el-input>
         </el-form-item>
       </el-form>
@@ -145,25 +163,31 @@
     <el-dialog title="特批额度失效日报设置" :visible.sync="orderSpecialDailyShow" style="width: 100%">
       <el-form>
         <el-form-item label="特批额度失效小于该日期时进行提醒" >
-          <el-input v-model="configData.orderDaily.config.specialQuota" style="width: 20%" type="number" min="1">
+          <el-input v-model="configData.orderDaily.config.specialQuota"
+                    @change="updateConfig('orderDaily', 'config', 'specialQuota', configData.orderDaily.config.specialQuota)"
+                    style="width: 20%" type="number" min="1">
             <template slot="append">天</template></el-input>
         </el-form-item>
       </el-form>
     </el-dialog>
 
-    <el-dialog title="额度失效日报设置" :visible.sync="financeQuotaDailyShow" style="width: 100%">
+    <el-dialog title="额度到期日报设置" :visible.sync="financeQuotaDailyShow" style="width: 100%">
       <el-form>
         <el-form-item label="额度失效小于该日期时进行提醒" >
-          <el-input v-model="configData.financeDaily.config.quota" style="width: 20%" type="number" min="1">
+          <el-input v-model="configData.financeDaily.config.quota"
+                    @change="updateConfig('financeDaily', 'config', 'quota', configData.financeDaily.config.quota)"
+                    style="width: 20%" type="number" min="1">
             <template slot="append">天</template></el-input>
         </el-form-item>
       </el-form>
     </el-dialog>
 
-    <el-dialog title="特批额度失效日报设置" :visible.sync="financeSpecialDailyShow" style="width: 100%">
+    <el-dialog title="特批额度到期日报设置" :visible.sync="financeSpecialDailyShow" style="width: 100%">
       <el-form>
         <el-form-item label="特批额度失效小于该日期时进行提醒" >
-          <el-input v-model="configData.financeDaily.config.specialQuota" style="width: 20%" type="number" min="1">
+          <el-input v-model="configData.financeDaily.config.specialQuota"
+                    @change="updateConfig('financeDaily', 'config', 'specialQuota', configData.financeDaily.config.specialQuota)"
+                    style="width: 20%" type="number" min="1">
             <template slot="append">天</template></el-input>
         </el-form-item>
       </el-form>
@@ -173,6 +197,8 @@
 </template>
 
 <script>
+import {Message} from "element-ui";
+
 export default {
   name: "dailyNoticeConfig",
   data() {
@@ -344,24 +370,45 @@ export default {
       that.axios.post('/ald/notice/notice_dealer_config', {'dealerId': that.dealerId}).then(res=>{
         if (res.data.code==='ok'){
           that.configData = res.data.data;
+          for (var data in that.businessDaily){
+            that.businessDaily[data]['open'] = that.configData['businessDaily']['open'][that.businessDaily[data]['name']]
+          }
+          for (var data in that.orderDaily){
+            that.orderDaily[data]['open'] = that.configData['orderDaily']['open'][that.orderDaily[data]['name']]
+          }
+          for (var data in that.financeDaily){
+            that.financeDaily[data]['open'] = that.configData['financeDaily']['open'][that.financeDaily[data]['name']]
+          }
         }
       }).catch(res=>{
       })
     },
-    openConfig: function (type, name) {
+    openConfig: function (id, type, name) {
       var that = this;
       if (that.configData[type]['open'][name] === true){
         that.configData[type]['open'][name] = false
+        if (type === 'businessDaily'){
+          that.businessDaily[id - 1]['open'] = false
+        }
+        if (type === 'orderDaily'){
+          that.orderDaily[id - 1]['open'] = false
+        }
+        if (type === 'financeDaily'){
+          that.financeDaily[id - 1]['open'] = false
+        }
+        that.updateConfig(type, 'open', name, false)
       } else {
         that.configData[type]['open'][name] = true
-      }
-    },
-    checkOpenType: function (type, name) {
-      var that = this;
-      if (that.configData[type]['open'][name] === true){
-        return true
-      } else {
-        return false
+        if (type === 'businessDaily'){
+          that.businessDaily[id - 1]['open'] = true
+        }
+        if (type === 'orderDaily'){
+          that.orderDaily[id - 1]['open'] = true
+        }
+        if (type === 'financeDaily'){
+          that.financeDaily[id - 1]['open'] = true
+        }
+        that.updateConfig(type, 'open', name, true)
       }
     },
     configChoose: function (type, name) {
@@ -389,16 +436,31 @@ export default {
         }
       }
     },
-    saveConfig: function () {
+    updateConfig: function (configClass, configForm, configType, configData) {
       var that = this;
-      that.axios.post('/ald/notice/save_dealer_config', {'dealerId': that.dealerId, 'config': that.configData}).then(res=>{
+      that.axios.post('/ald/notice/update_dealer_config', {'dealerId': that.dealerId, 'configClass': configClass,
+        'configForm': configForm, 'configType': configType, 'configData': configData,}).then(res=>{
         if (res.data.code==='ok'){
-          that.$router.go(-1)
+          Message.success('成功: 修改成功')
+        } else {
+          Message.warning('失败: 修改失败')
         }
       }).catch(res=>{
       })
-    }
-  }
+    },
+    defaultConfig: function () {
+      var that = this;
+      that.axios.post('/ald/notice/default_dealer_config', {'dealerId': that.dealerId}).then(res=>{
+        if (res.data.code==='ok'){
+          Message.success('成功: 修改成功')
+          that.getNoticeDealerConfig()
+        } else {
+          Message.warning('失败: 修改失败')
+        }
+      }).catch(res=>{
+      })
+    },
+  },
 }
 </script>
 

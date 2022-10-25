@@ -91,6 +91,18 @@
               <span v-else-if="dealerInfo.is_skip === false" style="margin-right: 30px">未跳过</span>
               <span v-else></span>
             </el-descriptions-item>
+            <el-descriptions-item>
+              <template slot="label">
+                质保金
+              </template>
+              <span>{{dealerInfo.customer_amount}}</span>
+            </el-descriptions-item>
+            <el-descriptions-item>
+              <template slot="label">
+                质保金备注
+              </template>
+              <span>{{dealerInfo.amount_remark}}</span>
+            </el-descriptions-item>
             <el-descriptions-item v-if="dealerInfo.is_export === true">
               <template slot="label">
                 贸易类型

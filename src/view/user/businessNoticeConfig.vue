@@ -15,11 +15,11 @@
           end-placeholder="结束时间"
           placeholder="选择时间范围"
           format="HH:mm"
-          value-format="HH:mm">
+          value-format="HH:mm"
+          @change="updateConfig('setTime', '', '', configData.setTime)"
+        >
         </el-time-picker>
-      </div>
-      <div style="float:left; margin-left: 100px">
-        <el-button style="width: 100px" type="primary" size="mini" @click="saveConfig()">保存</el-button>
+        <el-button style="width: 100px; margin-left: 40px" type="primary" size="mini" @click="defaultConfig()">改为默认配置</el-button>
       </div>
     </div>
     <div style="margin: 1% 3%;  width: 90%">
@@ -32,7 +32,7 @@
         style="width: 100%; margin-top: 20px">
         <el-table-column
           prop="id"
-          label="序号" width="50">
+          label="序号" width="70">
         </el-table-column>
         <el-table-column
           prop="title"
@@ -50,9 +50,13 @@
           prop=""
           label="操作">
           <template slot-scope="scope">
-            <el-button v-if="checkOpenType('notice', scope.row.name) === true" style="width: 100px" type="primary" size="mini" @click="openConfig('notice', scope.row.name)">开启</el-button>
-            <el-button v-else-if="checkOpenType('notice', scope.row.name) === false" style="width: 100px" type="primary" size="mini" @click="openConfig('notice', scope.row.name)">关闭</el-button>
-            <el-button v-if="scope.row.config === true" style="width: 100px" type="primary" size="mini" @click="configChoose('notice', scope.row.name)">设置</el-button>
+            <el-switch
+              v-model="scope.row.open"
+              active-color="#409EFF"
+              inactive-color="#ff4949"
+              @change="openConfig(scope.row.id, 'notice', scope.row.name)">
+            </el-switch>
+            <el-button v-if="scope.row.config === true" style="width: 100px; margin-left: 30px" type="primary" size="mini" @click="configChoose('notice', scope.row.name)">设置</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -61,11 +65,13 @@
     <el-dialog title="剩余额度消息设置" :visible.sync="quotaNoticeShow" style="width: 100%">
       <el-form>
         <el-form-item label="剩余额度小于该比例时进行提醒" >
-          <el-input v-model="configData.notice.config.quotaRate" style="width: 20%" type="number" min="1" max="50">
+          <el-input v-model="configData.notice.config.quotaRate" style="width: 20%" type="number" min="1" max="50"
+                    @change="updateConfig('notice', 'config', 'quotaRate', configData.notice.config.quotaRate)">
             <template slot="append">%</template></el-input>
         </el-form-item>
         <el-form-item label="剩余额度小于该金额时进行提醒" >
-          <el-input v-model="configData.notice.config.quotaMoney" style="width: 20%">
+          <el-input v-model="configData.notice.config.quotaMoney" style="width: 20%"
+                    @change="updateConfig('notice', 'config', 'quotaMoney', configData.notice.config.quotaMoney)">
             <template slot="append">万元</template></el-input>
         </el-form-item>
       </el-form>
@@ -74,6 +80,8 @@
 </template>
 
 <script>
+import {Message} from "element-ui";
+
 export default {
   name: "noticeConfig",
   data() {
@@ -163,25 +171,36 @@ export default {
           that.userName = res.data.data.user_name;
           that.userType = res.data.data.user_type;
           that.configData = res.data.data.config;
+          for (var data in that.noticeDec){
+            that.noticeDec[data]['open'] = that.configData['notice']['open'][that.noticeDec[data]['name']]
+          }
         }
       }).catch(res=>{
       })
     },
-    openConfig: function (type, name) {
+    openConfig: function (id, type, name) {
       var that = this;
-      if (that.configData[type]['open'][name] === true){
+      if (that.configData[type]['open'][name] === true) {
         that.configData[type]['open'][name] = false
+        that.noticeDec[id - 1]['open'] = false
+        that.updateConfig(type, 'open', name, false)
       } else {
         that.configData[type]['open'][name] = true
+        that.noticeDec[id - 1]['open'] = true
+        that.updateConfig(type, 'open', name, true)
       }
     },
-    checkOpenType: function (type, name) {
+    updateConfig: function (configClass, configForm, configType, configData) {
       var that = this;
-      if (that.configData[type]['open'][name] === true){
-        return true
-      } else {
-        return false
-      }
+      that.axios.post('/ald/notice/update_user_config', {'userId': that.userId, 'configClass': configClass,
+        'configForm': configForm, 'configType': configType, 'configData': configData,}).then(res=>{
+        if (res.data.code==='ok'){
+          Message.success('成功: 修改成功')
+        } else {
+          Message.warning('失败: 修改失败')
+        }
+      }).catch(res=>{
+      })
     },
     configChoose: function (type, name) {
       var that = this;
@@ -191,15 +210,18 @@ export default {
         }
       }
     },
-    saveConfig: function () {
+    defaultConfig: function () {
       var that = this;
-      that.axios.post('/ald/notice/save_user_config', {'userId': that.userId, 'config': that.configData}).then(res=>{
+      that.axios.post('/ald/notice/default_user_config', {'userId': that.userId}).then(res=>{
         if (res.data.code==='ok'){
-          that.$router.go(-1)
+          Message.success('成功: 修改成功')
+          that.getNoticeUserConfig()
+        } else {
+          Message.warning('失败: 修改失败')
         }
       }).catch(res=>{
       })
-    }
+    },
   }
 }
 </script>
