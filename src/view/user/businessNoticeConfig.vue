@@ -1,10 +1,8 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="业务负责人配置详情" style="padding-left: 15px; padding-top: 15px">
+    <el-page-header @back="goBack" :content="userName" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
-    <div style="margin: 1% 3%; height: 100px; width: 90%">
-      <h2>业务负责人: {{userName}}</h2>
-      <br>
+    <div style="margin: 1% 3%; height: 50px; width: 90%">
       <div style="float:left;">
         <span style="line-height: 40px; margin: 0 80px 0 0">通知接受范围</span>
         <el-time-picker
@@ -168,7 +166,7 @@ export default {
       var that = this;
       that.axios.post('/ald/notice/notice_user_config', {'userId': that.userId}).then(res=>{
         if (res.data.code==='ok'){
-          that.userName = res.data.data.user_name;
+          that.userName = '业务负责人: ' + res.data.data.user_name + '配置详情';
           that.userType = res.data.data.user_type;
           that.configData = res.data.data.config;
           for (var data in that.noticeDec){

@@ -8,12 +8,12 @@
         <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-date-picker v-model="queryType.startDate" style="float:left;"
+        <el-date-picker v-model="queryType.startDate" style="float:left; width: 200px;"
                         type="date"
                         placeholder="拦截起始日期" value-format="yyyy-MM-dd">
         </el-date-picker>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-date-picker v-model="queryType.endDate" style="float:left;"
+        <el-date-picker v-model="queryType.endDate" style="float:left; width: 200px;"
                         type="date"
                         placeholder="拦截截止日期" value-format="yyyy-MM-dd">
         </el-date-picker>
@@ -21,9 +21,7 @@
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-button style="float:left; width: 100px" type="primary" @click="getInterceptList()">查询</el-button>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
       </div>
 
@@ -66,13 +64,7 @@
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <push-function-btn btn-name="普通移出" btn-type="function" size="mini"
-                             check-btn="removeIntercept" check-role="interceptList" :check-function='skipIntercept'
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
-
-          <push-function-btn btn-name="特殊移出" btn-type="function" size="mini"
-                             check-btn="removeSpecialIntercept" check-role="interceptList" :check-function='skipSpecialIntercept'
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          <el-button type="primary" size="mini" @click="skipIntercept()" :disabled="scope.row.oa_apply">申请解除拦截</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -82,37 +74,24 @@
       </el-pagination>
     </div>
 
-    <el-dialog title="进行普通移出" :visible.sync="showForm">
+    <el-dialog title="申请解除拦截" :visible.sync="showForm">
       <el-form>
         <el-form-item label="备注信息" prop="info" :label-width="formLabelWidth">
           <el-input v-model="addForm.remark"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" size="mini" @click="skipInterceptBtn()">确认移出</el-button>
-      </div>
-    </el-dialog>
-
-    <el-dialog title="进行特殊移出" :visible.sync="specialShowForm">
-      <el-form>
-        <el-form-item label="备注信息" prop="info" :label-width="formLabelWidth">
-          <el-input v-model="addForm.remark"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" size="mini" @click="skipSpecialInterceptBtn()">确认移出</el-button>
+        <el-button type="primary" size="mini" @click="skipInterceptBtn()">确认提交申请</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import PushFunctionBtn from "../../components/pushFunctionBtn";
 import {Message} from "element-ui";
 
 export default {
   name: "interceptList",
-  components: {PushFunctionBtn},
   data() {
     return {
       interceptList: [],
@@ -155,13 +134,6 @@ export default {
       that.showForm = true
     },
 
-    skipSpecialIntercept: function (dealerId){
-      var that = this;
-      that.addForm.dealerId = dealerId
-      that.addForm.remark = ''
-      that.specialShowForm = true
-    },
-
     skipInterceptBtn: function () {
       var that = this;
       that.axios.post('/ald/dealer/remove_intercept', that.addForm).then(res=>{
@@ -174,25 +146,6 @@ export default {
       }).catch(res=>{
       })
     },
-
-    skipSpecialInterceptBtn: function () {
-      var that = this;
-      that.axios.post('/ald/dealer/special_remove_intercept', that.addForm).then(res=>{
-        if (res.data.code==='ok'){
-          Message.success('成功: 申请审批中')
-          that.update = false
-        }else {
-          Message.warning('失败: ' + res.data.data)
-        }
-      }).catch(res=>{
-      })
-    },
-
-
-
-
-
-
 
     reset: function () {
       location.reload()

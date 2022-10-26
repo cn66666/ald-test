@@ -13,15 +13,11 @@
         <el-input v-model="addForm.salePerson" :disabled="change"></el-input>
       </el-form-item>
       <el-form-item label="客户分类" prop="companyType" style="width: 50%">
-        <el-select v-model="addForm.companyType" placeholder="请选择客户分类" style="float: left" v-if="isExport===true" disabled>
+        <el-select v-model="addForm.companyType" placeholder="请选择客户分类" style="float: left" :disabled="isExport" @change="chooseExportFunction()">
           <el-option label="内销客户" value="内销客户"></el-option>
           <el-option label="出口客户" value="出口客户"></el-option>
         </el-select>
-        <el-select v-model="addForm.companyType" placeholder="请选择客户分类" style="float: left" v-else>
-          <el-option label="内销客户" value="内销客户"></el-option>
-          <el-option label="出口客户" value="出口客户"></el-option>
-        </el-select>
-        <div v-if="addForm.companyType==='出口客户'" style="float: left; margin-left: 10px">
+        <div v-show="showExport" style="float: left; margin-left: 10px">
           <el-button type="text" @click="showZxbForm=true">填写中信保数据</el-button>
         </div>
       </el-form-item>
@@ -35,22 +31,23 @@
         </el-input>
       </el-form-item>
       <el-form-item label="额度分类" prop="quotaType" style="width: 50%">
-        <el-select v-model="addForm.quotaType" placeholder="请选择额度分类">
+        <el-select v-model="addForm.quotaType" placeholder="请选择额度分类" :disabled="chooseExport">
           <el-option label="合作不满一年客户" value="新客户"></el-option>
           <el-option label="合作满一年客户" value="老客户"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button v-if="addForm.quotaType === '新客户' && addForm.companyType === '内销客户'" type="primary" size="mini"
-                   :disabled="addBtn" @click="addDealer('暂存')">暂存</el-button>
+        <noPermissionBtn  v-if="addForm.quotaType === '新客户' && addForm.companyType === '内销客户'" btn-name="暂存"
+                          btn-type="function" size="mini" :check-function='addDealer'
+                         params-key='type' params-value='暂存'></noPermissionBtn>
 
-        <push-function-btn v-if="addForm.quotaType === '新客户'" btn-name="提交申请" btn-type="function" size="mini"
-                           check-btn="addNewDealer" check-role="applyList" :check-function='addDealer'
-                           params-key='type' params-value='新客户'></push-function-btn>
+        <noPermissionBtn v-if="addForm.quotaType === '新客户'" btn-name="提交申请" btn-type="function" size="mini" :check-function='addDealer'
+                           params-key='type' params-value='新客户'></noPermissionBtn>
 
-        <push-function-btn v-if="addForm.quotaType === '老客户'" btn-name="提交申请" btn-type="function" size="mini"
-                           check-btn="addOldDealer" check-role="applyList" :check-function='addDealer'
-                           params-key='type' params-value='老客户'></push-function-btn>
+        <noPermissionBtn v-if="addForm.quotaType === '老客户'" btn-name="提交申请" btn-type="function" size="mini" :check-function='addDealer'
+                           params-key='type' params-value='老客户'></noPermissionBtn>
+
+        <el-button v-if="addForm.quotaType === ''" type="primary" size="mini">提交申请</el-button>
 
       </el-form-item>
     </el-form>
@@ -101,11 +98,11 @@
 </template>
 
 <script>
-import PushFunctionBtn from "../../components/pushFunctionBtn";
+import noPermissionBtn from "../../components/noPermissionBtn";
 import {Message} from "element-ui";
 export default {
   name: "addDealer",
-  components: {PushFunctionBtn},
+  components: {noPermissionBtn},
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === '') {
@@ -133,6 +130,8 @@ export default {
       countryList: [],
       payList: ['LC', 'DP', 'DA', 'OA'],
       isExport: false,
+      showExport: false,
+      chooseExport: false,
       addForm: {
         dealerId: '',
         companyCode: '',
@@ -188,6 +187,9 @@ export default {
           that.addForm.quotaType = '新客户';
           if (res.data.data.export_info.country){
             that.isExport = true;
+            that.showExport = true
+            that.chooseExport = true
+            that.addForm.quotaType = '老客户';
             that.addForm.companyType = '出口客户';
             that.addForm.exportInfo.country = res.data.data.export_info.country;
             that.addForm.exportInfo.payType = res.data.data.export_info.payType;
@@ -249,6 +251,18 @@ export default {
     goBack() {
       this.$router.go(-1)
     },
+    chooseExportFunction: function () {
+      var that = this;
+      if(that.addForm.companyType === '内销客户'){
+        that.showExport = false
+        that.chooseExport = false
+        that.addForm.quotaType = ''
+      } else if (that.addForm.companyType === '出口客户'){
+        that.showExport = true
+        that.chooseExport = true
+        that.addForm.quotaType = '老客户'
+      }
+    }
   }
 
 }

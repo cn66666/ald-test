@@ -153,22 +153,12 @@
             </el-descriptions-item>
           </el-descriptions>
           <div v-if="dealerInfo.is_delete === false">
-            <push-function-btn btn-name="进行额度特批" btn-type="function" size="mini"
-                               check-btn="showSpecialQuota" check-role="quotaList" :check-function='showSpecialQuota'
-                               params-key='dealerId' :params-value='{"dealerId" : dealerId,
-                               "special_quota": dealerInfo.special_quota}'></push-function-btn>
+            <el-button type="primary" size="mini" @click="showSpecialQuota()" :disabled="dealerInfo.oa_apply">进行额度特批</el-button>
 
-            <push-function-btn btn-name="更改逾期特批" btn-type="replace" size="mini"
-                               check-btn="checkOverdueSkip" check-role="quotaList" url="/admin/dealer/dealerOverdueSkip"
-                               params-key='dealerId' :params-value='dealerId'></push-function-btn>
+            <el-button type="primary" size="mini" @click="toDealerOverdueSkip()" :disabled="dealerInfo.oa_apply">更改逾期特批</el-button>
 
-
-            <push-function-btn btn-name="进行账期调整" btn-type="replace" size="mini"
-                               check-btn="changeQuotaDay" check-role="quotaList" url="/admin/dealer/changeQuotaDay"
-                               params-key='dealerId' :params-value='dealerId'></push-function-btn>
-
+            <el-button v-if="dealerInfo.quota_type === '老客户'" type="primary" size="mini" @click="toChangeQuotaDay()" :disabled="dealerInfo.oa_apply">进行账期调整</el-button>
           </div>
-
         </el-tab-pane>
         <el-tab-pane label="额度变更记录" name="额度变更记录">
           <span style="margin-left: 10px">近10条额度变更记录
@@ -330,18 +320,25 @@
             class="info_table"
             :span-method="objectSpanMethod"
             :data="dealerInfo.analysis_score"
-            style="width: 98%; margin: 0 1%">
+            style="width: 98%; margin: 0 1%" :empty-text="scoreText">
             <el-table-column
               prop="class"
-              label="分类">
+              label="分类"
+              width="200px">
             </el-table-column>
             <el-table-column
               prop="type"
-              label="项目">
+              label="项目"
+              width="200px">
+            </el-table-column>
+            <el-table-column
+              prop="remark"
+              label="描述">
             </el-table-column>
             <el-table-column
               prop="analysis"
-              label="评价">
+              label="评价"
+              width="200px">
             </el-table-column>
           </el-table>
         </el-tab-pane>
@@ -393,9 +390,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" size="mini" @click="showForm=false">关闭</el-button>
-        <push-function-btn btn-name="确认特批额度" btn-type="function" size="mini"
-                           check-btn="addSpecialQuota" check-role="quotaList" :check-function='addSpecialQuota'
-                           params-key='addInfo' :params-value='addForm'></push-function-btn>
+        <el-button type="primary" size="mini" @click="addSpecialQuota()">确认提交申请</el-button>
       </div>
     </el-dialog>
   </div>
@@ -425,6 +420,7 @@ export default {
         remark: ''
       },
       spanArr: [],
+      scoreText: ''
     }
   },
   mounted() {
@@ -460,7 +456,15 @@ export default {
               }
             })
           }
-
+          if (tab_name === '客户信息'){
+            if (that.dealerInfo.is_delete === true){
+              that.scoreText = '已注销客户无评分卡'
+            } else if (that.dealerInfo.quota_type === '新客户'){
+              that.scoreText = '一年期客户无评分卡'
+            } else {
+              that.scoreText = '无最新评分卡数据'
+            }
+          }
         }
       }).catch(res=>{
       })
@@ -502,6 +506,8 @@ export default {
       that.axios.post('/ald/dealer/add_special_quota', {'addForm': that.addForm, 'dealerId': that.dealerId}).then(res=>{
         if (res.data.code=='ok'){
           Message.success('成功: 申请审批中')
+          that.showForm = false
+          that.getDealerInfo('客户信息')
           return
         }else {
           Message.warning('失败: ' + res.data.data)
@@ -536,6 +542,14 @@ export default {
     showDealerOrderFulfil: function () {
       var that = this;
       that.$router.push('/admin/business/orderFulfilList?dealerId=' + that.dealerId)
+    },
+    toDealerOverdueSkip: function (){
+      var that = this;
+      that.$router.push('/admin/dealer/dealerOverdueSkip?dealerId=' + that.dealerId)
+    },
+    toChangeQuotaDay: function (){
+      var that = this;
+      that.$router.push('/admin/dealer/changeQuotaDay?dealerId=' + that.dealerId)
     },
   }
 }

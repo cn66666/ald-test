@@ -5,25 +5,21 @@
         <el-input  style="width: 200px; float:left;"
                    placeholder="客户名称" v-model="queryType.companyName">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-date-picker v-model="queryType.startDate" style="float:left;"
+        <el-date-picker v-model="queryType.startDate" style="width: 200px; float:left;"
                         type="date"
                         placeholder="起始注销日期" value-format="yyyy-MM-dd">
         </el-date-picker>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-date-picker v-model="queryType.endDate" style="float:left;"
+        <el-date-picker v-model="queryType.endDate" style="width: 200px; float:left;"
                         type="date"
                         placeholder="截止注销日期" value-format="yyyy-MM-dd">
         </el-date-picker>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-button style="float:left; width: 100px" type="primary" @click="getInactiveList()">查询</el-button>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
       </div>
 
@@ -56,25 +52,20 @@
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <push-function-btn btn-name="查看额度变更" btn-type="replace" size="mini"
-                             check-btn="showQuotaLog" check-role="quotaList" url="/admin/dealer/quotaLogs"
-                             params-key='dealerId' :params-value='scope.row.id'></push-function-btn>
+          <noPermissionBtn btn-name="查看额度变更" btn-type="replace" size="mini" url="/admin/dealer/quotaLogs"
+                             params-key='dealerId' :params-value='scope.row.id'></noPermissionBtn>
 
-          <push-function-btn btn-name="查看滞纳金变更" btn-type="replace" size="mini"
-                             check-btn="showOverdueLog" check-role="dealerOverdueList" url="/admin/business/overdueLogs"
-                             params-key='dealerId' :params-value='scope.row.id'></push-function-btn>
+          <noPermissionBtn btn-name="查看滞纳金变更" btn-type="replace" size="mini" url="/admin/business/overdueLogs"
+                             params-key='dealerId' :params-value='scope.row.id'></noPermissionBtn>
 
-          <push-function-btn btn-name="查看发票逾期" btn-type="replace" size="mini"
-                             check-btn="showInvoiceOverdueLog" check-role="dealerOverdueList" url="/admin/business/invoiceOverdueLogs"
-                             params-key='dealerId' :params-value='scope.row.id'></push-function-btn>
+          <noPermissionBtn btn-name="查看发票逾期" btn-type="replace" size="mini" url="/admin/business/invoiceOverdueLogs"
+                             params-key='dealerId' :params-value='scope.row.id'></noPermissionBtn>
 
-          <push-function-btn btn-name="查看销售单状态" btn-type="replace" size="mini"
-                             check-btn="showInactiveOrderInfo" check-role="orderInfoList" url="/admin/business/inactiveOrderInfoList"
-                             params-key='dealerId' :params-value='scope.row.id'></push-function-btn>
+          <noPermissionBtn btn-name="查看销售单状态" btn-type="replace" size="mini" url="/admin/business/inactiveOrderInfoList"
+                             params-key='dealerId' :params-value='scope.row.id'></noPermissionBtn>
 
-          <push-function-btn btn-name="查看履行单通过清单" btn-type="replace" size="mini"
-                             check-btn="showInactiveFulfilInfo" check-role="fulfilList" url="/admin/business/inactiveFulfilList"
-                             params-key='dealerId' :params-value='scope.row.id'></push-function-btn>
+          <noPermissionBtn btn-name="查看履行单通过清单" btn-type="replace" size="mini" url="/admin/business/inactiveFulfilList"
+                             params-key='dealerId' :params-value='scope.row.id'></noPermissionBtn>
         </template>
       </el-table-column>
     </el-table>
@@ -87,11 +78,11 @@
 </template>
 
 <script>
-import PushFunctionBtn from "../../components/pushFunctionBtn";
+import noPermissionBtn from "../../components/noPermissionBtn";
 import {Message} from "element-ui";
 export default {
   name: "quotaList",
-  components: {PushFunctionBtn},
+  components: {noPermissionBtn},
   data() {
     return {
       quotaList: [],

@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-row class="filter_row">
-      <div style="width: 240px; float:left; margin: 2px;">
-        <el-select v-model="queryType.companyType" placeholder="请选择额度类型" @change="getQuotaList()">
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-select v-model="queryType.companyType" style="width: 200px;" placeholder="请选择额度类型" @change="getQuotaList()">
           <el-option
             v-for="item in dealerType"
             :key="item.query"
@@ -11,69 +11,67 @@
           </el-option>
         </el-select>
       </div>
-      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+      <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 14px; ">
         <el-input  style="width: 200px; float:left;"
                    placeholder="客户名称" v-model="queryType.companyName">
         </el-input>
         <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最小总额度" v-model="queryType.minQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最大总额度" v-model="queryType.maxQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
         <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最小已用额度" v-model="queryType.minUsedQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最大已用额度" v-model="queryType.maxUsedQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
         <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最小剩余额度" v-model="queryType.minLastQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最大剩余额度" v-model="queryType.maxLastQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
         <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-date-picker v-model="queryType.startDate" style="float:left;"
+        <el-date-picker v-model="queryType.startDate" style="width: 200px; float:left;"
                         type="date"
                         placeholder="额度起始日期" value-format="yyyy-MM-dd">
         </el-date-picker>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-date-picker v-model="queryType.endDate" style="float:left;"
+        <el-date-picker v-model="queryType.endDate" style="width: 200px; float:left;"
                         type="date"
                         placeholder="额度截止日期" value-format="yyyy-MM-dd">
         </el-date-picker>
         <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最小逾期天数" v-model="queryType.minDay" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最大逾期天数" v-model="queryType.maxDay" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
         <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-button style="float:left; width: 100px" type="primary" @click="getQuotaList()">查询</el-button>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
       </div>
     </el-row>
@@ -153,9 +151,8 @@
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <push-function-btn v-if="scope.row.state_code === 'active'" btn-name="拉入拦截清单" btn-type="function" size="mini"
-                             check-btn="addIntercept" check-role="quotaList" :check-function='showAddIntercept'
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          <noPermissionBtn v-if="scope.row.state_code === 'active'" btn-name="拉入拦截清单" btn-type="function" size="mini"
+                           :check-function='showAddIntercept' params-key='dealerId' :params-value='scope.row.dealer_id'></noPermissionBtn>
         </template>
       </el-table-column>
     </el-table>
@@ -172,9 +169,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" size="mini" @click="showInterceptRemark=false">关闭</el-button>
-        <push-function-btn btn-name="确认拦截" btn-type="function" size="mini"
-                           check-btn="activeIntercept" check-role="quotaList" :check-function='activeInterceptDealer'
-                           params-key='dealerId' :params-value='interceptDealerId'></push-function-btn>
+        <noPermissionBtn btn-name="确认拦截" btn-type="function" size="mini" :check-function='activeInterceptDealer'
+                           params-key='dealerId' :params-value='interceptDealerId'></noPermissionBtn>
       </div>
     </el-dialog>
     <el-dialog title="填写截止日期" :visible.sync="showChangeDate">
@@ -192,11 +188,10 @@
 </template>
 
 <script>
-import PushFunctionBtn from "../../components/pushFunctionBtn";
-import {Message} from "element-ui";
+import noPermissionBtn from "../../components/noPermissionBtn";
 export default {
   name: "quotaList",
-  components: {PushFunctionBtn},
+  components: {noPermissionBtn},
   data() {
     return {
       quotaList: [],

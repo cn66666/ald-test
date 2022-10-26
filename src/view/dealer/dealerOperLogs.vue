@@ -4,16 +4,15 @@
     </el-page-header>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-date-picker v-model="queryType.startDate" style="float:left;"
+        <el-date-picker v-model="queryType.startDate" style="float:left; width: 200px"
                         type="date"
                         placeholder="操作起始日期" value-format="yyyy-MM-dd" @change="getDealerOperLogs()">
         </el-date-picker>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-date-picker v-model="queryType.endDate" style="float:left;"
+        <el-date-picker v-model="queryType.endDate" style="float:left; width: 200px"
                         type="date"
                         placeholder="操作截止日期" value-format="yyyy-MM-dd" @change="getDealerOperLogs()">
         </el-date-picker>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-button style="float:left; width: 100px" type="primary" @click="downloadDealerOperLogs()">下载excel</el-button>

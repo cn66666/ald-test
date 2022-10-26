@@ -3,8 +3,8 @@
     <el-page-header @back="goBack" content="客户发货情况" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-row class="filter_row">
-      <div style="width: 240px; float:left; margin: 2px;">
-        <el-select v-model="queryType.orderType" placeholder="请选择销售单状态">
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-select v-model="queryType.orderType" placeholder="请选择销售单状态" style="width: 200px">
           <el-option
             v-for="item in orderState"
             :key="item"
@@ -17,25 +17,21 @@
         <el-input  style="width: 200px; float:left;"
                    placeholder="销售单号" v-model="queryType.orderCode">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-date-picker v-model="queryType.startDate" style="float:left;"
+        <el-date-picker v-model="queryType.startDate" style="float:left;width: 200px; "
                         type="date"
                         placeholder="销售单创建起始日期" value-format="yyyy-MM-dd">
         </el-date-picker>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-date-picker v-model="queryType.endDate" style="float:left;"
+        <el-date-picker v-model="queryType.endDate" style="float:left;width: 200px; "
                         type="date"
                         placeholder="销售单创建截止日期" value-format="yyyy-MM-dd">
         </el-date-picker>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-button style="float:left; width: 100px" type="primary" @click="getOrderFulfilList()">查询</el-button>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <el-button style="float:left; width: 100px" type="primary" @click="downloadOrderFulfilList()">下载excel</el-button>
       </div>
     </el-row>

@@ -4,32 +4,32 @@
     </el-page-header>
     <el-form>
       <el-form-item label="发票逾期校验" label-width="200px">
-        <el-select v-model="setting.isSkip" placeholder="请选择" style="float: left">
+        <el-select v-model="setting.isSkip" placeholder="请选择" style="float: left" @change="chooseisSkipFunction()">
           <el-option label="不跳过" value='0'></el-option>
           <el-option label="跳过" value='1'></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="最长逾期天数" label-width="200px">
-        <el-input v-model="setting.maxDay" type="number" min="0"  style="width: 30%"></el-input>
+        <el-input v-model="setting.maxDay" type="number" min="0"  style="width: 30%" :disabled="isSkipDisabled"></el-input>
       </el-form-item>
       <el-form-item label="小额逾期豁免" label-width="200px">
-        <el-select v-model="setting.isClose" placeholder="请选择" style="float: left">
+        <el-select v-model="setting.isClose" placeholder="请选择" style="float: left" @change="chooseisCloseFunction()">
           <el-option label="关闭" value='0'></el-option>
           <el-option label="开启" value='1'></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="逾期金额下限" label-width="200px">
-        <el-input v-model="setting.minMoney" type="number" min="1"  style="width: 30%"><template slot="append">元</template></el-input>
+        <el-input v-model="setting.minMoney" type="number" min="1"  style="width: 30%" :disabled="isCloseDisabled"><template slot="append">元</template></el-input>
       </el-form-item>
       <el-form-item label="逾期金额门槛比例" label-width="200px">
-        <el-input v-model="setting.minMoneyRate" type="number" min="0" max="100" style="width: 30%"><template slot="append">%</template></el-input>
+        <el-input v-model="setting.minMoneyRate" type="number" min="0" max="100" style="width: 30%" :disabled="isCloseDisabled"><template slot="append">%</template></el-input>
       </el-form-item>
       <el-form-item label="备注" label-width="200px">
         <el-input v-model="setting.remark"  style="width: 30%"></el-input>
       </el-form-item>
       <el-form-item label-width="200px">
         <el-button type="primary" size="mini" @click="defaultSetting()">默认配置</el-button>
-        <el-button type="primary" size="mini" @click="saveSetting()">保存配置</el-button>
+        <el-button type="primary" size="mini" @click="saveSetting()">确认提交申请</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -52,6 +52,8 @@ export default {
         minMoneyRate: 5,
         remark: ''
       },
+      isSkipDisabled: true,
+      isCloseDisabled: true,
     }
   },
   mounted() {
@@ -81,13 +83,17 @@ export default {
           var settings = res.data.data
           if (settings['isSkip'] === false){
             settings['isSkip'] = '0'
+            that.isCloseDisabled = true
           } else {
             settings['isSkip'] = '1'
+            that.isCloseDisabled = false
           }
           if (settings['isClose'] === false){
             settings['isClose'] = '0'
+            that.isSkipDisabled = true
           } else {
             settings['isClose'] = '1'
+            that.isSkipDisabled = false
           }
           that.setting = settings
           that.setting.remark = ''
@@ -134,6 +140,22 @@ export default {
         }
       }).catch(res=>{
       })
+    },
+    chooseisSkipFunction: function () {
+      var that = this;
+      if (that.setting.isSkip === '0'){
+        that.isSkipDisabled = true
+      }else {
+        that.isSkipDisabled = false
+      }
+    },
+    chooseisCloseFunction: function () {
+      var that = this;
+      if (that.setting.isClose === '0'){
+        that.isCloseDisabled = true
+      }else {
+        that.isCloseDisabled = false
+      }
     },
   }
 }

@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-row class="filter_row">
-      <div style="width: 240px; float:left; margin: 2px;">
-        <el-select v-model="queryType.stateType" placeholder="请选择状态" @change="getQuarterList()">
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-select v-model="queryType.stateType" style="width: 200px;" placeholder="请选择状态" @change="getQuarterList()">
           <el-option
             v-for="item in stateType"
             :key="item.query"
@@ -12,38 +12,35 @@
         </el-select>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-input  style="width: 200px; float:left;"
+        <el-input  style="width: 200px;"
                    placeholder="客户名称" v-model="queryType.companyName">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最小旧额度" v-model="queryType.minOldQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最大旧额度" v-model="queryType.maxOldQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最小新额度" v-model="queryType.minNewQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最大新额度" v-model="queryType.maxNewQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-date-picker v-model="queryType.startDate" style="float:left;"
+        <el-date-picker v-model="queryType.startDate" style="width: 200px; float:left;"
                         type="date"
                         placeholder="起始生效日期" value-format="yyyy-MM-dd">
         </el-date-picker>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-date-picker v-model="queryType.endDate" style="float:left;"
+        <el-date-picker v-model="queryType.endDate" style="width: 200px; float:left;"
                         type="date"
                         placeholder="截止生效日期" value-format="yyyy-MM-dd">
         </el-date-picker>
@@ -51,9 +48,7 @@
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-button style="float:left; width: 100px" type="primary" @click="getQuarterList()">查询</el-button>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
       </div>
 

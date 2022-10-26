@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row class="filter_row">
-      <el-select v-model="queryType.applyState" placeholder="请选择客户状态" @change="getApplyDealerList()">
+      <el-select v-model="queryType.applyState" style="width: 200px;" placeholder="请选择客户状态" @change="getApplyDealerList()">
         <el-option
           v-for="item in applyState"
           :key="item.query"
@@ -9,16 +9,7 @@
           :value="item.query">
         </el-option>
       </el-select>
-<!--      <el-select v-model="queryType.dealerType" placeholder="请选择客户类型" @change="getApplyDealerList()">-->
-<!--        <el-option-->
-<!--          v-for="item in dealerType"-->
-<!--          :key="item.query"-->
-<!--          :label="item.type"-->
-<!--          :value="item.query">-->
-<!--        </el-option>-->
-<!--      </el-select>-->
-      <push-function-btn btn-name="手动更新客户" btn-type="reload" size=""
-                         check-btn="refreshDealer" check-role="applyList" url="/ald/dealer/refresh_dealer"></push-function-btn>
+      <noPermissionBtn btn-name="手动更新客户" btn-type="reload" size="" url="/ald/dealer/refresh_dealer"></noPermissionBtn>
       <el-button type="primary" @click="download()">下载excel</el-button>
     </el-row>
     <el-table
@@ -66,41 +57,35 @@
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <push-function-btn v-if="scope.row.state_code === 'input'" btn-name="补充数据" btn-type="replace" size="mini"
-                             check-btn="changeDealer" check-role="applyList" url="/admin/dealer/addDealer"
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          <noPermissionBtn v-if="scope.row.state_code === 'input'" btn-name="补充数据" btn-type="replace" size="mini" url="/admin/dealer/addDealer"
+                             params-key='dealerId' :params-value='scope.row.dealer_id'></noPermissionBtn>
 
-          <push-function-btn v-if="scope.row.state_code === 'save'" btn-name="修改补录信息" btn-type="replace" size="mini"
-                             check-btn="changeDealer" check-role="applyList" url="/admin/dealer/addDealer"
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          <noPermissionBtn v-if="scope.row.state_code === 'save'" btn-name="修改补录信息" btn-type="replace" size="mini" url="/admin/dealer/addDealer"
+                             params-key='dealerId' :params-value='scope.row.dealer_id'></noPermissionBtn>
 
-          <push-function-btn v-if="scope.row.state_code === 'save'" btn-name="提交申请" btn-type="reload" size="mini"
-                             check-btn="changeDealer" check-role="applyList" url="/ald/dealer/dealer_apply"
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          <noPermissionBtn v-if="scope.row.state_code === 'save'" btn-name="提交申请" btn-type="reload" size="mini" url="/ald/dealer/dealer_apply"
+                             params-key='dealerId' :params-value='scope.row.dealer_id'></noPermissionBtn>
 
-          <push-function-btn v-if="scope.row.state_code === 'intercept'" btn-name="查询拦截原因" btn-type="function" size="mini"
-                             check-btn="showApplyIntercept" check-role="applyList" :check-function='showApplyIntercept'
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          <noPermissionBtn v-if="scope.row.state_code === 'intercept'" btn-name="拦截原因" btn-type="function" size="mini" :check-function='showInterceptFunction'
+                             params-key='dealerId' :params-value='scope.row.dealer_id'></noPermissionBtn>
 
-          <push-function-btn v-if="scope.row.state_code === 'add'" btn-name="前往数据采集页面" btn-type="replace_new"
-                             check-btn="getDealerData" url="/xingyun/upload"  size="mini"
-                             params-key='code' :params-value='scope.row.code' check-role="applyList"></push-function-btn>
+          <el-button type="primary" size="mini" v-if="scope.row.state_code === 'intercept'"
+                     @click="showApplyInterceptFunction(scope.row.dealer_id)" :disabled="scope.row.oa_apply">申请跳过拦截</el-button>
 
-          <push-function-btn v-if="scope.row.state_code === 'add'" btn-name="跳过数据采集页面" btn-type="reload" size="mini"
-                             check-btn="skipGetData" check-role="applyList" url="/ald/dealer/skip_get_data"
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          <noPermissionBtn v-if="scope.row.state_code === 'add'" btn-name="前往数据采集页面" btn-type="replace_new" url="/xingyun/upload"  size="mini"
+                             params-key='code' :params-value='scope.row.code' check-role="applyList"></noPermissionBtn>
 
-          <push-function-btn v-if="scope.row.state_code === 'unactive'" btn-name="确认激活" btn-type="reload" size="mini"
-                             check-btn="doneDealerQuota" check-role="applyList" url="/ald/dealer/done_quota"
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          <noPermissionBtn v-if="scope.row.state_code === 'add'" btn-name="跳过数据采集页面" btn-type="reload" size="mini" url="/ald/dealer/skip_get_data"
+                             params-key='dealerId' :params-value='scope.row.dealer_id'></noPermissionBtn>
 
-          <push-function-btn v-if="scope.row.state_code === 'unactive' && scope.row.quota_type === '新客户'" btn-name="重新录入" btn-type="reload" size="mini"
-                             check-btn="deleteDealerQuota" check-role="applyList" url="/ald/dealer/delete_quota"
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          <noPermissionBtn v-if="scope.row.state_code === 'unactive'" btn-name="确认激活" btn-type="reload" size="mini" url="/ald/dealer/done_quota"
+                             params-key='dealerId' :params-value='scope.row.dealer_id'></noPermissionBtn>
 
-          <push-function-btn v-if="scope.row.state_code === 'active_error'" btn-name="重新激活" btn-type="reload" size="mini"
-                             check-btn="againApplyActive" check-role="applyList" url="/ald/dealer/again_apply_active"
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          <noPermissionBtn v-if="scope.row.state_code === 'unactive' && scope.row.quota_type === '新客户'" btn-name="重新录入" btn-type="reload" size="mini"
+                             url="/ald/dealer/delete_quota" params-key='dealerId' :params-value='scope.row.dealer_id'></noPermissionBtn>
+
+          <noPermissionBtn v-if="scope.row.state_code === 'active_error'" btn-name="重新激活" btn-type="reload" size="mini"
+                             url="/ald/dealer/again_apply_active" params-key='dealerId' :params-value='scope.row.dealer_id'></noPermissionBtn>
         </template>
       </el-table-column>
     </el-table>
@@ -114,29 +99,37 @@
         <el-form-item label="拦截原因" :label-width="formLabelWidth">
           <p v-for="(item,index)  in interceptList" :key="index">{{ item }};</p>
         </el-form-item>
+      </el-form>
+    </el-dialog>
+
+    <el-dialog title="申请跳过拦截" :visible.sync="showApplyIntercept" width="35%">
+      <el-form>
         <el-form-item label="备注信息" prop="info" :label-width="formLabelWidth">
           <el-input v-model="addForm.remark"></el-input>
         </el-form-item>
       </el-form>
-      <el-button type="primary" size="mini" @click="skipApplyIntercept()">确认跳过拦截</el-button>
+      <p style="font-size: 10px; padding-left: 50px; margin-bottom: 10px">提示:当前客户由于第三方数据查询不合格被系统拦截（具体原因请点击拦截原因查看），不建议纳入客户额度体系，如您有异议，可通过填写备注（请写明）及提交申请，将申请提交至OA系统审批，OA审批通过后，系统将跳过拦截</p>
+      <div style="text-align: right">
+        <el-button type="primary" size="mini" @click="skipApplyIntercept()">确认提交申请</el-button>
+      </div>
     </el-dialog>
-
   </div>
 </template>
 
 <script>
-import PushFunctionBtn from "../../components/pushFunctionBtn";
+import noPermissionBtn from "../../components/noPermissionBtn";
 import {Message} from "element-ui";
 
 export default {
   name: "applyList",
-  components: {PushFunctionBtn},
+  components: {noPermissionBtn},
   data() {
     return {
       dealerList: [],
       total: 1,
       localPage: 1,
       showIntercept: false,
+      showApplyIntercept: false,
       formLabelWidth: '120px',
       interceptList:[],
       queryType: {},
@@ -184,7 +177,7 @@ export default {
       })
     },
 
-    showApplyIntercept: function (dealerId){
+    showInterceptFunction: function (dealerId){
       var that = this;
       that.interceptList = []
       that.addForm.dealerId=dealerId
@@ -199,11 +192,19 @@ export default {
       })
     },
 
+    showApplyInterceptFunction: function (dealerId){
+      var that = this;
+      that.showApplyIntercept = true
+      that.addForm.dealerId=dealerId
+    },
+
     skipApplyIntercept: function (){
       var that = this;
       that.axios.post('/ald/dealer/skip_apply_intercept', that.addForm).then(res=>{
         if (res.data.code=='ok'){
           Message.success('成功: 申请审批中')
+          that.showApplyIntercept = false
+          that.getApplyDealerList()
         }else {
           Message.warning('失败: ' + res.data.data)
         }

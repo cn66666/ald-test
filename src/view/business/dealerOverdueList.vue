@@ -5,53 +5,47 @@
         <el-input  style="width: 200px; float:left;"
                    placeholder="客户名称" v-model="queryType.companyName">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最小累计滞纳金" v-model="queryType.minOverdue" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最大累计滞纳金" v-model="queryType.maxOverdue" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
         <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最小未缴滞纳金" v-model="queryType.minUnpaid" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最大未缴滞纳金" v-model="queryType.maxUnpaid" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最小已缴滞纳金" v-model="queryType.minPaid" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最大已缴滞纳金" v-model="queryType.maxPaid" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最小已免除纳金" v-model="queryType.minFree" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-input  style="width: 130px; float:left;"
+        <el-input  style="width: 200px; float:left;"
                    placeholder="最大已免除纳金" v-model="queryType.maxFree" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-button style="float:left; width: 100px" type="primary" @click="getDealerOverdueList()">查询</el-button>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
       </div>
 

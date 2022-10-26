@@ -3,7 +3,7 @@
     <el-page-header @back="goBack" content="发票逾期详情" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-row class="filter_row">
-      <el-select v-model="queryType.stateType" placeholder="请选择开票状态" @change="getInovicetOverdueLogs(1)">
+      <el-select v-model="queryType.stateType" placeholder="请选择开票状态" @change="getInovicetOverdueLogs(1)" style="width: 200px">
         <el-option
           v-for="item in stateType"
           :key="item"
@@ -13,12 +13,12 @@
       </el-select>
       <el-date-picker v-model="queryType.startDate"
                       type="date"
-                      placeholder="开票起始日期" value-format="yyyy-MM-dd"  @change="getInovicetOverdueLogs(1)">
+                      placeholder="开票起始日期" value-format="yyyy-MM-dd"  @change="getInovicetOverdueLogs(1)" style="width: 200px">
       </el-date-picker>
       <span style="height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
       <el-date-picker v-model="queryType.endDate"
                       type="date"
-                      placeholder="开票截止日期" value-format="yyyy-MM-dd" @change="getInovicetOverdueLogs(1)">
+                      placeholder="开票截止日期" value-format="yyyy-MM-dd" @change="getInovicetOverdueLogs(1)" style="width: 200px">
       </el-date-picker>
       <el-button type="primary" @click="downloadOverdueLogs()">下载excel</el-button>
     </el-row>

@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-row class="filter_row">
-      <div style="width: 240px; float:left; margin: 2px;">
-        <el-select v-model="queryType.dealerType" placeholder="请选择额度类型" @change="getScoreList()">
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-select v-model="queryType.dealerType" style="width: 200px;" placeholder="请选择额度类型" @change="getScoreList()">
           <el-option
             v-for="item in dealerType"
             :key="item.query"
@@ -11,8 +11,8 @@
           </el-option>
         </el-select>
       </div>
-      <div style="width: 240px; float:left; margin: 2px;">
-        <el-select v-model="queryType.levelType" placeholder="请选择评级" @change="getScoreList()">
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-select v-model="queryType.levelType" style="width: 200px;" placeholder="请选择评级" @change="getScoreList()">
           <el-option
             v-for="item in levelType"
             :key="item.query"
@@ -21,8 +21,8 @@
           </el-option>
         </el-select>
       </div>
-      <div style="width: 240px; float:left; margin: 2px;">
-        <el-select v-model="queryType.scoreType" placeholder="请选择状态" @change="getScoreList()">
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-select v-model="queryType.scoreType" style="width: 200px;" placeholder="请选择状态" @change="getScoreList()">
           <el-option
             v-for="item in scoreType"
             :key="item.query"
@@ -32,30 +32,29 @@
         </el-select>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-input  style="width: 200px; float:left;"
+        <el-input  style="width: 200px;"
                    placeholder="客户名称" v-model="queryType.companyName">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-date-picker v-model="queryType.oldStartDate" style="float:left;"
+        <el-date-picker v-model="queryType.oldStartDate" style="float:left;width: 200px;"
                         type="date"
                         placeholder="旧额度起始日期" value-format="yyyy-MM-dd">
         </el-date-picker>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-date-picker v-model="queryType.oldEndDate" style="float:left;"
+        <el-date-picker v-model="queryType.oldEndDate" style="float:left;width: 200px;"
                         type="date"
                         placeholder="旧额度截止日期" value-format="yyyy-MM-dd">
         </el-date-picker>
         <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-date-picker v-model="queryType.newStartDate" style="float:left;"
+        <el-date-picker v-model="queryType.newStartDate" style="float:left;width: 200px;"
                         type="date"
                         placeholder="新额度起始日期" value-format="yyyy-MM-dd">
         </el-date-picker>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-date-picker v-model="queryType.newEndDate" style="float:left;"
+        <el-date-picker v-model="queryType.newEndDate" style="float:left;width: 200px;"
                         type="date"
                         placeholder="新额度截止日期" value-format="yyyy-MM-dd">
         </el-date-picker>
@@ -63,9 +62,7 @@
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-button style="float:left; width: 100px" type="primary" @click="getScoreList()">查询</el-button>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
       </div>
 

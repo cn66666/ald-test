@@ -23,7 +23,7 @@
       </el-form-item>
       <el-form-item label-width="200px">
         <el-button type="primary" size="mini" @click="reckonQuotaDay()">额度试算</el-button>
-        <el-button type="primary" size="mini" @click="changeQuotaDay()">账期调整额度</el-button>
+        <el-button type="primary" size="mini" @click="changeQuotaDay()">确认提交申请</el-button>
       </el-form-item>
     </el-form>
   </div>

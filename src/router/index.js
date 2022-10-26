@@ -359,6 +359,12 @@ export default new Router({
           meta: { title: '客户消息通知日志' },
           component: resolve => require(['../view/user/noticeLogList'], resolve),
         },
+        {
+          path: '/admin/dealer/oaApplyList',
+          name: 'oaApplyList',
+          meta: { title: 'OA审批清单' },
+          component: resolve => require(['../view/dealer/oaApplyList'], resolve),
+        },
       ]
     },
     {

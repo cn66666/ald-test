@@ -2,7 +2,7 @@
   <div>
     <el-page-header @back="goBack" content="客户通知配置" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
-    <el-row style="margin-left: 5%">
+    <el-row style="margin: 10px 5%">
       <h3>{{ noticeInfo.company_name }}</h3>
     </el-row>
     <div style="margin: 1% 5%">
@@ -144,7 +144,7 @@
     <el-dialog :title="changeTitle" :visible.sync="showChange" style="width: 100%">
       <el-form>
         <el-form-item label="负责人名称" label-width="100px">
-          <el-input v-model="changeForm.userName" style="width: 80%"></el-input>
+          <el-input v-model="changeForm.userName" style="width: 80%" disabled></el-input>
         </el-form-item>
         <el-form-item label="联系方式" label-width="100px">
           <el-input v-model="changeForm.userPhone" style="width: 80%"></el-input>

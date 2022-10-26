@@ -3,12 +3,12 @@
     <el-page-header @back="goBack" content="额度变更详情" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-row class="filter_row">
-      <el-date-picker v-model="info.startDate"
+      <el-date-picker v-model="info.startDate" style="width: 200px"
                       type="date"
                       placeholder="发生起始日期" value-format="yyyy-MM-dd"  @change="getQuotaLogs">
       </el-date-picker>
       <span style="height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-      <el-date-picker v-model="info.endDate"
+      <el-date-picker v-model="info.endDate"  style="width: 200px"
                       type="date"
                       placeholder="发生截止日期" value-format="yyyy-MM-dd" @change="getQuotaLogs">
       </el-date-picker>
@@ -17,7 +17,7 @@
           v-for="item in stateCodeOptions"
           :key="item.value"
           :label="item.label"
-          :value="item.value">
+          :value="item.value" style="width: 200px">
         </el-option>
       </el-select>
       <el-select v-model="info.change_type" placeholder="请选择单据类型" @change="getQuotaLogs">
@@ -25,7 +25,7 @@
           v-for="item in changeTypeOptions"
           :key="item.value"
           :label="item.label"
-          :value="item.value">
+          :value="item.value" style="width: 200px">
         </el-option>
       </el-select>
       <el-input v-model="info.change_code" placeholder="请输入单据号" style="width: 200px" @input="getQuotaLogs"></el-input>

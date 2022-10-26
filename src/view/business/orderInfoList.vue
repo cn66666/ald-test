@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row class="filter_row">
-      <el-select v-model="info.dealerId" placeholder="请选择客户名称" @change="getOrderInfoList(1)">
+      <el-select v-model="info.dealerId" placeholder="请选择客户名称" @change="getOrderInfoList(1)" style="width: 200px; ">
         <el-option
           v-for="item in companyList"
           :key="item.name"
@@ -9,7 +9,7 @@
           :value="item.id">
         </el-option>
       </el-select>
-      <el-select v-model="info.orderType" placeholder="请选择单据类型" @change="getOrderInfoList(1)">
+      <el-select v-model="info.orderType" placeholder="请选择单据类型" @change="getOrderInfoList(1)" style="width: 200px; ">
         <el-option
           v-for="item in orderState"
           :key="item"
@@ -17,7 +17,7 @@
           :value="item">
         </el-option>
       </el-select>
-      <div style="width: 250px; float:right;">
+      <div style="width: 200px; float:right;">
         <el-input placeholder="请输入销售单号" v-model="info.orderCode" class="input-with-select" @change="getOrderInfoList(1)">
           <el-button slot="append" icon="el-icon-search" @click="getOrderInfoList"></el-button>
         </el-input>
