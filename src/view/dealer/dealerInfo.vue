@@ -273,7 +273,6 @@ export default {
       } else {
         if (special_quota !== '') {
           try {
-            debugger
             var res = parseFloat(special_quota)
             if (isNaN(res)) {
               Message.warning('失败: 请填写正确的特批额度')
