@@ -153,11 +153,11 @@
             </el-descriptions-item>
           </el-descriptions>
           <div v-if="dealerInfo.is_delete === false">
-            <el-button type="primary" size="mini" @click="showSpecialQuota()" :disabled="dealerInfo.oa_apply">进行额度特批</el-button>
+            <el-button v-if="dealerInfo.state_code !== 'apply'" type="primary" size="mini" @click="showSpecialQuota()" :disabled="dealerInfo.oa_apply">进行额度特批</el-button>
 
-            <el-button type="primary" size="mini" @click="toDealerOverdueSkip()" :disabled="dealerInfo.oa_apply">更改逾期特批</el-button>
+            <el-button v-if="dealerInfo.state_code !== 'apply'" type="primary" size="mini" @click="toDealerOverdueSkip()" :disabled="dealerInfo.oa_apply">更改逾期特批</el-button>
 
-            <el-button v-if="dealerInfo.quota_type === '老客户'" type="primary" size="mini" @click="toChangeQuotaDay()" :disabled="dealerInfo.oa_apply">进行账期调整</el-button>
+            <el-button v-if="dealerInfo.quota_type === '老客户' || dealerInfo.state_code !== 'apply'" type="primary" size="mini" @click="toChangeQuotaDay()" :disabled="dealerInfo.oa_apply">进行账期调整</el-button>
           </div>
         </el-tab-pane>
         <el-tab-pane label="额度变更记录" name="额度变更记录">

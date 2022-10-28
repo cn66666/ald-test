@@ -20,6 +20,7 @@
                       type="date"
                       placeholder="开票截止日期" value-format="yyyy-MM-dd" @change="getInovicetOverdueLogs(1)" style="width: 200px">
       </el-date-picker>
+      <el-button style="width: 100px" type="primary" @click="reset()">重置</el-button>
       <el-button type="primary" @click="downloadOverdueLogs()">下载excel</el-button>
     </el-row>
     <el-table
@@ -113,6 +114,9 @@ export default {
     goBack() {
       var that = this;
       that.$router.push({path: '/admin/dealer/dealerInfo?dealerId=' + that.queryType.dealer_id})
+    },
+    reset: function () {
+      location.reload()
     },
     handleCurrentChange(val) {
       var that = this;

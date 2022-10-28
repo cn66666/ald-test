@@ -15,7 +15,8 @@
         </el-date-picker>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-button style="float:left; width: 100px" type="primary" @click="downloadDealerOperLogs()">下载excel</el-button>
+        <el-button style="width: 100px" type="primary" @click="reset()">重置</el-button>
+        <el-button style="width: 100px" type="primary" @click="downloadDealerOperLogs()">下载excel</el-button>
       </div>
     </el-row>
     <el-table
@@ -71,6 +72,9 @@ export default {
     goBack() {
       this.$router.go(-1)
     },
+    reset: function () {
+      location.reload()
+    },
     handleCurrentChange(val) {
       this.localPage = val;
       this.getDealerOperLogs();
@@ -88,6 +92,7 @@ export default {
     downloadDealerOperLogs: function (){
       var that = this;
       var data = 'data=' + JSON.stringify(that.queryType) + '&timestamp=' + new Date().getTime();
+      // var now = that.$utils.getNowDate()
       that.axios({
         method: "get",
         url: '/ald/downloads/dealerOperLogs?' + data,

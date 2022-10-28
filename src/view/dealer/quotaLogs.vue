@@ -29,6 +29,7 @@
         </el-option>
       </el-select>
       <el-input v-model="info.change_code" placeholder="请输入单据号" style="width: 200px" @input="getQuotaLogs"></el-input>
+      <el-button style="width: 100px" type="primary" @click="reset()">重置</el-button>
       <el-button type="primary" @click="downloadQuotaLogs()">下载excel</el-button>
       <el-button type="primary" @click="showAddLog=true">手动添加变更记录</el-button>
     </el-row>
@@ -174,6 +175,9 @@ export default {
   methods: {
     goBack() {
       this.$router.go(-1)
+    },
+    reset: function () {
+      location.reload()
     },
     handleCurrentChange(val) {
       this.localPage = val;

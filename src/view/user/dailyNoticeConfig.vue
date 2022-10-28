@@ -4,7 +4,7 @@
     </el-page-header>
     <div style="margin: 1% 3%; height: 50px; width: 90%">
       <div>
-        <span style="line-height: 40px">日报提醒时间为每日8点</span>
+        <span style="line-height: 40px">日报提醒时间为每日8:30 和 17:30</span>
         <el-button style="width: 100px; margin-left: 40px" type="primary" size="mini" @click="defaultConfig()">改为默认配置</el-button>
       </div>
     </div>

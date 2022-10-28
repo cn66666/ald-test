@@ -92,6 +92,9 @@
             <el-option label="否" value="否"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item :label-width="formLabelWidth">
+            <el-button @click="showZxbForm=false" type="primary" size="mini">提交申请</el-button>
+        </el-form-item>
       </el-form>
     </el-dialog>
   </div>

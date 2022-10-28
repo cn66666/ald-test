@@ -12,7 +12,7 @@
               <h2>完整日报{{ report.create_time }}<span>{{report.company_name}}</span></h2>
             </el-col>
             <el-col :span="6" class="times">
-              日报数据截止统计时间   8：00
+              日报数据截止统计时间 {{ report.hour }}：00
             </el-col>
           </el-row>
         </div>

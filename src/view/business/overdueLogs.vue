@@ -12,6 +12,7 @@
                       type="date" style="width: 200px"
                       placeholder="发生截止日期" value-format="yyyy-MM-dd" @change="getOverdueLogs">
       </el-date-picker>
+      <el-button style="width: 100px" type="primary" @click="reset()">重置</el-button>
       <el-button type="primary" @click="downloadOverdueLogs()">下载excel</el-button>
     </el-row>
     <el-table
@@ -63,6 +64,9 @@ export default {
   methods: {
     goBack() {
       this.$router.go(-1)
+    },
+    reset: function () {
+      location.reload()
     },
     handleCurrentChange(val) {
       this.localPage = val;

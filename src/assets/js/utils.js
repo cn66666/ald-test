@@ -45,19 +45,17 @@ export default {
     }).catch(res => {
     })
   },
-  // checkPermission: function (that){
-  //   that.axios.post('/aladdin/user/check_permission', {'oper': that.userPhone,}).then(res => {
-  //     if (res.data.code == 'ok') {
-  //       that.$router.push(that.routerUrl)
-  //     } else {
-  //       that.$message({
-  //         message: res.data.msg,
-  //         type: 'warning'
-  //       });
-  //     }
-  //   }).catch(res => {
-  //   })
-  // },
+
+  getNowDate: function (){
+    var now = new Date();
+    const y = now.getFullYear();
+    const m = now.getMonth() + 1 + '';
+    const d = now.getDate();
+    const hh = now.getHours();
+    const mm = now.getMinutes();
+    const ss = now.getSeconds();
+    return y + m + d + hh + mm + ss;
+  }
 
 }
 
