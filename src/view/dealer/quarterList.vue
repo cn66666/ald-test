@@ -205,7 +205,8 @@ export default {
     download: function (){
       var that = this;
       var data = 'data=' + JSON.stringify(that.queryType);
-      console.log(data)
+      var now = that.$utils.getNowDate()
+      var file_name = '客户季度调额' + now + '.xls'
       that.axios({
         method: "get",
         url: '/ald/downloads/quarterList?' + data + '&timestamp=' + new Date().getTime(),
@@ -215,7 +216,7 @@ export default {
         let objectUrl = URL.createObjectURL(blob);
         let link = document.createElement("a");
         link.href = objectUrl;
-        link.setAttribute("download", '客户季度调额.xls');
+        link.setAttribute("download", file_name);
         document.body.appendChild(link);
         link.click();
       })

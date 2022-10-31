@@ -92,7 +92,8 @@ export default {
     downloadDealerOperLogs: function (){
       var that = this;
       var data = 'data=' + JSON.stringify(that.queryType) + '&timestamp=' + new Date().getTime();
-      // var now = that.$utils.getNowDate()
+      var now = that.$utils.getNowDate()
+      var file_name = '用户操作日志' + now + '.xls'
       that.axios({
         method: "get",
         url: '/ald/downloads/dealerOperLogs?' + data,
@@ -102,7 +103,7 @@ export default {
         let objectUrl = URL.createObjectURL(blob);
         let link = document.createElement("a");
         link.href = objectUrl;
-        link.setAttribute("download", '用户操作日志.xls');
+        link.setAttribute("download", file_name);
         document.body.appendChild(link);
         link.click();
       })
