@@ -165,7 +165,7 @@ export default {
       var that = this;
       that.axios.post('/ald/notice/notice_user_config', {'userId': that.userId}).then(res=>{
         if (res.data.code==='ok'){
-          that.userName = '跟单负责人: ' + res.data.data.user_name + '配置详情';
+          that.userName = '跟单负责人' + res.data.data.user_name + '配置详情';
           that.userType = res.data.data.user_type;
           that.configData = res.data.data.config;
           for (var data in that.noticeDec){
@@ -224,5 +224,7 @@ export default {
 </script>
 
 <style scoped>
-
+>>>.el-page-header__content {
+  font-size: 14px;
+}
 </style>

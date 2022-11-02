@@ -44,9 +44,9 @@
         </el-input>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-button style="float:left; width: 100px" type="primary" @click="getDealerOverdueList()">查询</el-button>
-        <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
-        <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
+        <el-button style="height: 36px;float:left; width: 100px" type="primary" @click="getDealerOverdueList()">查询</el-button>
+        <el-button style="height: 36px;float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
+        <el-button style="height: 36px;float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
       </div>
 
     </el-row>
@@ -172,5 +172,7 @@ export default {
 </script>
 
 <style scoped>
-
+>>> .el-input__inner{
+  height: 36px;
+}
 </style>

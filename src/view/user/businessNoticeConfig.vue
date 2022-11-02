@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" :content="userName" style="padding-left: 15px; padding-top: 15px">
+    <el-page-header @back="goBack" :content="userName" style="padding-left: 15px; padding-top: 15px; font-size: 14px">
     </el-page-header>
     <div style="margin: 1% 3%; height: 50px; width: 90%">
       <div style="float:left;">
@@ -166,7 +166,7 @@ export default {
       var that = this;
       that.axios.post('/ald/notice/notice_user_config', {'userId': that.userId}).then(res=>{
         if (res.data.code==='ok'){
-          that.userName = '业务负责人: ' + res.data.data.user_name + '配置详情';
+          that.userName = '业务负责人' + res.data.data.user_name + '配置详情';
           that.userType = res.data.data.user_type;
           that.configData = res.data.data.config;
           for (var data in that.noticeDec){
@@ -225,5 +225,7 @@ export default {
 </script>
 
 <style scoped>
-
+>>>.el-page-header__content {
+  font-size: 14px;
+}
 </style>

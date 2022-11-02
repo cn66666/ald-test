@@ -47,9 +47,9 @@
         <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-button style="float:left; width: 100px" type="primary" @click="getQuarterList()">查询</el-button>
-        <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
-        <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="getQuarterList()">查询</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="reset()">重置</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="download()">下载excel</el-button>
       </div>
 
     </el-row>
@@ -226,5 +226,8 @@ export default {
 </script>
 
 <style scoped>
+>>> .el-input__inner{
+  height: 36px;
+}
 
 </style>

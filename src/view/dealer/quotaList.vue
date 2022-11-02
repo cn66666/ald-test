@@ -11,11 +11,10 @@
           </el-option>
         </el-select>
       </div>
-      <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 14px; ">
-        <el-input  style="width: 200px; float:left;"
+      <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 3px; ">
+        <el-input  style="width: 200px; float:left; height: 36px"
                    placeholder="客户名称" v-model="queryType.companyName">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-input  style="width: 200px; float:left;"
@@ -25,7 +24,6 @@
         <el-input  style="width: 200px; float:left;"
                    placeholder="最大总额度" v-model="queryType.maxQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-input  style="width: 200px; float:left;"
@@ -35,7 +33,6 @@
         <el-input  style="width: 200px; float:left;"
                    placeholder="最大已用额度" v-model="queryType.maxUsedQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-input  style="width: 200px; float:left;"
@@ -45,7 +42,6 @@
         <el-input  style="width: 200px; float:left;"
                    placeholder="最大剩余额度" v-model="queryType.maxLastQuota" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-date-picker v-model="queryType.startDate" style="width: 200px; float:left;"
@@ -57,7 +53,6 @@
                         type="date"
                         placeholder="额度截止日期" value-format="yyyy-MM-dd">
         </el-date-picker>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-input  style="width: 200px; float:left;"
@@ -67,12 +62,11 @@
         <el-input  style="width: 200px; float:left;"
                    placeholder="最大逾期天数" v-model="queryType.maxDay" oninput="value=value.replace(/[^0-9.-]/g, '')">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-button style="float:left; width: 100px" type="primary" @click="getQuotaList()">查询</el-button>
-        <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
-        <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="getQuotaList()">查询</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="reset()">重置</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="download()">下载excel</el-button>
       </div>
     </el-row>
     <el-table
@@ -222,7 +216,7 @@ export default {
     },
     getQuotaList: function (){
       var that = this;
-      that.axios.post('/ald/dealer/quota_list', {'page': that.localPage, queryType: that.queryType}).then(res=>{
+      that.axios.post('/ald/dealer/quota_list', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
         if (res.data.code=='ok'){
           that.quotaList = res.data.data.data_list;
           that.total = res.data.data.total
@@ -301,5 +295,7 @@ export default {
 </script>
 
 <style scoped>
-
+>>> .el-input__inner{
+  height: 36px;
+}
 </style>

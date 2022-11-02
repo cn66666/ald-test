@@ -20,8 +20,8 @@
                       type="date"
                       placeholder="开票截止日期" value-format="yyyy-MM-dd" @change="getInovicetOverdueLogs(1)" style="width: 200px">
       </el-date-picker>
-      <el-button style="width: 100px" type="primary" @click="reset()">重置</el-button>
-      <el-button type="primary" @click="downloadOverdueLogs()">下载excel</el-button>
+      <el-button style="height: 36px;width: 100px" type="primary" @click="reset()">重置</el-button>
+      <el-button style="height: 36px;width: 130px" type="primary" @click="downloadOverdueLogs()">下载excel</el-button>
     </el-row>
     <el-table
       class="info_table"
@@ -160,5 +160,7 @@ export default {
 </script>
 
 <style scoped>
-
+>>> .el-input__inner{
+  height: 36px;
+}
 </style>

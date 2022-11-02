@@ -7,7 +7,7 @@
         </el-input>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-button style="float:left; width: 100px" type="primary" @click="getPublicInfo()">查询</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="getPublicInfo()">查询</el-button>
       </div>
     </el-row>
     <el-table
@@ -104,5 +104,7 @@ export default {
 </script>
 
 <style scoped>
-
+>>> .el-input__inner{
+  height: 36px;
+}
 </style>

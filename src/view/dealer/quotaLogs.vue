@@ -29,9 +29,9 @@
         </el-option>
       </el-select>
       <el-input v-model="info.change_code" placeholder="请输入单据号" style="width: 200px" @input="getQuotaLogs"></el-input>
-      <el-button style="width: 100px" type="primary" @click="reset()">重置</el-button>
-      <el-button type="primary" @click="downloadQuotaLogs()">下载excel</el-button>
-      <el-button type="primary" @click="showAddLog=true">手动添加变更记录</el-button>
+      <el-button style="height: 36px;width: 100px" type="primary" @click="reset()">重置</el-button>
+      <el-button type="primary" style="height: 36px;width: 130px" @click="downloadQuotaLogs()">下载excel</el-button>
+      <el-button type="primary" style="height: 36px;width: 150px" @click="showAddLog=true">手动添加变更记录</el-button>
     </el-row>
     <el-table
       class="info_table"
@@ -228,5 +228,7 @@ export default {
 </script>
 
 <style scoped>
-
+>>> .el-input__inner{
+  height: 36px;
+}
 </style>

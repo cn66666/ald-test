@@ -54,9 +54,9 @@
         </el-date-picker>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-button style="float:left; width: 100px" type="primary" @click="getOaApplyList()">查询</el-button>
-        <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
-        <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
+        <el-button style="height: 36px;float:left; width: 100px" type="primary" @click="getOaApplyList()">查询</el-button>
+        <el-button style="height: 36px;float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
+        <el-button style="height: 36px;float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
       </div>
 
     </el-row>
@@ -149,7 +149,7 @@ export default {
     handleCurrentChange(val) {
       var that = this;
       that.localPage = val;
-      that.getInterceptList();
+      that.getOaApplyList();
     },
     getOaApplyList: function (){
       var that = this;
@@ -190,5 +190,7 @@ export default {
 </script>
 
 <style scoped>
-
+>>> .el-input__inner{
+  height: 36px;
+}
 </style>

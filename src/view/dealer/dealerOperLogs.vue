@@ -4,6 +4,26 @@
     </el-page-header>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-select v-model="queryType.logType" style="width: 200px;" placeholder="请选择功能类型" @change="getDealerOperLogs()">
+          <el-option
+            v-for="item in logType"
+            :key="item.query"
+            :label="item.type"
+            :value="item.query">
+          </el-option>
+        </el-select>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-select v-model="queryType.user" style="width: 200px;" placeholder="请选择操作人" @change="getDealerOperLogs()">
+          <el-option
+            v-for="item in userList"
+            :key="item.query"
+            :label="item.type"
+            :value="item.query">
+          </el-option>
+        </el-select>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-date-picker v-model="queryType.startDate" style="float:left; width: 200px"
                         type="date"
                         placeholder="操作起始日期" value-format="yyyy-MM-dd" @change="getDealerOperLogs()">
@@ -15,8 +35,8 @@
         </el-date-picker>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-button style="width: 100px" type="primary" @click="reset()">重置</el-button>
-        <el-button style="width: 100px" type="primary" @click="downloadDealerOperLogs()">下载excel</el-button>
+        <el-button style="height: 36px;width: 100px" type="primary" @click="reset()">重置</el-button>
+        <el-button style="height: 36px;width: 100px" type="primary" @click="downloadDealerOperLogs()">下载excel</el-button>
       </div>
     </el-row>
     <el-table
@@ -59,13 +79,31 @@ export default {
       tableData: [],
       total: 0,
       localPage: 1,
-      queryType: {dealer_id: null, startDate: null, endDate: null},
+      queryType: {dealerId: null, startDate: null, endDate: null, logType: null, user: null},
       showInfo: false,
+      logType: [
+        {'type': '全部', 'query': ''},
+        {'type': '补充资料', 'query': '补充资料'},
+        {'type': '季度额度通过', 'query': '季度额度通过'},
+        {'type': '评分卡补充资料', 'query': '评分卡补充资料'},
+        {'type': '评分卡退回', 'query': '评分卡退回'},
+        {'type': '更改逾期配置', 'query': '更改逾期配置'},
+        {'type': '额度特批', 'query': '额度特批'},
+        {'type': '手动拉入拦截清单', 'query': '手动拉入拦截清单'},
+        {'type': '滞纳金缴纳/免除', 'query': '滞纳金缴纳/免除'},
+        {'type': '拉出拦截', 'query': '拉出拦截'},
+        {'type': '申请新客户拦截特批', 'query': '申请新客户拦截特批'},
+        {'type': '申请客户移出拦截特批', 'query': '申请客户移出拦截特批'},
+        {'type': '申请客户额度特批', 'query': '申请客户额度特批'},
+        {'type': '申请客户账期调整特批', 'query': '申请客户账期调整特批'},
+        {'type': '申请客户逾期配置特批', 'query': '申请客户逾期配置特批'},
+      ],
+      userList: []
     }
   },
   mounted() {
     var that = this;
-    that.queryType.dealer_id = this.$route.query.dealerId;
+    that.queryType.dealerId = this.$route.query.dealerId;
     this.getDealerOperLogs()
   },
   methods: {
@@ -85,6 +123,7 @@ export default {
         if (res.data.code=='ok'){
           that.tableData = res.data.data.data_list;
           that.total = res.data.data.total
+          that.userList = res.data.data.user_list
         }
       }).catch(res=>{
       })
@@ -113,5 +152,7 @@ export default {
 </script>
 
 <style scoped>
-
+>>> .el-input__inner{
+  height: 36px;
+}
 </style>

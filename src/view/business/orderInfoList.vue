@@ -22,11 +22,9 @@
           <el-button slot="append" icon="el-icon-search" @click="getOrderInfoList"></el-button>
         </el-input>
       </div>
-      <push-function-btn btn-name="手动获取新订单" btn-type="reload" size=""
-                         check-btn="refreshOrder" check-role="orderInfoList" url="/ald/business/refresh_order"></push-function-btn>
-      <push-function-btn btn-name="手动更新旧订单" btn-type="reload" size=""
-                         check-btn="uploadOrder" check-role="orderInfoList" url="/ald/business/upload_order"></push-function-btn>
-      <el-button type="primary" @click="download()">下载excel</el-button>
+      <el-button style="width: 170px;height: 36px" type="primary" :loading="loading" @click="queryNewOrder()">手动获取新订单</el-button>
+      <el-button style="width: 170px;height: 36px" type="primary" :loading="loading" @click="queryOldOrder()">手动更新旧订单</el-button>
+      <el-button style="width: 100px;height: 36px" type="primary" @click="download()">下载excel</el-button>
     </el-row>
     <el-table
       class="info_table"
@@ -79,10 +77,10 @@
 </template>
 
 <script>
-import PushFunctionBtn from "../../components/pushFunctionBtn";
+import NoPermissionBtn from "../../components/noPermissionBtn";
 export default {
   name: "orderInfoList",
-  components: {PushFunctionBtn},
+  components: {NoPermissionBtn},
   data() {
     return {
       orderInfoList: [],
@@ -95,7 +93,8 @@ export default {
         dealerId: '',
         orderCode: '',
         isDelete: false
-      }
+      },
+      loading: false
     }
   },
 
@@ -184,11 +183,29 @@ export default {
       document.body.appendChild(link);
       link.click();
     })
-  },
+    },
+    queryNewOrder: function () {
+      var that = this;
+      that.loading = true;
+      that.axios.post('/ald/business/refresh_order', {}).then(res=>{
+        location.reload()
+      }).catch(res=>{
+      })
+    },
+    queryOldOrder: function () {
+      var that = this;
+      that.loading = true;
+      that.axios.post('/ald/business/upload_order', {}).then(res=>{
+        location.reload()
+      }).catch(res=>{
+      })
+    },
   }
 }
 </script>
 
 <style scoped>
-
+>>> .el-input__inner{
+  height: 36px;
+}
 </style>

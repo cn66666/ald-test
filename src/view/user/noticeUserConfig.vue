@@ -1,10 +1,7 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="客户通知配置" style="padding-left: 15px; padding-top: 15px">
+    <el-page-header @back="goBack" :content="companyName" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
-    <el-row style="margin: 10px 5%">
-      <h3>{{ noticeInfo.company_name }}</h3>
-    </el-row>
     <div style="margin: 1% 5%">
       <div style="min-height: 30px">
         <h4 style="float: left">配置业务负责人</h4>
@@ -196,7 +193,8 @@ export default {
       },
       deleteShow: false,
       deleleInfo: {},
-      deleteTitle: ''
+      deleteTitle: '',
+      companyName: ''
     };
   },
   mounted() {
@@ -213,6 +211,7 @@ export default {
       that.axios.post('/ald/notice/notice_user', {'dealerId': that.dealerId}).then(res=>{
         if (res.data.code==='ok'){
           that.noticeInfo = res.data.data;
+          that.companyName = that.noticeInfo.company_name
         }
       }).catch(res=>{
       })
@@ -232,15 +231,15 @@ export default {
     addDealerNoticeUser: function () {
       var that = this;
       if (that.addForm.userName === ''){
+        Message.warning('失败: 未填写名称')
         return
       }
       else if (that.addForm.userPhone === ''){
-        return
-      }
-      else if (that.addForm.userdd === ''){
+        Message.warning('失败: 未填写手机')
         return
       }
       else if (that.addForm.userRemark === ''){
+        Message.warning('失败: 岗位')
         return
       }
       that.axios.post('/ald/notice/add_notice_user', {'dealerId': that.dealerId, addForm: that.addForm}).then(res=>{
@@ -336,5 +335,7 @@ export default {
 </script>
 
 <style scoped>
-
+>>>.el-page-header__content {
+  font-size: 14px;
+}
 </style>

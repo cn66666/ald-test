@@ -5,7 +5,6 @@
         <el-input  style="width: 200px; float:left;"
                    placeholder="客户名称" v-model="queryType.companyName">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-date-picker v-model="queryType.startDate" style="float:left; width: 200px;"
@@ -17,12 +16,11 @@
                         type="date"
                         placeholder="拦截截止日期" value-format="yyyy-MM-dd">
         </el-date-picker>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-button style="float:left; width: 100px" type="primary" @click="getInterceptList()">查询</el-button>
-        <el-button style="float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
-        <el-button style="float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="getInterceptList()">查询</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="reset()">重置</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="download()">下载excel</el-button>
       </div>
 
     </el-row>
@@ -64,7 +62,7 @@
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="skipIntercept()" :disabled="scope.row.oa_apply">申请解除拦截</el-button>
+          <el-button type="primary" size="mini" @click="skipIntercept(scope.row.dealer_id)" :disabled="scope.row.oa_apply">申请解除拦截</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -74,10 +72,10 @@
       </el-pagination>
     </div>
 
-    <el-dialog title="申请解除拦截" :visible.sync="showForm">
+    <el-dialog title="申请解除拦截" :visible.sync="showForm" width="30%">
       <el-form>
-        <el-form-item label="备注信息" prop="info" :label-width="formLabelWidth">
-          <el-input v-model="addForm.remark"></el-input>
+        <el-form-item label="备注信息" prop="info" label-width="150px">
+          <el-input v-model="addForm.remark" style="width: 70%"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -129,6 +127,7 @@ export default {
 
     skipIntercept: function (dealerId){
       var that = this;
+      console.log(dealerId)
       that.addForm.dealerId = dealerId
       that.addForm.remark = ''
       that.showForm = true
@@ -136,12 +135,13 @@ export default {
 
     skipInterceptBtn: function () {
       var that = this;
+      console.log(that.addForm)
       that.axios.post('/ald/dealer/remove_intercept', that.addForm).then(res=>{
+        that.showForm = false
         if (res.data.code==='ok'){
-          Message.success('成功: 申请审批中')
-          that.update = false
+          that.open('申请已发送至OA系统，请等待OA系统审批', '申请成功')
         }else {
-          Message.warning('失败: ' + res.data.data)
+          that.open('失败: ' + res.data.data, '申请失败')
         }
       }).catch(res=>{
       })
@@ -169,10 +169,21 @@ export default {
         link.click();
       })
     },
+    open(message, title) {
+      this.$alert(message, title, {
+        confirmButtonText: '关闭',
+        callback: action => {
+          location.reload()
+        }
+      });
+    }
   }
 }
 </script>
 
 <style scoped>
+>>> .el-input__inner{
+  height: 36px;
+}
 
 </style>

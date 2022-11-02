@@ -1,16 +1,27 @@
 <template>
   <div>
     <el-row class="filter_row">
-      <el-select v-model="queryType.applyState" style="width: 200px;" placeholder="请选择客户状态" @change="getApplyDealerList()">
-        <el-option
-          v-for="item in applyState"
-          :key="item.query"
-          :label="item.type"
-          :value="item.query">
-        </el-option>
-      </el-select>
-      <noPermissionBtn btn-name="手动更新客户" btn-type="reload" size="" url="/ald/dealer/refresh_dealer"></noPermissionBtn>
-      <el-button type="primary" @click="download()">下载excel</el-button>
+      <div class="demo-input-suffix" style="float:left;margin: 2px 3px 2px 3px; ">
+        <el-select v-model="queryType.applyState" style="float:left;width: 200px;" placeholder="请选择客户状态">
+          <el-option
+            v-for="item in applyState"
+            :key="item.query"
+            :label="item.type"
+            :value="item.query">
+          </el-option>
+        </el-select>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px 3px 2px 3px; ">
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="客户名称" v-model="queryType.companyName">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-button style="width: 100px;height: 36px" type="primary" @click="getApplyDealerList()">查询</el-button>
+        <el-button style="width: 100px;height: 36px" type="primary" @click="reset()">重置</el-button>
+        <el-button style="width: 150px;height: 36px" type="primary" :loading="loading" @click="queryDealer()">手动更新客户</el-button>
+        <el-button style="width: 100px;height: 36px" type="primary" @click="download()">下载excel</el-button>
+      </div>
     </el-row>
     <el-table
       class="info_table"
@@ -133,6 +144,7 @@ export default {
       formLabelWidth: '120px',
       interceptList:[],
       queryType: {},
+      loading: false,
       addForm: {
         remark:'',
         dealerId: ''
@@ -165,7 +177,17 @@ export default {
       that.localPage = val;
       that.getApplyDealerList();
     },
-
+    reset: function () {
+      location.reload()
+    },
+    queryDealer: function () {
+      var that = this;
+      that.loading = true;
+      that.axios.post('/ald/dealer/refresh_dealer', {}).then(res=>{
+        location.reload()
+      }).catch(res=>{
+      })
+    },
     getApplyDealerList: function (){
       var that = this;
       that.axios.post('/ald/dealer/apply_list', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
@@ -176,7 +198,6 @@ export default {
       }).catch(res=>{
       })
     },
-
     showInterceptFunction: function (dealerId){
       var that = this;
       that.interceptList = []
@@ -201,12 +222,11 @@ export default {
     skipApplyIntercept: function (){
       var that = this;
       that.axios.post('/ald/dealer/skip_apply_intercept', that.addForm).then(res=>{
-        if (res.data.code=='ok'){
-          Message.success('成功: 申请审批中')
-          that.showApplyIntercept = false
-          that.getApplyDealerList()
+        that.showApplyIntercept = false
+        if (res.data.code==='ok'){
+          that.open('申请已发送至OA系统，请等待OA系统审批', '申请成功')
         }else {
-          Message.warning('失败: ' + res.data.data)
+          that.open('失败: ' + res.data.data, '申请失败')
         }
       }).catch(res=>{
       })
@@ -231,10 +251,20 @@ export default {
         link.click();
       })
     },
+    open(message, title) {
+      this.$alert(message, title, {
+        confirmButtonText: '关闭',
+        callback: action => {
+          location.reload()
+        }
+      });
+    }
   }
 }
 </script>
 
 <style scoped>
-
+>>> .el-input__inner{
+  height: 36px;
+}
 </style>

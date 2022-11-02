@@ -153,15 +153,15 @@
             </el-descriptions-item>
           </el-descriptions>
           <div v-if="dealerInfo.is_delete === false">
-            <el-button v-if="dealerInfo.state_code !== 'apply'" type="primary" size="mini" @click="showSpecialQuota()" :disabled="dealerInfo.oa_apply">进行额度特批</el-button>
+            <el-button v-if="dealerInfo.state_code !== 'apply'" type="primary" size="mini" @click="showSpecialForm = true" :disabled="dealerInfo.oa_apply">进行额度特批</el-button>
 
-            <el-button v-if="dealerInfo.state_code !== 'apply'" type="primary" size="mini" @click="toDealerOverdueSkip()" :disabled="dealerInfo.oa_apply">更改逾期特批</el-button>
+            <el-button v-if="dealerInfo.state_code !== 'apply'" type="primary" size="mini" @click="showOverdueForm = true" :disabled="dealerInfo.oa_apply">更改逾期特批</el-button>
 
-            <el-button v-if="dealerInfo.quota_type === '老客户' && dealerInfo.state_code !== 'apply'" type="primary" size="mini" @click="toChangeQuotaDay()" :disabled="dealerInfo.oa_apply">进行账期调整</el-button>
+            <el-button v-if="dealerInfo.quota_type === '老客户' && dealerInfo.state_code !== 'apply'" type="primary" size="mini" @click="getQuotaDay()" :disabled="dealerInfo.oa_apply">进行账期调整</el-button>
           </div>
         </el-tab-pane>
         <el-tab-pane label="额度变更记录" name="额度变更记录">
-          <span style="margin-left: 10px">近10条额度变更记录
+          <span style="margin-left: 10px">共{{dealerInfo.quota_log_count}}条额度变更记录
           <push-function-btn btn-name="查看额度变更" btn-type="replace" size="mini"
                              check-btn="showQuotaLog" check-role="quotaList" url="/admin/dealer/quotaLogs"
                              params-key='dealerId' :params-value='dealerId'></push-function-btn>
@@ -190,11 +190,11 @@
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="滞纳金变更记录" name="滞纳金变更记录">
-          <span style="margin-left: 10px">近10条滞纳金变更记录
-          <push-function-btn btn-name="查看滞纳金变更" btn-type="replace" size="mini"
-                             check-btn="showOverdueLog" check-role="dealerOverdueList" url="/admin/business/overdueLogs"
-                             params-key='dealerId' :params-value='dealerId'></push-function-btn>
-    </span>
+          <span style="margin-left: 10px">共{{dealerInfo.overdue_log_count}}条滞纳金变更记录
+            <push-function-btn btn-name="查看滞纳金变更" btn-type="replace" size="mini"
+                               check-btn="showOverdueLog" check-role="dealerOverdueList" url="/admin/business/overdueLogs"
+                               params-key='dealerId' :params-value='dealerId'></push-function-btn>
+          </span>
           <el-table
             :data="dealerInfo.overdue_log"
             border
@@ -220,7 +220,7 @@
         </el-tab-pane>
         <el-tab-pane label="发票逾期记录" name="发票逾期记录">
           <span style="margin-left: 10px">
-            近10条发票逾期记录
+            共{{dealerInfo.invoice_log_count}}条发票逾期记录
             <push-function-btn btn-name="查看发票逾期" btn-type="replace" size="mini"
                              check-btn="showInvoiceOverdueLog" check-role="dealerOverdueList" url="/admin/business/invoiceOverdueLogs"
                              params-key='dealerId' :params-value='dealerId'></push-function-btn>
@@ -247,7 +247,7 @@
         </el-tab-pane>
         <el-tab-pane label="客户发货情况" name="客户发货情况">
           <span style="margin-left: 10px">
-            近10条客户发货情况
+            共{{dealerInfo.fulfil_info_count}}条客户发货情况
             <el-button type="primary" size="mini" @click="showDealerOrderFulfil()">查看客户发货情况</el-button>
           </span>
           <el-table
@@ -278,7 +278,7 @@
         </el-tab-pane>
         <el-tab-pane label="客户回款情况" name="客户回款情况">
           <span style="margin-left: 10px">
-            近10条客户回款情况
+            共{{dealerInfo.order_info_count}}条客户回款情况
             <el-button type="primary" size="mini" @click="showDealerOrderInvoice()">查看客户回款情况</el-button>
           </span>
           <el-table
@@ -344,7 +344,7 @@
         </el-tab-pane>
         <el-tab-pane label="用户操作日志" name="用户操作日志">
           <span style="margin-left: 10px">
-            近10条用户操作日志
+            共{{dealerInfo.oper_logs_count}}条用户操作日志
           <el-button type="primary" size="mini" @click="showDealerOperLogs()">查看用户操作日志</el-button>
           </span>
           <el-table
@@ -374,25 +374,90 @@
         </el-tab-pane>
       </el-tabs>
     </div>
-    <el-dialog title="进行特批额度" :visible.sync="showForm">
+    <el-dialog title="进行特批额度" :visible.sync="showSpecialForm" width="30%">
       <el-form>
-        <el-form-item label="特批额度" :label-width="formLabelWidth">
-          <el-input v-model="addForm.special_quota">
+        <el-form-item label="特批额度" label-width="150px">
+          <el-input v-model="addSpecialForm.special_quota" style="width: 70%">
             <template slot="append">万元</template></el-input>
         </el-form-item>
-        <el-form-item label="特批结束日期" prop="special_date" :label-width="formLabelWidth">
-          <el-date-picker type="date" placeholder="选择日期" value-format="yyyy-MM-dd"
-                          v-model="addForm.special_date"></el-date-picker>
+        <el-form-item label="特批结束日期" prop="special_date" label-width="150px">
+          <el-date-picker type="date" placeholder="选择日期" value-format="yyyy-MM-dd" style="width: 70%"
+                          v-model="addSpecialForm.special_date"></el-date-picker>
         </el-form-item>
-        <el-form-item label="备注信息" prop="info" :label-width="formLabelWidth">
-          <el-input v-model="addForm.remark"></el-input>
+        <el-form-item label="备注信息" prop="info" label-width="150px">
+          <el-input v-model="addSpecialForm.remark" style="width: 70%"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" size="mini" @click="showForm=false">关闭</el-button>
+        <el-button type="primary" size="mini" @click="showSpecialForm=false">关闭</el-button>
         <el-button type="primary" size="mini" @click="addSpecialQuota()">确认提交申请</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="更改逾期特批" :visible.sync="showOverdueForm" width="30%">
+      <el-form>
+        <el-form-item label="发票逾期校验" label-width="150px">
+          <el-select v-model="addOverdueForm.isSkip" placeholder="请选择" style="width: 70%" @change="chooseisSkipFunction()">
+            <el-option label="不跳过" value='0'></el-option>
+            <el-option label="跳过" value='1'></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="最长逾期天数" label-width="150px">
+          <el-input v-model="addOverdueForm.maxDay" type="number" min="0"  style="width: 70%" :disabled="isSkipDisabled"></el-input>
+        </el-form-item>
+        <el-form-item label="小额逾期豁免" label-width="150px">
+          <el-select v-model="addOverdueForm.isClose" placeholder="请选择" style="width: 70%" @change="chooseisCloseFunction()">
+            <el-option label="关闭" value='0'></el-option>
+            <el-option label="开启" value='1'></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="逾期金额下限" label-width="150px">
+          <el-input v-model="addOverdueForm.minMoney" type="number" min="1"  style="width: 70%" :disabled="isCloseDisabled"><template slot="append">元</template></el-input>
+        </el-form-item>
+        <el-form-item label="逾期金额门槛比例" label-width="150px">
+          <el-input v-model="addOverdueForm.minMoneyRate" type="number" min="0" max="100" style="width: 70%" :disabled="isCloseDisabled"><template slot="append">%</template></el-input>
+        </el-form-item>
+        <el-form-item label="备注" label-width="150px">
+          <el-input v-model="addOverdueForm.remark"  style="width: 70%"></el-input>
+        </el-form-item>
+        <el-form-item label-width="200px">
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="mini" @click="showOverdueForm=false">关闭</el-button>
+        <el-button type="primary" size="mini" @click="defaultSetting()">默认配置</el-button>
+        <el-button type="primary" size="mini" @click="saveSetting()">确认提交申请</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="进行账期调整" :visible.sync="showQuotaDayForm" width="30%">
+      <el-form>
+        <el-form-item label="ERP账期" label-width="150px">
+          <el-input v-model="quotaDayInfo.erpDay" :disabled="change" style="width: 70%"></el-input>
+        </el-form-item>
+        <el-form-item label="ALD推荐账期" label-width="150px">
+          <el-input v-model="quotaDayInfo.aldDay" :disabled="change" style="width: 70%"></el-input>
+        </el-form-item>
+        <el-form-item label="客户当前额度" label-width="150px">
+          <el-input v-model="quotaDayInfo.quota" :disabled="change" style="width: 70%"></el-input>
+        </el-form-item>
+        <el-form-item label="调整账期" label-width="150px">
+          <el-input v-model="quotaDayInfo.reckonDay" type="number" min="1"  style="width: 70%">
+            <template slot="append">天</template></el-input>
+        </el-form-item>
+        <el-form-item label="试算额度结果" label-width="150px">
+          <el-input v-model="quotaDayInfo.reckonQuota" :disabled="change" style="width: 70%"></el-input>
+        </el-form-item>
+        <el-form-item label="备注" label-width="150px">
+          <el-input v-model="quotaDayInfo.remark"  style="width: 70%"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="mini" @click="showQuotaDayForm=false">关闭</el-button>
+        <el-button type="primary" size="mini" @click="reckonQuotaDay()">额度试算</el-button>
+        <el-button type="primary" size="mini" @click="changeQuotaDay()">确认提交申请</el-button>
+      </div>
+    </el-dialog>
+
+
   </div>
 </template>
 
@@ -411,16 +476,38 @@ export default {
           data_list: []
         }
       },
-      showForm: false,
-      showQuotaForm: false,
+      showOverdueForm: false,
+      showSpecialForm: false,
+      showQuotaDayForm: false,
       formLabelWidth: '120px',
-      addForm: {
+      addSpecialForm: {
         special_quota: 0,
         special_date: '',
         remark: ''
       },
       spanArr: [],
-      scoreText: ''
+      scoreText: '',
+      addOverdueForm: {
+        isSkip: '0',
+        maxDay: 30,
+        isClose: '0',
+        minMoney: 100000,
+        minMoneyRate: 5,
+        remark: ''
+      },
+      isSkipDisabled: true,
+      isCloseDisabled: true,
+      quotaDayInfo: {
+        erpDay: '-',
+        aldDay: '-',
+        quota: '-',
+        reckonDay: 1,
+        reckonQuota: '-',
+        remark: ''
+      },
+      change: true,
+      reckon: false,
+      update: false
     }
   },
   mounted() {
@@ -469,25 +556,16 @@ export default {
       }).catch(res=>{
       })
     },
-    showSpecialQuota: function (){
-      var that = this;
-      if (that.dealerInfo.state_code === 'active'){
-        that.showForm = true
-      }else {
-        Message.warning('失败: 该客户未激活额度')
-      }
-    },
     addSpecialQuota: function (){
       var that = this;
-      var special_quota = that.addForm.special_quota
-      var special_date = that.addForm.special_date
+      var special_quota = that.addSpecialForm.special_quota
+      var special_date = that.addSpecialForm.special_date
       if (special_quota === '') {
         Message.warning('失败: 请填写正确的特批额度')
         return
       } else {
         if (special_quota !== '') {
           try {
-            debugger
             var res = parseFloat(special_quota)
             if (isNaN(res)) {
               Message.warning('失败: 请填写正确的特批额度')
@@ -503,15 +581,12 @@ export default {
         Message.warning('失败: 请填写正确的特批结束日期')
         return
       }
-      that.axios.post('/ald/dealer/add_special_quota', {'addForm': that.addForm, 'dealerId': that.dealerId}).then(res=>{
-        if (res.data.code=='ok'){
-          Message.success('成功: 申请审批中')
-          that.showForm = false
-          that.getDealerInfo('客户信息')
-          return
+      that.axios.post('/ald/dealer/add_special_quota', {'addForm': that.addSpecialForm, 'dealerId': that.dealerId}).then(res=>{
+        that.showSpecialForm = false
+        if (res.data.code==='ok'){
+          that.open('申请已发送至OA系统，请等待OA系统审批', '申请成功')
         }else {
-          Message.warning('失败: ' + res.data.data)
-          return
+          that.open('失败: ' + res.data.data, '申请失败')
         }
       }).catch(res=>{
       })
@@ -551,6 +626,154 @@ export default {
       var that = this;
       that.$router.push('/admin/dealer/changeQuotaDay?dealerId=' + that.dealerId)
     },
+
+    defaultSetting: function (){
+      var that = this;
+      that.addOverdueForm = {
+        isSkip: '0',
+        maxDay: 30,
+        isClose: '0',
+        minMoney: 100000,
+        minMoneyRate: 5,
+        remark: ''
+      }
+    },
+    getSetting: function (){
+      var that = this;
+      that.axios.post('/ald/dealer/get_overdue_setting', {'dealerId': that.dealerId,}).then(res=>{
+        if (res.data.code==='ok'){
+          var settings = res.data.data
+          if (settings['isSkip'] === false){
+            settings['isSkip'] = '0'
+            that.isCloseDisabled = true
+          } else {
+            settings['isSkip'] = '1'
+            that.isCloseDisabled = false
+          }
+          if (settings['isClose'] === false){
+            settings['isClose'] = '0'
+            that.isSkipDisabled = true
+          } else {
+            settings['isClose'] = '1'
+            that.isSkipDisabled = false
+          }
+          that.addOverdueForm = settings
+          that.addOverdueForm.remark = ''
+        }else {
+          that.addOverdueForm = {
+            isSkip: '0',
+            maxDay: 30,
+            isClose: '0',
+            minMoney: 100000,
+            minMoneyRate: 5,
+            remark: ''
+          }
+        }
+      }).catch(res=>{
+      })
+    },
+    saveSetting: function (){
+      var that = this;
+      var settings = {
+        isSkip: that.addOverdueForm.isSkip,
+        maxDay: that.addOverdueForm.maxDay,
+        isClose: that.addOverdueForm.isSkip,
+        minMoney: that.addOverdueForm.minMoney,
+        minMoneyRate: that.addOverdueForm.minMoneyRate,
+        remark: that.addOverdueForm.remark
+      }
+      if (that.addOverdueForm.isSkip === '0'){
+        settings.isSkip = false
+      } else {
+        settings.isSkip = true
+      }
+      if (that.addOverdueForm.isClose === '0'){
+        settings.isClose = false
+      } else {
+        settings.isClose = true
+      }
+      that.axios.post('/ald/dealer/save_overdue_setting', {'dealerId': that.dealerId,
+        'setting': settings}).then(res=>{
+        that.showOverdueForm = false
+        if (res.data.code==='ok'){
+          that.open('申请已发送至OA系统，请等待OA系统审批', '申请成功')
+        }else {
+          that.open('失败: ' + res.data.data, '申请失败')
+        }
+      }).catch(res=>{
+      })
+    },
+    chooseisSkipFunction: function () {
+      var that = this;
+      if (that.addOverdueForm.isSkip === '0'){
+        that.isSkipDisabled = true
+      }else {
+        that.isSkipDisabled = false
+      }
+    },
+    chooseisCloseFunction: function () {
+      var that = this;
+      if (that.addOverdueForm.isClose === '0'){
+        that.isCloseDisabled = true
+      }else {
+        that.isCloseDisabled = false
+      }
+    },
+    getQuotaDay: function (){
+      var that = this;
+      that.axios.post('/ald/dealer/get_quota_day', {'dealerId': that.dealerId,}).then(res=>{
+        if (res.data.code==='ok'){
+          that.quotaDayInfo.erpDay = res.data.data.erp_day
+          that.quotaDayInfo.aldDay = res.data.data.ald_day
+          that.quotaDayInfo.quota = res.data.data.quota
+          that.reckon = true
+          that.showQuotaDayForm = true
+        }else {
+          Message.warning('失败: ' + res.data.data)
+        }
+      }).catch(res=>{
+      })
+    },
+    reckonQuotaDay: function (){
+      var that = this;
+      if (that.reckon === true){
+        that.axios.post('/ald/dealer/reckon_quota_day', {'dealerId': that.dealerId, 'reckonDay': that.quotaDayInfo.reckonDay}).then(res=>{
+          if (res.data.code==='ok'){
+            that.quotaDayInfo.reckonQuota = res.data.data
+            that.update = true
+          }else {
+            Message.warning('失败: ' + res.data.data)
+          }
+        }).catch(res=>{
+        })
+      }
+    },
+    changeQuotaDay: function () {
+      var that = this;
+      if (that.update === true){
+        that.axios.post('/ald/dealer/change_quota_day', {'dealerId': that.dealerId, 'reckonDay': that.quotaDayInfo.reckonDay,
+          'remark': that.quotaDayInfo.remark}).then(res=>{
+          that.showQuotaDayForm = false
+          if (res.data.code==='ok'){
+            that.update = false
+            that.open('申请已发送至OA系统，请等待OA系统审批', '申请成功')
+          }else {
+            that.open('失败: ' + res.data.data, '申请失败')
+          }
+        }).catch(res=>{
+        })
+      } else {
+        Message.warning('失败: 请先进行试算')
+      }
+    },
+    open(message, title) {
+      this.$alert(message, title, {
+        confirmButtonText: '关闭',
+        callback: action => {
+          location.reload()
+        }
+      });
+    }
   }
 }
 </script>
