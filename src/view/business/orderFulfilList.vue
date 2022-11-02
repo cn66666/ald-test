@@ -13,9 +13,24 @@
           </el-option>
         </el-select>
       </div>
+      <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 3px; ">
+        <el-select v-model="queryType.fulfilType" placeholder="请选择履行单状态" style="width: 200px">
+          <el-option
+            v-for="item in fulfilType"
+            :key="item"
+            :label="item"
+            :value="item">
+          </el-option>
+        </el-select>
+      </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-input  style="width: 200px; float:left;"
                    placeholder="销售单号" v-model="queryType.orderCode">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="履行单号" v-model="queryType.fulfilCode">
         </el-input>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
@@ -27,6 +42,26 @@
         <el-date-picker v-model="queryType.endDate" style="float:left;width: 200px; "
                         type="date"
                         placeholder="销售单创建截止日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="最小履行单金额" v-model="queryType.minFulfilMoney" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="最大履行单金额" v-model="queryType.maxFulfilMoney" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-date-picker v-model="queryType.fulfilStartDate" style="float:left;width: 200px; "
+                        type="date"
+                        placeholder="履行单创建起始日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-date-picker v-model="queryType.fulfilEndDate" style="float:left;width: 200px; "
+                        type="date"
+                        placeholder="履行单创建截止日期" value-format="yyyy-MM-dd">
         </el-date-picker>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
@@ -127,12 +162,18 @@ export default {
       total: 1,
       localPage: 1,
       orderState: ['全部', '等待核准', '待履行', '待开票', '已开票', '已关闭', '已取消', '待开票/部分完成', '部分完成'],
+      fulfilType: ['全部', '正在处理', '正在进行', '已履行,但出现异常', '已履行，但出现异常', '已取消', '已拒绝', '已完成'],
       queryType: {
         dealerId: '',
         orderType: '全部',
         orderCode: '',
         startDate: '',
         endDate: '',
+        minFulfilMoney: '',
+        maxFulfilMoney: '',
+        fulfilCode: '',
+        fulfilStartDate: '',
+        fulfilEndDate: ''
       },
       spanArr: [],
       showForm: false,
@@ -142,7 +183,11 @@ export default {
   },
   mounted() {
     var that = this;
-    that.queryType.dealerId = this.$route.query.dealerId;
+    var dealerId = that.$route.query.dealerId;
+    if (dealerId === undefined){
+      dealerId = that.$route.params.dealerId;
+    }
+    that.queryType.dealerId = dealerId;
     this.getOrderFulfilList()
   },
   methods: {
@@ -154,7 +199,7 @@ export default {
       var that = this;
       that.axios.post('/ald/business/fulfil_goods_list', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
         if (res.data.code=='ok'){
-          that.orderFulfilList = res.data.data.fulfil_list;
+          that.orderFulfilList = res.data.data.data_list;
           that.total = res.data.data.total
           that.spanArr = []
           let contactDot = 0;
@@ -222,6 +267,11 @@ export default {
         document.body.appendChild(link);
         link.click();
       })
+    },
+    queryInvoiceInfo: function (orderId){
+      var that = this;
+      that.$router.push({name: 'invoiceInfo', params:{pageNum: that.localPage, dealerId: that.queryType.dealer_id, orderId: orderId,
+          name: 'invoiceOverdueLogs'}})
     },
     }
 }

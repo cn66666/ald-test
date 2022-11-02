@@ -4,7 +4,7 @@
     </el-page-header>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-select v-model="queryType.orderType" placeholder="请选择销售单状态" style="width: 200px;">
+        <el-select v-model="queryType.orderType" placeholder="请选择销售单状态" style="width: 200px">
           <el-option
             v-for="item in orderState"
             :key="item"
@@ -19,15 +19,58 @@
         </el-input>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-date-picker v-model="queryType.startDate" style="float:left;width: 200px;"
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="发票号码" v-model="queryType.InvoiceCode">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-date-picker v-model="queryType.invoiceStartDate" style="float:left;width: 200px;"
                         type="date"
-                        placeholder="销售单创建起始日期" value-format="yyyy-MM-dd">
+                        placeholder="发票日期起始日期" value-format="yyyy-MM-dd">
         </el-date-picker>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-date-picker v-model="queryType.endDate" style="float:left;width: 200px;"
+        <el-date-picker v-model="queryType.invoiceEndDate" style="float:left;width: 200px;"
                         type="date"
-                        placeholder="销售单创建截止日期" value-format="yyyy-MM-dd">
+                        placeholder="发票日期截止日期" value-format="yyyy-MM-dd">
         </el-date-picker>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-date-picker v-model="queryType.invoiceDueStartDate" style="float:left;width: 200px;"
+                        type="date"
+                        placeholder="发票到期起始日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-date-picker v-model="queryType.invoiceDueEndDate" style="float:left;width: 200px;"
+                        type="date"
+                        placeholder="发票到期截止日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="最小发票金额" v-model="queryType.minInvoiceMoney" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="最大发票金额" v-model="queryType.maxInvoiceMoney" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="最小发票回款金额" v-model="queryType.minInvoicePayMoney" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="最大发票回款金额" v-model="queryType.maxInvoicePayMoney" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="最小逾期天数" v-model="queryType.minLateDay" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="最大逾期天数" v-model="queryType.maxLateDay" oninput="value=value.replace(/[^0-9.-]/g, '')">
+        </el-input>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-button style="height: 36px;float:left; width: 100px" type="primary" @click="getOrderInvoiceList()">查询</el-button>
@@ -43,10 +86,6 @@
       <el-table-column
         prop="order_code"
         label="销售单号">
-      </el-table-column>
-      <el-table-column
-        prop="order_date"
-        label="销售单创建日期">
       </el-table-column>
       <el-table-column
         prop="order_state"
@@ -110,8 +149,17 @@ export default {
         dealerId: '',
         orderType: '全部',
         orderCode: '',
-        startDate: '',
-        endDate: '',
+        InvoiceCode: '',
+        invoiceStartDate: '',
+        invoiceEndDate: '',
+        invoiceDueStartDate: '',
+        invoiceDueEndDate: '',
+        minInvoiceMoney: '',
+        maxInvoiceMoney: '',
+        minInvoicePayMoney: '',
+        maxInvoicePayMoney: '',
+        minLateDay: '',
+        maxLateDay: '',
       },
       spanArr: []
     }
@@ -130,7 +178,7 @@ export default {
       var that = this;
       that.axios.post('/ald/business/order_invoice_list', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
         if (res.data.code=='ok'){
-          that.orderInvoiceList = res.data.data.invoice_list;
+          that.orderInvoiceList = res.data.data.data_list;
           that.total = res.data.data.total
           that.spanArr = []
           let contactDot = 0;
@@ -160,7 +208,7 @@ export default {
       location.reload()
     },
     objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
-        if(columnIndex === 0||columnIndex===1||columnIndex===2||columnIndex===3){
+        if(columnIndex === 0||columnIndex===1||columnIndex===2){
           const _row = this.spanArr[rowIndex]
           const _col = _row>0?1:0;
           //该形式为行合并
@@ -186,6 +234,11 @@ export default {
         document.body.appendChild(link);
         link.click();
       })
+    },
+    queryInvoiceInfo: function (orderId){
+      var that = this;
+      that.$router.push({name: 'invoiceInfo', params:{pageNum: that.localPage, dealerId: that.queryType.dealer_id, orderId: orderId,
+          name: 'invoiceOverdueLogs'}})
     },
     }
 }

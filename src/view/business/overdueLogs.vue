@@ -3,17 +3,35 @@
     <el-page-header @back="goBack" content="滞纳金变更详情" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-row class="filter_row">
-      <el-date-picker v-model="queryType.startDate"
-                      type="date" style="width: 200px"
-                      placeholder="发生起始日期" value-format="yyyy-MM-dd"  @change="getOverdueLogs">
-      </el-date-picker>
-      <span style="height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-      <el-date-picker v-model="queryType.endDate"
-                      type="date" style="width: 200px"
-                      placeholder="发生截止日期" value-format="yyyy-MM-dd" @change="getOverdueLogs">
-      </el-date-picker>
-      <el-button style="height: 36px;width: 100px" type="primary" @click="reset()">重置</el-button>
-      <el-button style="height: 36px;width: 130px" type="primary" @click="downloadOverdueLogs()">下载excel</el-button>
+      <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 3px; ">
+        <el-select v-model="queryType.changeInfo" placeholder="请选择变更信息">
+          <el-option
+            v-for="item in changeInfoOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value" style="width: 200px">
+          </el-option>
+        </el-select>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input v-model="queryType.invoiceCode" placeholder="请输入发票号" style="width: 200px"></el-input>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-date-picker v-model="queryType.startDate" style="width: 200px; float:left;"
+                        type="date"
+                        placeholder="额度起始日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-date-picker v-model="queryType.endDate" style="width: 200px; float:left;"
+                        type="date"
+                        placeholder="额度截止日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-button style="width: 100px;height: 36px" type="primary" @click="getOverdueLogs()">查询</el-button>
+        <el-button style="height: 36px;width: 100px" type="primary" @click="reset()">重置</el-button>
+        <el-button style="height: 36px;width: 130px" type="primary" @click="downloadOverdueLogs()">下载excel</el-button>
+      </div>
     </el-row>
     <el-table
       class="info_table"
@@ -52,8 +70,21 @@ export default {
       tableData: [],
       total: 0,
       localPage: 1,
-      queryType: {'dealer_id': null, 'startDate': null, 'endDate': null},
+      queryType: {'dealer_id': null, 'startDate': null, 'endDate': null, 'invoiceCode': null, 'changeInfo': null},
       showInfo: false,
+      changeInfoOptions: [{
+        value: '',
+        label: '全部'
+      }, {
+        value: '支付滞纳金',
+        label: '支付滞纳金'
+      }, {
+        value: '免除滞纳金',
+        label: '免除滞纳金'
+      }, {
+        value: '新增滞纳金',
+        label: '新增滞纳金'
+      }],
     }
   },
   mounted() {

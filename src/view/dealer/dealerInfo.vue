@@ -168,24 +168,44 @@
           </span>
           <el-table
             :data="dealerInfo.quota_log"
-            border
-            style="width: 98%; margin: 1%">
+            style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
             <el-table-column
-              prop="change_money"
-              label="变更金额"
-              width="300">
+              prop="change_quota" width="150%"
+              label="剩余金额">
+            </el-table-column>
+            <el-table-column
+              prop="change_money" width="150%"
+              label="发生金额">
               <template slot-scope="scope">
-                {{ scope.row.change_money | moneyFormat}}
+                <span v-if="scope.row.state_code === '+'">+{{ scope.row.change_money }}</span>
+                <span v-else-if="scope.row.state_code === '-'">-{{ scope.row.change_money }}</span>
+                <span v-else>{{ scope.row.change_money }}</span>
               </template>
             </el-table-column>
             <el-table-column
-              prop="change_info"
-              label="变更信息"
-              width="300">
+              prop="state_code" width="100%"
+              label="变更类型">
+              <template slot-scope="scope">
+                <span v-if="scope.row.state_code === '+'">返还</span>
+                <span v-else-if="scope.row.state_code === '-'">占用</span>
+                <span v-else>调整</span>
+              </template>
             </el-table-column>
             <el-table-column
               prop="create_time"
-              label="变更时间">
+              label="发生时间">
+            </el-table-column>
+            <el-table-column
+              prop="change_type"
+              label="单据类型">
+            </el-table-column>
+            <el-table-column
+              prop="change_code"
+              label="单据号">
+            </el-table-column>
+            <el-table-column
+              prop="change_info"
+              label="变更信息">
             </el-table-column>
           </el-table>
         </el-tab-pane>
@@ -197,24 +217,22 @@
           </span>
           <el-table
             :data="dealerInfo.overdue_log"
-            border
-            style="width: 98%; margin: 1%">
+            style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
+            <el-table-column
+              prop="invoice_code"
+              label="开票号码">
+            </el-table-column>
             <el-table-column
               prop="change_money"
-              label="变更金额"
-              width="300">
-              <template slot-scope="scope">
-                {{ scope.row.change_money | moneyFormat}}
-              </template>
+              label="发生金额">
             </el-table-column>
             <el-table-column
               prop="change_info"
-              label="变更信息"
-              width="300">
+              label="变更信息">
             </el-table-column>
             <el-table-column
               prop="create_time"
-              label="变更时间">
+              label="发生时间">
             </el-table-column>
           </el-table>
         </el-tab-pane>
@@ -225,19 +243,50 @@
                              check-btn="showInvoiceOverdueLog" check-role="dealerOverdueList" url="/admin/business/invoiceOverdueLogs"
                              params-key='dealerId' :params-value='dealerId'></push-function-btn>
           </span>
+
           <el-table
             :data="dealerInfo.invoice_log"
-            border
-            style="width: 98%; margin: 1%">
+            style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
+            <el-table-column
+              prop="order_code"
+              label="销售单号" width="150%">
+            </el-table-column>
             <el-table-column
               prop="invoice_code"
-              label="发票文件号码"
-              width="300">
+              label="发票文件号码">
             </el-table-column>
             <el-table-column
               prop="invoice_date"
-              label="开票日期"
-              width="300">
+              label="开票日期">
+            </el-table-column>
+            <el-table-column
+              prop="invoice_state"
+              label="开票状态">
+            </el-table-column>
+            <el-table-column
+              prop="invoice_money"
+              label="开票金额">
+              <template slot-scope="scope">
+                {{ scope.row.invoice_money | moneyFormat}}
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="pay_money"
+              label="已付金额">
+              <template slot-scope="scope">
+                {{ scope.row.pay_money | moneyFormat}}
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="no_money"
+              label="未付金额">
+              <template slot-scope="scope">
+                {{ scope.row.no_money | moneyFormat}}
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="due_date"
+              label="到期日期">
             </el-table-column>
             <el-table-column
               prop="late_day"

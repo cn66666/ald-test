@@ -37,6 +37,7 @@
         label="操作">
         <template slot-scope="scope">
           <el-button v-if="scope.row.state_code === 'ok'" type="primary" size="mini" @click="toPublicReport(scope.row.id)">查看</el-button>
+          <el-button v-if="scope.row.state_code === 'error'" type="primary" size="mini" @click="open()">查看失败原因</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -98,6 +99,17 @@ export default {
     toPublicReport: function (reportId){
       var that = this;
       that.$router.push('/admin/dealer/dealerPublicReport?id=' + reportId)
+    },
+    open() {
+      var that = this;
+      var message = '客户不存在';
+      var title = '公开信息查询失败'
+      that.$alert(message, title, {
+        confirmButtonText: '关闭',
+        callback: action => {
+          location.reload()
+        }
+      });
     }
   }
 }
