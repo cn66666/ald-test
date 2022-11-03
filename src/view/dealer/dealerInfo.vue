@@ -454,7 +454,7 @@
           <el-input v-model="addOverdueForm.maxDay" type="number" min="0"  style="width: 70%" :disabled="isSkipDisabled"></el-input>
         </el-form-item>
         <el-form-item label="小额逾期豁免" label-width="150px">
-          <el-select v-model="addOverdueForm.isClose" placeholder="请选择" style="width: 70%" @change="chooseisCloseFunction()">
+          <el-select v-model="addOverdueForm.isClose" placeholder="请选择" style="width: 70%" @change="chooseisCloseFunction()" :disabled="isSkipDisabled">
             <el-option label="关闭" value='0'></el-option>
             <el-option label="开启" value='1'></el-option>
           </el-select>
@@ -539,13 +539,13 @@ export default {
       addOverdueForm: {
         isSkip: '0',
         maxDay: 30,
-        isClose: '0',
+        isClose: '1',
         minMoney: 100000,
         minMoneyRate: 5,
         remark: ''
       },
-      isSkipDisabled: true,
-      isCloseDisabled: true,
+      isSkipDisabled: false,
+      isCloseDisabled: false,
       quotaDayInfo: {
         erpDay: '-',
         aldDay: '-',
@@ -600,6 +600,7 @@ export default {
             } else {
               that.scoreText = '无最新评分卡数据'
             }
+            that.getSetting()
           }
         }
       }).catch(res=>{
@@ -681,7 +682,7 @@ export default {
       that.addOverdueForm = {
         isSkip: '0',
         maxDay: 30,
-        isClose: '0',
+        isClose: '1',
         minMoney: 100000,
         minMoneyRate: 5,
         remark: ''
@@ -694,10 +695,10 @@ export default {
           var settings = res.data.data
           if (settings['isSkip'] === false){
             settings['isSkip'] = '0'
-            that.isCloseDisabled = true
+            that.isCloseDisabled = false
           } else {
             settings['isSkip'] = '1'
-            that.isCloseDisabled = false
+            that.isCloseDisabled = true
           }
           if (settings['isClose'] === false){
             settings['isClose'] = '0'
@@ -709,14 +710,9 @@ export default {
           that.addOverdueForm = settings
           that.addOverdueForm.remark = ''
         }else {
-          that.addOverdueForm = {
-            isSkip: '0',
-            maxDay: 30,
-            isClose: '0',
-            minMoney: 100000,
-            minMoneyRate: 5,
-            remark: ''
-          }
+          that.defaultSetting()
+          that.chooseisSkipFunction()
+          that.chooseisCloseFunction()
         }
       }).catch(res=>{
       })
@@ -755,9 +751,11 @@ export default {
     chooseisSkipFunction: function () {
       var that = this;
       if (that.addOverdueForm.isSkip === '0'){
-        that.isSkipDisabled = true
-      }else {
         that.isSkipDisabled = false
+      }else {
+        that.isSkipDisabled = true
+        that.addOverdueForm.isClose = '0'
+        that.chooseisCloseFunction()
       }
     },
     chooseisCloseFunction: function () {
