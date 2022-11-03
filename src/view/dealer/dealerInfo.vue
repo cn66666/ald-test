@@ -95,13 +95,13 @@
               <template slot="label">
                 质保金
               </template>
-              <span>{{dealerInfo.customer_amount}}</span>
+              <span>{{dealerInfo.warranty}}</span>
             </el-descriptions-item>
             <el-descriptions-item>
               <template slot="label">
-                质保金备注
+                质保金结算条款
               </template>
-              <span>{{dealerInfo.amount_remark}}</span>
+              <span>{{dealerInfo.memo}}</span>
             </el-descriptions-item>
             <el-descriptions-item v-if="dealerInfo.is_export === true">
               <template slot="label">
