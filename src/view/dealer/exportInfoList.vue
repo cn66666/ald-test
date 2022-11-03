@@ -35,11 +35,11 @@
       </el-table-column>
       <el-table-column
         prop="risk_rate"
-        label="风险比例">
+        label="拒收风险赔付比例">
       </el-table-column>
       <el-table-column
         prop="other_risk_rate"
-        label="其他风险比例">
+        label="其他商业风险(包含政治风险)赔付比例">
       </el-table-column>
       <el-table-column
         prop="apply_money"
