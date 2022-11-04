@@ -4,7 +4,7 @@
     </el-page-header>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-select v-model="queryType.logType" style="width: 200px;" placeholder="请选择功能类型" @change="getDealerOperLogs()">
+        <el-select v-model="queryType.logType" style="width: 200px;" placeholder="请选择功能类型">
           <el-option
             v-for="item in logType"
             :key="item.query"
@@ -14,7 +14,7 @@
         </el-select>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-select v-model="queryType.user" style="width: 200px;" placeholder="请选择操作人" @change="getDealerOperLogs()">
+        <el-select v-model="queryType.user" style="width: 200px;" placeholder="请选择操作人">
           <el-option
             v-for="item in userList"
             :key="item.query"
@@ -26,15 +26,16 @@
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-date-picker v-model="queryType.startDate" style="float:left; width: 200px"
                         type="date"
-                        placeholder="操作起始日期" value-format="yyyy-MM-dd" @change="getDealerOperLogs()">
+                        placeholder="操作起始日期" value-format="yyyy-MM-dd">
         </el-date-picker>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
         <el-date-picker v-model="queryType.endDate" style="float:left; width: 200px"
                         type="date"
-                        placeholder="操作截止日期" value-format="yyyy-MM-dd" @change="getDealerOperLogs()">
+                        placeholder="操作截止日期" value-format="yyyy-MM-dd">
         </el-date-picker>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-button style="width: 100px;height: 36px" type="primary" @change="getDealerOperLogs()">查询</el-button>
         <el-button style="height: 36px;width: 100px" type="primary" @click="reset()">重置</el-button>
         <el-button style="height: 36px;width: 100px" type="primary" @click="downloadDealerOperLogs()">下载excel</el-button>
       </div>

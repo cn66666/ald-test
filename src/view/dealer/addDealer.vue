@@ -41,13 +41,19 @@
                           btn-type="function" size="mini" :check-function='addDealer'
                          params-key='type' params-value='暂存'></noPermissionBtn>
 
-        <noPermissionBtn v-if="addForm.quotaType === '新客户'" btn-name="提交申请" btn-type="function" size="mini" :check-function='addDealer'
+        <noPermissionBtn v-if="addForm.quotaType === '新客户' && addForm.companyType === '内销客户'" btn-name="提交申请"
+                         btn-type="function" size="mini" :check-function='addDealer'
                            params-key='type' params-value='新客户'></noPermissionBtn>
 
-        <noPermissionBtn v-if="addForm.quotaType === '老客户'" btn-name="提交申请" btn-type="function" size="mini" :check-function='addDealer'
+        <noPermissionBtn v-if="addForm.quotaType === '老客户' && addForm.companyType === '内销客户'" btn-name="提交申请"
+                         btn-type="function" size="mini" :check-function='addDealer'
                            params-key='type' params-value='老客户'></noPermissionBtn>
 
-        <el-button v-if="addForm.quotaType === ''" type="primary" size="mini">提交申请</el-button>
+        <noPermissionBtn v-if="addForm.quotaType === '老客户' && addForm.companyType === '出口客户'" btn-name="提交申请"
+                         btn-type="function" size="mini" :check-function='addDealer'
+                         params-key='type' params-value='老客户'></noPermissionBtn>
+
+        <el-button v-if="addForm.companyType === '' || addForm.quotaType === '' " type="primary" size="mini">提交申请</el-button>
 
       </el-form-item>
     </el-form>
@@ -267,7 +273,6 @@ export default {
       }
     }
   }
-
 }
 </script>
 
