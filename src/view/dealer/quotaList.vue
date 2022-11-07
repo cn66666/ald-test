@@ -183,6 +183,7 @@
 
 <script>
 import noPermissionBtn from "../../components/noPermissionBtn";
+import {Message} from "element-ui";
 export default {
   name: "quotaList",
   components: {noPermissionBtn},

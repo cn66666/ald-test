@@ -10,6 +10,13 @@
       :data="exportList"
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
+        prop="company_code"
+        label="ERP编号">
+        <template slot-scope="scope">
+          <span>{{scope.row.company_code}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
         prop="company_name"
         label="客户名称">
       </el-table-column>
@@ -61,6 +68,13 @@
         prop="update_time"
         label="更新时间">
       </el-table-column>
+      <el-table-column
+        prop=""
+        label="操作">
+        <template slot-scope="scope">
+          <el-button type="primary" size="mini" @click="showUpdate(scope.row.company_name, scope.row.company_code)">编辑erp编号</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <div style="text-align: right;margin-top: 23px;margin-right: 79px;">
       <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
@@ -91,10 +105,23 @@
           <i class="el-icon-upload el-icon--right"></i></el-button>
       </div>
     </el-dialog>
+
+    <el-dialog title="修改ERP编号" :visible.sync="showUpdateCode" width="30%">
+      <el-form>
+        <el-form-item label="ERP编号" label-width="150px">
+          <el-input v-model="updateForm.erpCode" style="width: 70%"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="mini" @click="showUpdateCode=false">关闭</el-button>
+        <el-button type="primary" size="mini" @click="updateDealerErpCode()">更新</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import {Message} from "element-ui";
 export default {
   name: "exportInfoList",
   data() {
@@ -104,7 +131,12 @@ export default {
       total: 1,
       localPage: 1,
       queryType: {},
-      fileList: []
+      fileList: [],
+      showUpdateCode: false,
+      updateForm:{
+        companyName: null,
+        erpCode: ''
+      }
     }
   },
   mounted() {
@@ -120,7 +152,7 @@ export default {
     getExportList: function (){
       var that = this;
       that.axios.post('/ald/dealer/export_list', {'page': that.localPage}).then(res=>{
-        if (res.data.code=='ok'){
+        if (res.data.code==='ok'){
           that.exportList = res.data.data.data_list;
           that.total = res.data.data.total
         }
@@ -145,6 +177,23 @@ export default {
     submitUpload() {
       var that = this;
       that.$refs.upload.submit();
+    },
+    showUpdate(companyName, erpCode){
+      var that = this;
+      that.updateForm.companyName = companyName
+      that.updateForm.erpCode = erpCode
+      that.showUpdateCode = true
+    },
+    updateDealerErpCode(){
+      var that = this;
+      that.axios.post('/ald/dealer/update_export_info', {'update_form': that.updateForm}).then(res=>{
+        if (res.data.code==='ok'){
+          location.reload()
+        } else {
+          Message.warning(res.data.msg + ':' + res.data.data)
+        }
+      }).catch(res=>{
+      })
     },
   }
 }
