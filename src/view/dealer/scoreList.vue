@@ -73,7 +73,7 @@
       :row-style="{height: '30px'}">
       <el-table-column
         prop="company_name"
-        label="客户名称">
+        label="客户名称" width="150%">
         <template slot-scope="scope">
           <el-tooltip effect="dark" :content="scope.row.company_name" placement="top">
             <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.dealer_id'>
@@ -84,7 +84,7 @@
       </el-table-column>
       <el-table-column
         prop=""
-        label="客户类型">
+        label="客户类型" width="90%">
         <template slot-scope="scope">
           <span v-if="scope.row.is_export === false">内销客户</span>
           <span v-else-if="scope.row.is_export === true">出口客户</span>
@@ -93,7 +93,7 @@
       </el-table-column>
       <el-table-column
         prop="quota_type"
-        label="当前额度类型">
+        label="当前额度类型" width="120%">
         <template slot-scope="scope">
           <span v-if="scope.row.quota_type === '新客户'">一年期额度</span>
           <span v-else-if="scope.row.quota_type === '老客户'">长期额度</span>
@@ -102,33 +102,33 @@
       </el-table-column>
       <el-table-column
         prop="level"
-        label="评级">
+        label="评级" width="70%">
       </el-table-column>
       <el-table-column
         prop="old_quota"
-        label="旧赊销额度">
+        label="旧赊销额度" width="100%">
         <template slot-scope="scope">
           {{ scope.row.old_quota | moneyFormat}}
         </template>
       </el-table-column>
       <el-table-column
         prop="old_date"
-        label="旧额度截止日期">
+        label="旧额度截止日期" width="130%">
       </el-table-column>
       <el-table-column
         prop="new_quota"
-        label="新赊销额度">
+        label="新赊销额度" width="120%">
         <template slot-scope="scope">
           {{ scope.row.new_quota | moneyFormat}}
         </template>
       </el-table-column>
       <el-table-column
         prop="new_date"
-        label="新额度截止日期">
+        label="新额度截止日期" width="130%">
       </el-table-column>
       <el-table-column
         prop="state_code"
-        label="状态">
+        label="状态" width="100%">
         <template slot-scope="scope">
           <span v-if="scope.row.state_code === 'add'">待补充数据</span>
           <span v-else-if="scope.row.state_code === 'have'">已出评分及额度</span>
@@ -140,30 +140,42 @@
           <span v-else></span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="200px">
+      <el-table-column label="操作">
         <template slot-scope="scope">
-          <push-function-btn v-if="scope.row.state_code === 'add'" btn-name="补充数据" btn-type="replace" size="mini"
-                             check-btn="addScoreApply" check-role="scoreList" url="/admin/dealer/addScoreApply"
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          <div style="float: left;margin: 2px;" v-if="scope.row.state_code === 'add'">
+            <push-function-btn btn-name="补充数据" btn-type="replace" size="mini"
+                               check-btn="addScoreApply" check-role="scoreList" url="/admin/dealer/addScoreApply"
+                               params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          </div>
 
-          <push-function-btn v-if="scope.row.state_code === 'have'" btn-name="审批通过" btn-type="reload" size="mini"
-                             check-btn="scoreActive" check-role="scoreList" url="/ald/dealer/score_active"
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          <div style="float: left;margin: 2px;" v-if="scope.row.state_code === 'have'">
+            <push-function-btn btn-name="审批通过" btn-type="reload" size="mini"
+                               check-btn="scoreActive" check-role="scoreList" url="/ald/dealer/score_active"
+                               params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          </div>
 
-          <push-function-btn v-if="scope.row.state_code === 'error'" btn-name="重新生成" btn-type="reload" size="mini"
-                             check-btn="againScore" check-role="scoreList" url="/ald/dealer/again_score"
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          <div style="float: left;margin: 2px;" v-if="scope.row.state_code === 'error'">
+            <push-function-btn btn-name="重新生成" btn-type="reload" size="mini"
+                               check-btn="againScore" check-role="scoreList" url="/ald/dealer/again_score"
+                               params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          </div>
 
-          <push-function-btn v-if="scope.row.state_code === 'add' && scope.row.back === true" btn-name="退回" btn-type="reload" size="mini"
-                             check-btn="resetScore" check-role="scoreList" url="/ald/dealer/reset_score"
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          <div style="float: left;margin: 2px;" v-if="scope.row.state_code === 'add' && scope.row.back === true">
+            <push-function-btn btn-name="退回" btn-type="reload" size="mini"
+                               check-btn="resetScore" check-role="scoreList" url="/ald/dealer/reset_score"
+                               params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          </div>
 
-          <push-function-btn v-if="scope.row.state_code === 'active_error'" btn-name="重新激活" btn-type="reload" size="mini"
-                             check-btn="resetActive" check-role="scoreList" url="/ald/dealer/reset_active"
-                             params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          <div style="float: left;margin: 2px;" v-if="scope.row.state_code === 'active_error'">
+            <push-function-btn btn-name="重新激活" btn-type="reload" size="mini"
+                               check-btn="resetActive" check-role="scoreList" url="/ald/dealer/reset_active"
+                               params-key='dealerId' :params-value='scope.row.dealer_id'></push-function-btn>
+          </div>
 
-          <el-button type="primary" size="mini" v-if="scope.row.quota_type === '老客户' && user==='张凯'" @click="resetScore(scope.row.dealer_id)">强制退回</el-button>
+          <div style="float: left;margin: 2px;" v-if="scope.row.quota_type === '老客户' && user==='张凯'">
+            <el-button type="primary" size="mini" @click="resetScore(scope.row.dealer_id)">强制退回</el-button>
 
+          </div>
         </template>
       </el-table-column>
     </el-table>

@@ -1,7 +1,5 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="额度变更详情" style="padding-left: 15px; padding-top: 15px">
-    </el-page-header>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 3px; ">
         <el-select v-model="info.state_code" placeholder="请选择变更类型">

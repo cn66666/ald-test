@@ -1,7 +1,5 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="发票逾期详情" style="padding-left: 15px; padding-top: 15px">
-    </el-page-header>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 3px; ">
         <el-select v-model="queryType.stateType" placeholder="请选择开票状态" style="width: 200px">
@@ -152,7 +150,7 @@ export default {
       tableData: [],
       total: 0,
       localPage: 1,
-      queryType: {'dealer_id': null, 'startDate': '', 'endDate': '', 'stateType': '全部', 'orderCode': null,
+      queryType: {'dealer_id': null, 'startDate': '', 'endDate': '', 'stateType': '', 'orderCode': null,
         'invoiceCode': null, 'dueStartDate': '', 'dueEndDate': '', 'minInvoiceMoney': null, 'maxInvoiceMoney': null,
         'minPayMoney': null, 'maxPayMoney': null, 'minNoMoney': null, 'maxNoMoney': null, 'minLateDay': null,
         'maxLateDay': null},

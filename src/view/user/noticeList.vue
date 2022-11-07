@@ -3,12 +3,17 @@
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-input  style="width: 200px; float:left;"
-                   placeholder="客户名称" v-model="info.companyName">
+                   placeholder="客户名称" v-model="queryType.companyName">
         </el-input>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-button style="float:left; width: 100px" type="primary">查询</el-button>
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="负责人名称" v-model="queryType.userName">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-button style="float:left; width: 100px" type="primary" @click="getNoticeList()">查询</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="reset()">重置</el-button>
       </div>
     </el-row>
     <el-table
@@ -67,7 +72,7 @@ export default {
       tableData: [],
       total: 0,
       localPage: 1,
-      info: {'companyName': ''},
+      queryType: {'companyName': '', 'userName': ''},
     }
   },
   mounted() {
@@ -75,6 +80,9 @@ export default {
     that.getNoticeList()
   },
   methods: {
+    reset: function () {
+      location.reload()
+    },
     handleCurrentChange(val) {
       var that = this;
       that.localPage = val;
@@ -82,7 +90,7 @@ export default {
     },
     getNoticeList: function (){
       var that = this;
-      that.axios.post('/ald/notice/notice_list', {'page': that.localPage, 'info': that.info}).then(res=>{
+      that.axios.post('/ald/notice/notice_list', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
         if (res.data.code=='ok'){
           that.tableData = res.data.data.data_list;
           that.total = res.data.data.total

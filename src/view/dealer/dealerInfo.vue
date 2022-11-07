@@ -162,9 +162,9 @@
         </el-tab-pane>
         <el-tab-pane label="额度变更记录" name="额度变更记录">
           <span style="margin-left: 10px">共{{dealerInfo.quota_log_count}}条额度变更记录
-          <push-function-btn btn-name="查看额度变更" btn-type="replace" size="mini"
-                             check-btn="showQuotaLog" check-role="quotaList" url="/admin/dealer/quotaLogs"
-                             params-key='dealerId' :params-value='dealerId'></push-function-btn>
+          <no-permission-btn btn-name="查看额度变更" btn-type="replace_new" size="mini"
+                             check-role="quotaList" url="/admin/dealer/quotaLogs"
+                             params-key='dealerId' :params-value='dealerId'></no-permission-btn>
           </span>
           <el-table
             :data="dealerInfo.quota_log"
@@ -211,9 +211,9 @@
         </el-tab-pane>
         <el-tab-pane label="滞纳金变更记录" name="滞纳金变更记录">
           <span style="margin-left: 10px">共{{dealerInfo.overdue_log_count}}条滞纳金变更记录
-            <push-function-btn btn-name="查看滞纳金变更" btn-type="replace" size="mini"
-                               check-btn="showOverdueLog" check-role="dealerOverdueList" url="/admin/business/overdueLogs"
-                               params-key='dealerId' :params-value='dealerId'></push-function-btn>
+            <no-permission-btn btn-name="查看滞纳金变更" btn-type="replace_new" size="mini"
+                               check-role="dealerOverdueList" url="/admin/business/overdueLogs"
+                               params-key='dealerId' :params-value='dealerId'></no-permission-btn>
           </span>
           <el-table
             :data="dealerInfo.overdue_log"
@@ -239,9 +239,9 @@
         <el-tab-pane label="发票逾期记录" name="发票逾期记录">
           <span style="margin-left: 10px">
             共{{dealerInfo.invoice_log_count}}条发票逾期记录
-            <push-function-btn btn-name="查看发票逾期" btn-type="replace" size="mini"
-                             check-btn="showInvoiceOverdueLog" check-role="dealerOverdueList" url="/admin/business/invoiceOverdueLogs"
-                             params-key='dealerId' :params-value='dealerId'></push-function-btn>
+            <no-permission-btn btn-name="查看发票逾期" btn-type="replace_new" size="mini" check-role="dealerOverdueList"
+                               url="/admin/business/invoiceOverdueLogs"
+                             params-key='dealerId' :params-value='dealerId'></no-permission-btn>
           </span>
 
           <el-table
@@ -297,7 +297,9 @@
         <el-tab-pane label="客户发货情况" name="客户发货情况">
           <span style="margin-left: 10px">
             共{{dealerInfo.fulfil_info_count}}条客户发货情况
-            <el-button type="primary" size="mini" @click="showDealerOrderFulfil()">查看客户发货情况</el-button>
+          <no-permission-btn btn-name="查看客户发货情况" btn-type="replace_new" size="mini" check-role="quotaList"
+                             url="/admin/business/orderFulfilList"
+                             params-key='dealerId' :params-value='dealerId'></no-permission-btn>
           </span>
           <el-table
             :data="dealerInfo.fulfil_info_list"
@@ -328,7 +330,9 @@
         <el-tab-pane label="客户回款情况" name="客户回款情况">
           <span style="margin-left: 10px">
             共{{dealerInfo.order_info_count}}条客户回款情况
-            <el-button type="primary" size="mini" @click="showDealerOrderInvoice()">查看客户回款情况</el-button>
+          <no-permission-btn btn-name="查看客户回款情况" btn-type="replace_new" size="mini" check-role="quotaList"
+                             url="/admin/business/orderInvoiceList"
+                             params-key='dealerId' :params-value='dealerId'></no-permission-btn>
           </span>
           <el-table
             :data="dealerInfo.order_info_list"
@@ -394,7 +398,9 @@
         <el-tab-pane label="用户操作日志" name="用户操作日志">
           <span style="margin-left: 10px">
             共{{dealerInfo.oper_logs_count}}条用户操作日志
-          <el-button type="primary" size="mini" @click="showDealerOperLogs()">查看用户操作日志</el-button>
+          <no-permission-btn btn-name="查看用户操作日志" btn-type="replace_new" size="mini" check-role="quotaList"
+                             url="/admin/dealer/dealerOperLogs"
+                             params-key='dealerId' :params-value='dealerId'></no-permission-btn>
           </span>
           <el-table
             :data="dealerInfo.oper_logs.data_list"
@@ -511,11 +517,11 @@
 </template>
 
 <script>
-import PushFunctionBtn from "../../components/pushFunctionBtn";
+import noPermissionBtn from "../../components/noPermissionBtn";
 import { Message } from 'element-ui';
 export default {
   name: "dealerInfo",
-  components: {PushFunctionBtn},
+  components: {noPermissionBtn},
   data() {
     return {
       activeName: '客户信息',

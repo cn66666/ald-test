@@ -1,7 +1,5 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="客户发货情况" style="padding-left: 15px; padding-top: 15px">
-    </el-page-header>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-select v-model="queryType.orderType" placeholder="请选择销售单状态" style="width: 200px">
@@ -165,7 +163,7 @@ export default {
       fulfilType: ['全部', '正在处理', '正在进行', '已履行,但出现异常', '已履行，但出现异常', '已取消', '已拒绝', '已完成'],
       queryType: {
         dealerId: '',
-        orderType: '全部',
+        orderType: '',
         orderCode: '',
         startDate: '',
         endDate: '',

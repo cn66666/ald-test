@@ -1,7 +1,5 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="用户操作日志" style="padding-left: 15px; padding-top: 15px">
-    </el-page-header>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-select v-model="queryType.logType" style="width: 200px;" placeholder="请选择功能类型">

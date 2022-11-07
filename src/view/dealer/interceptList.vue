@@ -59,6 +59,10 @@
         </template>
       </el-table-column>
       <el-table-column
+        prop="update_time"
+        label="拦截时间" width="120%">
+      </el-table-column>
+      <el-table-column
         prop=""
         label="操作">
         <template slot-scope="scope">

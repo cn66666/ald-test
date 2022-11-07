@@ -4,7 +4,7 @@
     </el-page-header>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-select v-model="queryType.sendType" placeholder="请选择消息类型">
+        <el-select v-model="queryType.sendType" style="width: 200px;" placeholder="请选择消息类型">
           <el-option
             v-for="item in sendTypeList"
             :key="item"
@@ -12,10 +12,37 @@
             :value="item">
           </el-option>
         </el-select>
-        <span style="float:left;">&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-button style="float:left; width: 100px" type="primary" @click="getNoticeLogList()">查询</el-button>
+        <el-date-picker v-model="queryType.startDate" style="width: 200px; float:left;"
+                        type="date"
+                        placeholder="发送起始日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-date-picker v-model="queryType.endDate" style="width: 200px; float:left;"
+                        type="date"
+                        placeholder="发送截止日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-select v-model="queryType.stateCode" placeholder="请选择状态类型" style="width: 200px;">
+          <el-option
+            v-for="item in stateCodeList"
+            :key="item"
+            :label="item"
+            :value="item">
+          </el-option>
+        </el-select>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="通知对象" v-model="queryType.userName">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="getNoticeLogList()">查询</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="reset()">重置</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="download()">下载excel</el-button>
       </div>
     </el-row>
     <el-table
@@ -62,8 +89,9 @@ export default {
       tableData: [],
       total: 0,
       localPage: 1,
-      queryType: {'sendType': '全部', 'dealerId': ''},
+      queryType: {'sendType': '', 'dealerId': '', 'stateCode': '', 'startDate': '', 'endDate': '', 'userName': ''},
       sendTypeList: ['全部', '业务负责人日报', '跟单负责人日报', '财务负责人日报', '拦截通知', '剩余额度通知', '额度变更通知', '特批额度通知', '移除拦截通知'],
+      stateCodeList: ['全部', '发送成功', '发送失败'],
       content: ''
     }
   },
@@ -73,6 +101,9 @@ export default {
     that.getNoticeLogList()
   },
   methods: {
+    reset: function () {
+      location.reload()
+    },
     goBack() {
       this.$router.go(-1)
     },
@@ -90,6 +121,25 @@ export default {
           that.content = res.data.data.company_name + '消息通知日志'
         }
       }).catch(res=>{
+      })
+    },
+    download: function (){
+      var that = this;
+      var data = 'data=' + JSON.stringify(that.queryType);
+      var now = that.$utils.getNowDate()
+      var file_name = '客户消息通知日志' + now + '.xls'
+      that.axios({
+        method: "get",
+        url: '/ald/downloads/noticeLogList?' + data + '&timestamp=' + new Date().getTime(),
+        responseType: 'blob'
+      }).then((res) => {
+        let blob = new Blob([res.data])
+        let objectUrl = URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = objectUrl;
+        link.setAttribute("download", file_name);
+        document.body.appendChild(link);
+        link.click();
       })
     },
   }
