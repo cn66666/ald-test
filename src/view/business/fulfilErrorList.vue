@@ -13,7 +13,7 @@
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-input  style="width: 200px; float:left;"
-                   placeholder="客户名称" v-model="queryType.companyName">
+                   placeholder="客户编号" v-model="queryType.companyName">
         </el-input>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">

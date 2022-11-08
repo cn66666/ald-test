@@ -33,7 +33,7 @@
         </el-date-picker>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-button style="width: 100px;height: 36px" type="primary" @change="getDealerOperLogs()">查询</el-button>
+        <el-button style="width: 100px;height: 36px" type="primary" @click="getDealerOperLogs()">查询</el-button>
         <el-button style="height: 36px;width: 100px" type="primary" @click="reset()">重置</el-button>
         <el-button style="height: 36px;width: 100px" type="primary" @click="downloadDealerOperLogs()">下载excel</el-button>
       </div>
@@ -118,8 +118,9 @@ export default {
     },
     getDealerOperLogs: function (){
       var that = this;
+      console.log(1)
       that.axios.post('/ald/logs/oper_logs', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
-        if (res.data.code=='ok'){
+        if (res.data.code==='ok'){
           that.tableData = res.data.data.data_list;
           that.total = res.data.data.total
           that.userList = res.data.data.user_list
