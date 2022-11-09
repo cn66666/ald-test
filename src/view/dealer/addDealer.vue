@@ -185,7 +185,7 @@ export default {
       // 查询经销商信息进行修改
       that.axios.post('/ald/dealer/dealer_apply_info', {'dealerId': that.dealerId}).then(res=>{
         that.addBtn = false;
-        if (res.data.code=='ok'){
+        if (res.data.code==='ok'){
           that.addForm.dealerId = that.dealerId;
           that.addForm.companyCode = res.data.data.company_code;
           that.addForm.companyName = res.data.data.company_name;

@@ -474,8 +474,6 @@
         <el-form-item label="备注" label-width="150px">
           <el-input v-model="addOverdueForm.remark"  style="width: 70%"></el-input>
         </el-form-item>
-        <el-form-item label-width="200px">
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" size="mini" @click="showOverdueForm=false">关闭</el-button>
@@ -714,7 +712,6 @@ export default {
             that.isSkipDisabled = false
           }
           that.addOverdueForm = settings
-          that.addOverdueForm.remark = ''
         }else {
           that.defaultSetting()
           that.chooseisSkipFunction()
