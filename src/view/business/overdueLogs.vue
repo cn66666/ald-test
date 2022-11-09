@@ -1,7 +1,5 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="滞纳金变更详情" style="padding-left: 15px; padding-top: 15px">
-    </el-page-header>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 3px; ">
         <el-select v-model="queryType.changeInfo" placeholder="请选择变更信息">
@@ -116,6 +114,8 @@ export default {
     downloadOverdueLogs: function (){
       var that = this;
       var data = 'data=' + JSON.stringify(that.queryType) + '&timestamp=' + new Date().getTime();
+      var now = that.$utils.getNowDate()
+      var file_name = '滞纳金变更详情' + now + '.xls'
       that.axios({
         method: "get",
         url: '/ald/downloads/overdueLogs?' + data,
@@ -125,7 +125,7 @@ export default {
         let objectUrl = URL.createObjectURL(blob);
         let link = document.createElement("a");
         link.href = objectUrl;
-        link.setAttribute("download", '滞纳金变更详情.xls');
+        link.setAttribute("download", file_name);
         document.body.appendChild(link);
         link.click();
       })

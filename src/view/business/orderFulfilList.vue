@@ -252,6 +252,8 @@ export default {
     downloadOrderFulfilList: function (){
       var that = this;
       var data = 'data=' + JSON.stringify(that.queryType) + '&timestamp=' + new Date().getTime();
+      var now = that.$utils.getNowDate()
+      var file_name = '客户发货情况' + now + '.xls'
       that.axios({
         method: "get",
         url: '/ald/downloads/orderFulfilList?' + data,
@@ -261,7 +263,7 @@ export default {
         let objectUrl = URL.createObjectURL(blob);
         let link = document.createElement("a");
         link.href = objectUrl;
-        link.setAttribute("download", '客户发货情况.xls');
+        link.setAttribute("download", file_name);
         document.body.appendChild(link);
         link.click();
       })

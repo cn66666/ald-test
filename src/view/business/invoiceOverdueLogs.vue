@@ -202,6 +202,8 @@ export default {
     downloadOverdueLogs: function (){
       var that = this;
       var data = 'data=' + JSON.stringify(that.queryType) + '&timestamp=' + new Date().getTime();
+      var now = that.$utils.getNowDate()
+      var file_name = '发票逾期详情' + now + '.xls'
       that.axios({
         method: "get",
         url: '/ald/downloads/invoiceOverdueLogs?' + data,
@@ -211,7 +213,7 @@ export default {
         let objectUrl = URL.createObjectURL(blob);
         let link = document.createElement("a");
         link.href = objectUrl;
-        link.setAttribute("download", '发票逾期详情.xls');
+        link.setAttribute("download", file_name);
         document.body.appendChild(link);
         link.click();
       })

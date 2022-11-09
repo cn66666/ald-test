@@ -2,9 +2,19 @@
   <div>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-select v-model="queryType.companyType" style="width: 200px;" placeholder="请选择额度类型" @change="getQuotaList()">
+        <el-select v-model="queryType.quotaType" style="width: 200px;" placeholder="请选择额度类型">
           <el-option
-            v-for="item in dealerType"
+            v-for="item in quotaType"
+            :key="item.query"
+            :label="item.type"
+            :value="item.query">
+          </el-option>
+        </el-select>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-select v-model="queryType.companyType" style="width: 200px;" placeholder="请选择客户类型">
+          <el-option
+            v-for="item in companyType"
             :key="item.query"
             :label="item.type"
             :value="item.query">
@@ -75,7 +85,7 @@
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="company_name"
-        label="客户名称" width="250%">
+        label="客户名称" width="230%">
         <template slot-scope="scope">
           <el-tooltip effect="dark" :content="scope.row.company_name" placement="top">
             <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.dealer_id'>
@@ -95,7 +105,7 @@
       </el-table-column>
       <el-table-column
         prop="limit_type"
-        label="额度类型" width="90%">
+        label="额度类型" width="100%">
         <template slot-scope="scope">
           <span v-if="scope.row.quota_type === '新客户'">一年期额度</span>
           <span v-else-if="scope.row.quota_type === '老客户'">长期额度</span>
@@ -104,28 +114,28 @@
       </el-table-column>
       <el-table-column
         prop="quota_money"
-        label="总额度(万元)" width="120%">
+        label="总额度(万元)" width="130%">
         <template slot-scope="scope">
           {{ scope.row.quota_money | tenFormat}}
         </template>
       </el-table-column>
       <el-table-column
         prop="quota_used"
-        label="已用额度(万元)" width="120%">
+        label="已用额度(万元)" width="130%">
         <template slot-scope="scope">
           {{ scope.row.quota_used | tenFormat}}
         </template>
       </el-table-column>
       <el-table-column
         prop="quota_balance"
-        label="剩余额度(万元)" width="120%">
+        label="剩余额度(万元)" width="130%">
         <template slot-scope="scope">
           {{ scope.row.quota_balance | tenFormat}}
         </template>
       </el-table-column>
       <el-table-column
         prop="quota_date"
-        label="额度截止日期"  width="100%">
+        label="额度截止日期"  width="130%">
       </el-table-column>
       <el-table-column
         prop="late_day"
@@ -200,10 +210,15 @@ export default {
       dealerId: null,
       changeDate: '',
       queryType: {},
-      dealerType: [
+      quotaType: [
         {'type': '全部', 'query': ''},
         {'type': '一年期额度', 'query': '新客户'},
         {'type': '长期额度', 'query': '老客户'},
+      ],
+      companyType: [
+        {'type': '全部', 'query': ''},
+        {'type': '内销客户', 'query': '0'},
+        {'type': '出口客户', 'query': '1'},
       ],
     }
   },

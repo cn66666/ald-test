@@ -2,7 +2,7 @@
   <div>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-select v-model="queryType.stateType" style="width: 200px;" placeholder="请选择状态" @change="getQuarterList()">
+        <el-select v-model="queryType.stateType" style="width: 200px;" placeholder="请选择状态">
           <el-option
             v-for="item in stateType"
             :key="item.query"

@@ -2,7 +2,7 @@
   <div>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-select v-model="queryType.dealerType" style="width: 200px;" placeholder="请选择额度类型" @change="getScoreList()">
+        <el-select v-model="queryType.dealerType" style="width: 200px;" placeholder="请选择额度类型">
           <el-option
             v-for="item in dealerType"
             :key="item.query"
@@ -12,7 +12,7 @@
         </el-select>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-select v-model="queryType.levelType" style="width: 200px;" placeholder="请选择评级" @change="getScoreList()">
+        <el-select v-model="queryType.levelType" style="width: 200px;" placeholder="请选择评级">
           <el-option
             v-for="item in levelType"
             :key="item.query"
@@ -22,7 +22,7 @@
         </el-select>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-select v-model="queryType.scoreType" style="width: 200px;" placeholder="请选择状态" @change="getScoreList()">
+        <el-select v-model="queryType.scoreType" style="width: 200px;" placeholder="请选择状态">
           <el-option
             v-for="item in scoreType"
             :key="item.query"

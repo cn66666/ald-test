@@ -2,7 +2,7 @@
   <div>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-select v-model="queryType.stateType" placeholder="请选择拦截原因" @change="getFulfilApplyList()" style="width: 200px; ">
+        <el-select v-model="queryType.stateType" placeholder="请选择拦截原因" style="width: 200px; ">
           <el-option
             v-for="item in stateType"
             :key="item.query"

@@ -2,7 +2,7 @@
   <div>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 3px; ">
-        <el-select v-model="info.state_code" placeholder="请选择变更类型">
+        <el-select v-model="queryType.state_code" placeholder="请选择变更类型">
           <el-option
             v-for="item in stateCodeOptions"
             :key="item.value"
@@ -12,7 +12,7 @@
         </el-select>
       </div>
       <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 3px; ">
-        <el-select v-model="info.change_type" placeholder="请选择单据类型">
+        <el-select v-model="queryType.change_type" placeholder="请选择单据类型">
           <el-option
             v-for="item in changeTypeOptions"
             :key="item.value"
@@ -22,23 +22,23 @@
         </el-select>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-date-picker v-model="info.startDate" style="width: 200px; float:left;"
+        <el-date-picker v-model="queryType.startDate" style="width: 200px; float:left;"
                         type="date"
                         placeholder="额度起始日期" value-format="yyyy-MM-dd">
         </el-date-picker>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-date-picker v-model="info.endDate" style="width: 200px; float:left;"
+        <el-date-picker v-model="queryType.endDate" style="width: 200px; float:left;"
                         type="date"
                         placeholder="额度截止日期" value-format="yyyy-MM-dd">
         </el-date-picker>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-input v-model="info.change_code" placeholder="请输入单据号" style="width: 200px"></el-input>
+        <el-input v-model="queryType.change_code" placeholder="请输入单据号" style="width: 200px"></el-input>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-button style="width: 100px;height: 36px" type="primary" @click="getQuotaLogs()">查询</el-button>
         <el-button style="height: 36px;width: 100px" type="primary" @click="reset()">重置</el-button>
-        <el-button type="primary" style="height: 36px;width: 130px" @click="downloadQuotaLogs()">下载excel</el-button>
+        <el-button type="primary" style="height: 36px;width: 130px" @click="download()">下载excel</el-button>
         <el-button type="primary" style="height: 36px;width: 150px" @click="showAddLog=true">手动添加变更记录</el-button>
       </div>
     </el-row>
@@ -130,7 +130,7 @@ export default {
       tableData: [],
       total: 0,
       localPage: 1,
-      info: {'state_code': null, 'dealer_id': null, 'change_type': null, 'startDate': null, 'endDate': null, 'change_code': null},
+      queryType: {'state_code': null, 'dealer_id': null, 'change_type': null, 'startDate': null, 'endDate': null, 'change_code': null},
       showInfo: false,
       stateCodeOptions: [{
         value: '',
@@ -177,7 +177,7 @@ export default {
   },
   mounted() {
     var that = this;
-    that.info.dealer_id = this.$route.query.dealerId;
+    that.queryType.dealer_id = this.$route.query.dealerId;
     that.addForm.dealerId = this.$route.query.dealerId;
     this.getQuotaLogs()
   },
@@ -194,40 +194,29 @@ export default {
     },
     getQuotaLogs: function (){
       var that = this;
-      that.axios.post('/ald/logs/quota_logs', {'page': that.localPage, 'info': that.info}).then(res=>{
-        if (res.data.code=='ok'){
+      that.axios.post('/ald/logs/quota_logs', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
+        if (res.data.code==='ok'){
           that.tableData = res.data.data.data_list;
           that.total = res.data.data.total
         }
       }).catch(res=>{
       })
     },
-    downloadQuotaLogs: function (){
+    download: function (){
       var that = this;
-      var data = 'dealer_id=' + that.info.dealer_id;
-      if (that.info.state_code != null){
-        data += '&state_code=' + that.info.state_code
-      }
-      if (that.info.change_type != null){
-        data += '&change_type=' + that.info.change_type
-      }
-      if (that.info.change_code != null){
-        data += '&change_code=' + that.info.change_code
-      }
-      if (that.info.query_date != null){
-        data += '&start_date=' + that.info.query_date[0]
-        data += '&end_date=' + that.info.query_date[1]
-      }
+      var data = 'data=' + JSON.stringify(that.queryType);
+      var now = that.$utils.getNowDate()
+      var file_name = '客户额度变更详情' + now + '.xls'
       that.axios({
         method: "get",
-        url: '/ald/logs/download_quota_logs?' + data,
+        url: '/ald/downloads/quotaLogs?' + data + '&timestamp=' + new Date().getTime(),
         responseType: 'blob'
       }).then((res) => {
         let blob = new Blob([res.data])
         let objectUrl = URL.createObjectURL(blob);
         let link = document.createElement("a");
         link.href = objectUrl;
-        link.setAttribute("download", '额度变更详情.xls');
+        link.setAttribute("download", file_name);
         document.body.appendChild(link);
         link.click();
       })
