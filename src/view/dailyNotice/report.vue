@@ -62,7 +62,7 @@
             class="table-style"
             border>
             <el-table-column
-              prop="month"
+              prop="month_str"
               label="逾期月份">
             </el-table-column>
             <el-table-column
@@ -132,7 +132,7 @@ export default {
       code: '',
       showReport: false,
       report: {},
-      all_overdue: []
+      spanArr: [],
     }
   },
   mounted() {
@@ -143,7 +143,7 @@ export default {
   methods: {
     objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
       if(columnIndex === 0||columnIndex===1){
-        const _row = this.all_overdue[rowIndex]
+        const _row = this.spanArr[rowIndex]
         const _col = _row>0?1:0;
         //该形式为行合并
         return{
@@ -159,25 +159,23 @@ export default {
         if (res.data.code==='ok'){
           that.showReport = true
           that.report = res.data.data
-          if (that.report.report.month_overdue.all_overdue !== []){
-            that.all_overdue = []
-            let contactDot = 0;
-            that.report.report.month_overdue.all_overdue.forEach( (item,index) => {
-              //遍历tableData数据，给spanArr存入一个1，第二个item.id和前一个item.id是否相同，相同就给
-              //spanArr前一位加1，spanArr再存入0，因为spanArr为n的项表示n项合并，为0的项表示该项不显示,后面有spanArr打印结果
-              if(index===0){
-                that.all_overdue.push(1)
+          that.spanArr = []
+          let contactDot = 0;
+          that.report.report.month_overdue.all_overdue.forEach( (item,index) => {
+            //遍历tableData数据，给spanArr存入一个1，第二个item.id和前一个item.id是否相同，相同就给
+            //spanArr前一位加1，spanArr再存入0，因为spanArr为n的项表示n项合并，为0的项表示该项不显示,后面有spanArr打印结果
+            if(index===0){
+              that.spanArr.push(1)
+            }else{
+              if(item.month_str === that.report.report.month_overdue.all_overdue[index-1].month_str){
+                that.spanArr[contactDot] += 1;
+                that.spanArr.push(0)
               }else{
-                if(item.id === that.report.report.month_overdue.all_overdue[index-1].id){
-                  that.all_overdue[contactDot] += 1;
-                  that.all_overdue.push(0)
-                }else{
-                  contactDot = index
-                  that.all_overdue.push(1)
-                }
+                contactDot = index
+                that.spanArr.push(1)
               }
-            })
-          }
+            }
+          })
         }
       }).catch(res=>{
       })
