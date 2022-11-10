@@ -245,10 +245,10 @@ export default {
           'id': 1,
           'name': 'invoice',
           'title': '发票日报',
-          'content': '发票小于到期日,进行日报通知',
+          'content': '发票到期日小于0天,进行日报通知',
           'type': '钉钉',
           'open': true,
-          'config': true
+          'config': true,
         },
         {
           'id': 2,
@@ -281,10 +281,10 @@ export default {
           'id': 5,
           'name': 'specialQuota',
           'title': '特批额度日报',
-          'content': '特批额度小于失效期内,进行日报通知',
+          'content': '特批额度失效期小于0天内,进行日报通知',
           'type': '钉钉',
           'open': true,
-          'config': true
+          'config': true,
         },
       ],
       orderDaily: [
@@ -292,10 +292,10 @@ export default {
           'id': 1,
           'name': 'invoice',
           'title': '发票日报',
-          'content': '发票小于到期日,进行日报通知',
+          'content': '发票到期日小于0天,进行日报通知',
           'type': '钉钉',
           'open': true,
-          'config': true
+          'config': true,
         },
         {
           'id': 2,
@@ -328,10 +328,10 @@ export default {
           'id': 5,
           'name': 'specialQuota',
           'title': '特批额度日报',
-          'content': '特批额度小于失效期内,进行日报通知',
+          'content': '特批额度失效期小于0天内,进行日报通知',
           'type': '钉钉',
           'open': true,
-          'config': true
+          'config': true,
         },
       ],
       financeDaily: [
@@ -339,10 +339,10 @@ export default {
           'id': 1,
           'name': 'quota',
           'title': '额度到期日报',
-          'content': '额度小于有效期,进行日报通知',
+          'content': '额度有效期小于0天,进行日报通知',
           'type': '钉钉',
           'open': true,
-          'config': true
+          'config': true,
         },
       ],
 
@@ -372,12 +372,24 @@ export default {
           that.configData = res.data.data;
           for (var data in that.businessDaily){
             that.businessDaily[data]['open'] = that.configData['businessDaily']['open'][that.businessDaily[data]['name']]
+            if (that.businessDaily[data]['config'] === true){
+              var day = that.configData['businessDaily']['config'][that.businessDaily[data]['name']]
+              that.businessDaily[data]['content'] = that.businessDaily[data]['content'].replace(/0/, day)
+            }
           }
           for (var data in that.orderDaily){
             that.orderDaily[data]['open'] = that.configData['orderDaily']['open'][that.orderDaily[data]['name']]
+            if (that.orderDaily[data]['config'] === true){
+              var day = that.configData['orderDaily']['config'][that.orderDaily[data]['name']]
+              that.orderDaily[data]['content'] = that.orderDaily[data]['content'].replace(/0/, day)
+            }
           }
           for (var data in that.financeDaily){
             that.financeDaily[data]['open'] = that.configData['financeDaily']['open'][that.financeDaily[data]['name']]
+            if (that.financeDaily[data]['config'] === true){
+              var day = that.configData['financeDaily']['config'][that.financeDaily[data]['name']]
+              that.financeDaily[data]['content'] = that.financeDaily[data]['content'].replace(/0/, day)
+            }
           }
         }
       }).catch(res=>{
@@ -442,6 +454,7 @@ export default {
         'configForm': configForm, 'configType': configType, 'configData': configData,}).then(res=>{
         if (res.data.code==='ok'){
           Message.success('成功: 修改成功')
+          location.reload()
         } else {
           Message.warning('失败: 修改失败')
         }
@@ -453,7 +466,7 @@ export default {
       that.axios.post('/ald/notice/default_dealer_config', {'dealerId': that.dealerId}).then(res=>{
         if (res.data.code==='ok'){
           Message.success('成功: 修改成功')
-          that.getNoticeDealerConfig()
+          location.reload()
         } else {
           Message.warning('失败: 修改失败')
         }

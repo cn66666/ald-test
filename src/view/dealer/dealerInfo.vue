@@ -303,6 +303,7 @@
           </span>
           <el-table
             :data="dealerInfo.fulfil_info_list"
+            :span-method="fulfilSpanMethod"
             border
             style="width: 98%; margin: 1%">
             <el-table-column
@@ -336,6 +337,7 @@
           </span>
           <el-table
             :data="dealerInfo.order_info_list"
+            :span-method="invoiceSpanMethod"
             border
             style="width: 98%; margin: 1%">
             <el-table-column
@@ -371,7 +373,7 @@
         <el-tab-pane label="最新评分卡解析" name="最新评分卡解析">
           <el-table
             class="info_table"
-            :span-method="objectSpanMethod"
+            :span-method="scoreSpanMethod"
             :data="dealerInfo.analysis_score"
             style="width: 98%; margin: 0 1%" :empty-text="scoreText">
             <el-table-column
@@ -493,7 +495,7 @@
           <el-input v-model="quotaDayInfo.quota" :disabled="change" style="width: 70%"></el-input>
         </el-form-item>
         <el-form-item label="调整账期" label-width="150px">
-          <el-input v-model="quotaDayInfo.reckonDay" type="number" min="1"  style="width: 70%">
+          <el-input v-model="quotaDayInfo.reckonDay" type="number" min="1"  style="width: 70%" @change="changeQuotaDay()">
             <template slot="append">天</template></el-input>
         </el-form-item>
         <el-form-item label="试算额度结果" label-width="150px">
@@ -506,7 +508,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" size="mini" @click="showQuotaDayForm=false">关闭</el-button>
         <el-button type="primary" size="mini" @click="reckonQuotaDay()">额度试算</el-button>
-        <el-button type="primary" size="mini" @click="changeQuotaDay()">确认提交申请</el-button>
+        <el-button type="primary" size="mini" @click="updateQuotaDay()">确认提交申请</el-button>
       </div>
     </el-dialog>
 
@@ -606,6 +608,44 @@ export default {
             }
             that.getSetting()
           }
+          if (tab_name === '客户回款情况'){
+            that.spanArr = []
+            let contactDot = 0;
+            that.dealerInfo.order_info_list.forEach( (item,index) => {
+              //遍历tableData数据，给spanArr存入一个1，第二个item.id和前一个item.id是否相同，相同就给
+              //spanArr前一位加1，spanArr再存入0，因为spanArr为n的项表示n项合并，为0的项表示该项不显示,后面有spanArr打印结果
+              if(index===0){
+                that.spanArr.push(1)
+              }else{
+                if(item.id === this.dealerInfo.order_info_list[index-1].id){
+                  that.spanArr[contactDot] += 1;
+                  that.spanArr.push(0)
+                }else{
+                  contactDot = index
+                  that.spanArr.push(1)
+                }
+              }
+            })
+          }
+          if (tab_name === '客户发货情况'){
+            that.spanArr = []
+            let contactDot = 0;
+            that.dealerInfo.fulfil_info_list.forEach( (item,index) => {
+              //遍历tableData数据，给spanArr存入一个1，第二个item.id和前一个item.id是否相同，相同就给
+              //spanArr前一位加1，spanArr再存入0，因为spanArr为n的项表示n项合并，为0的项表示该项不显示,后面有spanArr打印结果
+              if(index===0){
+                that.spanArr.push(1)
+              }else{
+                if(item.id === this.dealerInfo.fulfil_info_list[index-1].id){
+                  that.spanArr[contactDot] += 1;
+                  that.spanArr.push(0)
+                }else{
+                  contactDot = index
+                  that.spanArr.push(1)
+                }
+              }
+            })
+          }
         }
       }).catch(res=>{
       })
@@ -645,8 +685,19 @@ export default {
       }).catch(res=>{
       })
     },
-    objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
+    scoreSpanMethod ({ row, column, rowIndex, columnIndex }) {
       if(columnIndex === 0){
+        const _row = this.spanArr[rowIndex]
+        const _col = _row>0?1:0;
+        //该形式为行合并
+        return{
+          rowspan:_row,
+          colspan:_col
+        }
+      }
+    },
+    invoiceSpanMethod ({ row, column, rowIndex, columnIndex }) {
+      if(columnIndex === 0||columnIndex===1||columnIndex===2){
         const _row = this.spanArr[rowIndex]
         const _col = _row>0?1:0;
         //该形式为行合并
@@ -787,6 +838,9 @@ export default {
     reckonQuotaDay: function (){
       var that = this;
       if (that.reckon === true){
+        if (that.quotaDayInfo.reckonDay === ''){
+          Message.warning('失败: 账期不能为空')
+        }
         that.axios.post('/ald/dealer/reckon_quota_day', {'dealerId': that.dealerId, 'reckonDay': that.quotaDayInfo.reckonDay}).then(res=>{
           if (res.data.code==='ok'){
             that.quotaDayInfo.reckonQuota = res.data.data
@@ -798,7 +852,7 @@ export default {
         })
       }
     },
-    changeQuotaDay: function () {
+    updateQuotaDay: function () {
       var that = this;
       if (that.update === true){
         that.axios.post('/ald/dealer/change_quota_day', {'dealerId': that.dealerId, 'reckonDay': that.quotaDayInfo.reckonDay,
@@ -816,6 +870,11 @@ export default {
         Message.warning('失败: 请先进行试算')
       }
     },
+    changeQuotaDay: function () {
+      var that = this
+      that.update = false
+      that.quotaDayInfo.reckonQuota = '-'
+    },
     open(message, title) {
       this.$alert(message, title, {
         confirmButtonText: '关闭',
@@ -823,7 +882,18 @@ export default {
           location.reload()
         }
       });
-    }
+    },
+    fulfilSpanMethod ({ row, column, rowIndex, columnIndex }) {
+      if(columnIndex === 0||columnIndex===1||columnIndex===2){
+        const _row = this.spanArr[rowIndex]
+        const _col = _row>0?1:0;
+        //该形式为行合并
+        return{
+          rowspan:_row,
+          colspan:_col
+        }
+      }
+    },
   }
 }
 </script>
