@@ -27,7 +27,7 @@
         <div class="box">
           <h3>发票日报</h3>
           <div class="idea">
-            <p>代付款发票：<span>{{report.report.invoice_report.lens}} 张</span></p>
+            <p>待付款发票：<span>{{report.report.invoice_report.lens}} 张</span></p>
             <p>发票金额：<span>{{report.report.invoice_report.sum}} 万元</span></p><br>
             <p>{{ report.report.config.config.invoice }}日内到期发票列表：<span>{{report.report.invoice_report.list_num}} 张</span></p>
           </div>
