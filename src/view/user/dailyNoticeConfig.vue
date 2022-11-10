@@ -138,33 +138,11 @@
       </el-form>
     </el-dialog>
 
-    <el-dialog title="特批额度失效日报设置" :visible.sync="businessSpecialDailyShow" style="width: 100%">
-      <el-form>
-        <el-form-item label="特批额度失效小于该日期时进行提醒" >
-          <el-input v-model="configData.businessDaily.config.specialQuota"
-                    @change="updateConfig('businessDaily', 'config', 'specialQuota', configData.businessDaily.config.specialQuota)"
-                    style="width: 20%" type="number" min="1">
-            <template slot="append">天</template></el-input>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-
     <el-dialog title="发票日报日期设置" :visible.sync="orderInvoiceDailyShow" style="width: 100%">
       <el-form>
         <el-form-item label="发票到期小于该日期进行提醒" >
           <el-input v-model="configData.orderDaily.config.invoice"
                     @change="updateConfig('orderDaily', 'config', 'invoice', configData.orderDaily.config.invoice)"
-                    style="width: 20%" type="number" min="1">
-            <template slot="append">天</template></el-input>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-
-    <el-dialog title="特批额度失效日报设置" :visible.sync="orderSpecialDailyShow" style="width: 100%">
-      <el-form>
-        <el-form-item label="特批额度失效小于该日期时进行提醒" >
-          <el-input v-model="configData.orderDaily.config.specialQuota"
-                    @change="updateConfig('orderDaily', 'config', 'specialQuota', configData.orderDaily.config.specialQuota)"
                     style="width: 20%" type="number" min="1">
             <template slot="append">天</template></el-input>
         </el-form-item>
@@ -211,11 +189,9 @@ export default {
             'quota': true,
             'overdueCount': true,
             'overdueMonth': true,
-            'specialQuota': true,
           },
           'config':{
             'invoice': 7,
-            'specialQuota': 7,
           }
         },
         'orderDaily': {
@@ -224,11 +200,9 @@ export default {
             'quota': true,
             'overdueCount': true,
             'overdueMonth': true,
-            'specialQuota': true,
           },
           'config':{
             'invoice': 7,
-            'specialQuota': 7,
           }
         },
         'financeDaily': {
@@ -277,15 +251,6 @@ export default {
           'open': true,
           'config': false
         },
-        {
-          'id': 5,
-          'name': 'specialQuota',
-          'title': '特批额度日报',
-          'content': '特批额度失效期小于0天内,进行日报通知',
-          'type': '钉钉',
-          'open': true,
-          'config': true,
-        },
       ],
       orderDaily: [
         {
@@ -323,15 +288,6 @@ export default {
           'type': '钉钉',
           'open': true,
           'config': false
-        },
-        {
-          'id': 5,
-          'name': 'specialQuota',
-          'title': '特批额度日报',
-          'content': '特批额度失效期小于0天内,进行日报通知',
-          'type': '钉钉',
-          'open': true,
-          'config': true,
         },
       ],
       financeDaily: [
