@@ -24,12 +24,12 @@
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
         <el-date-picker v-model="queryType.startDate" style="width: 200px; float:left;"
                         type="date"
-                        placeholder="额度起始日期" value-format="yyyy-MM-dd">
+                        placeholder="最早发生日期" value-format="yyyy-MM-dd">
         </el-date-picker>
         <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
         <el-date-picker v-model="queryType.endDate" style="width: 200px; float:left;"
                         type="date"
-                        placeholder="额度截止日期" value-format="yyyy-MM-dd">
+                        placeholder="最晚发生日期" value-format="yyyy-MM-dd">
         </el-date-picker>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
