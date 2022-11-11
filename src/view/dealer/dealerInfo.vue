@@ -301,32 +301,6 @@
                              url="/admin/business/orderFulfilList"
                              params-key='dealerId' :params-value='dealerId'></no-permission-btn>
           </span>
-          <el-table
-            :data="dealerInfo.fulfil_info_list"
-            :span-method="fulfilSpanMethod"
-            border
-            style="width: 98%; margin: 1%">
-            <el-table-column
-              prop="order_code"
-              label="销售单号">
-            </el-table-column>
-            <el-table-column
-              prop="order_date"
-              label="销售单创建日期">
-            </el-table-column>
-            <el-table-column
-              prop="order_state"
-              label="销售单状态">
-            </el-table-column>
-            <el-table-column
-              prop="fulfil_sum"
-              label="履行单总金额">
-            </el-table-column>
-            <el-table-column
-              prop="fulfil_count"
-              label="履行单总数">
-            </el-table-column>
-          </el-table>
         </el-tab-pane>
         <el-tab-pane label="客户回款情况" name="客户回款情况">
           <span style="margin-left: 10px">
@@ -335,40 +309,6 @@
                              url="/admin/business/orderInvoiceList"
                              params-key='dealerId' :params-value='dealerId'></no-permission-btn>
           </span>
-          <el-table
-            :data="dealerInfo.order_info_list"
-            :span-method="invoiceSpanMethod"
-            border
-            style="width: 98%; margin: 1%">
-            <el-table-column
-              prop="order_code"
-              label="销售单号">
-            </el-table-column>
-            <el-table-column
-              prop="order_date"
-              label="销售单创建日期">
-            </el-table-column>
-            <el-table-column
-              prop="order_state"
-              label="销售单状态">
-            </el-table-column>
-            <el-table-column
-              prop="invoice_sum"
-              label="发票总金额">
-            </el-table-column>
-            <el-table-column
-              prop="invoice_count"
-              label="发票总数">
-            </el-table-column>
-            <el-table-column
-              prop="invoice_pay_money"
-              label="已结金额">
-            </el-table-column>
-            <el-table-column
-              prop="invoice_no_money"
-              label="未结金额">
-            </el-table-column>
-          </el-table>
         </el-tab-pane>
         <el-tab-pane label="最新评分卡解析" name="最新评分卡解析">
           <el-table
@@ -762,6 +702,7 @@ export default {
             settings['isClose'] = '1'
             that.isSkipDisabled = false
           }
+          settings['remark'] = ''
           that.addOverdueForm = settings
         }else {
           that.defaultSetting()
