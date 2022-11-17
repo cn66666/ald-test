@@ -1,19 +1,20 @@
 <template>
   <div>
     <el-row class="filter_row">
-      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+      <div class="demo-input-suffix" style="float:left;margin: 2px 3px 2px 3px; ">
         <el-input  style="width: 200px; float:left;"
                    placeholder="客户名称" v-model="queryType.companyName">
         </el-input>
       </div>
-      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+      <div class="demo-input-suffix" style="float:left;margin: 2px 3px 2px 3px; ">
         <el-input  style="width: 200px; float:left;"
                    placeholder="负责人名称" v-model="queryType.userName">
         </el-input>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-button style="float:left; width: 100px" type="primary" @click="getNoticeList()">查询</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="getNoticeList()">查询</el-button>
         <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="reset()">重置</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="showBatchUpdate=true">批量修改</el-button>
       </div>
     </el-row>
     <el-table
@@ -22,7 +23,7 @@
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="company_name"
-        label="客户名称" width="370%">
+        label="客户名称" width="270%">
         <template slot-scope="scope">
           <el-tooltip effect="dark" :content="scope.row.company_name" placement="top">
             <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.id'>
@@ -61,10 +62,33 @@
                      layout="prev, pager, next" :page-count="total">
       </el-pagination>
     </div>
+
+    <el-dialog title="批量修改" :visible.sync="showBatchUpdate" width="30%">
+      <el-form>
+        <el-form-item label="原负责人联系方式" label-width="150px">
+          <el-input v-model="changeForm.oldPhone"  style="width: 70%"></el-input>
+        </el-form-item>
+        <el-form-item label="新负责人名称" label-width="150px">
+          <el-input v-model="changeForm.newName"  style="width: 70%"></el-input>
+        </el-form-item>
+        <el-form-item label="新联系方式" label-width="150px">
+          <el-input v-model="changeForm.newPhone"  style="width: 70%"></el-input>
+        </el-form-item>
+        <el-form-item label="新负责人岗位" label-width="150px">
+          <el-input v-model="changeForm.newRemark"  style="width: 70%"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="mini" @click="showBatchUpdate=false">关闭</el-button>
+        <el-button type="primary" size="mini" @click="batchUpdate()">修改</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import {Message} from "element-ui";
+
 export default {
   name: "noticeList",
   data() {
@@ -73,6 +97,13 @@ export default {
       total: 0,
       localPage: 1,
       queryType: {'companyName': '', 'userName': ''},
+      showBatchUpdate: false,
+      changeForm: {
+        'oldPhone':'',
+        'newName': '',
+        'newPhone': '',
+        'newRemark': '',
+      }
     }
   },
   mounted() {
@@ -109,6 +140,28 @@ export default {
     pushNoticeLogList: function (dealerId) {
       var that = this;
       that.$router.push('/admin/user/noticeLogList?dealerId=' + dealerId)
+    },
+    batchUpdate: function (){
+      var that = this;
+      if (that.changeForm.oldPhone === ''){
+        Message.warning('失败: 原负责人联系方式不能为空')
+        return
+      }
+      if (that.changeForm.newName !== '' || that.changeForm.newPhone !== '' || that.changeForm.newRemark !== '' ){
+        if (that.changeForm.newName === '' || that.changeForm.newPhone === '' || that.changeForm.newRemark === ''){
+          Message.warning('失败: 新负责人信息不能为空')
+          return
+        }
+      }
+      that.axios.post('/ald/notice/update_user', that.changeForm).then(res=>{
+        if (res.data.code=='ok'){
+          Message.success('修改成功')
+          location.reload()
+        }else {
+          Message.warning('失败: ' + res.data.data)
+        }
+      }).catch(res=>{
+      })
     }
   }
 }
@@ -116,4 +169,7 @@ export default {
 
 <style scoped>
 
+>>> .el-input__inner{
+  height: 36px;
+}
 </style>
