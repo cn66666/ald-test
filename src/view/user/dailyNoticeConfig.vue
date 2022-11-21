@@ -410,7 +410,6 @@ export default {
         'configForm': configForm, 'configType': configType, 'configData': configData,}).then(res=>{
         if (res.data.code==='ok'){
           Message.success('成功: 修改成功')
-          location.reload()
         } else {
           Message.warning('失败: 修改失败')
         }
@@ -422,7 +421,6 @@ export default {
       that.axios.post('/ald/notice/default_dealer_config', {'dealerId': that.dealerId}).then(res=>{
         if (res.data.code==='ok'){
           Message.success('成功: 修改成功')
-          location.reload()
         } else {
           Message.warning('失败: 修改失败')
         }
