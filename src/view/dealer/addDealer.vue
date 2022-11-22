@@ -17,6 +17,14 @@
           <el-option label="内销客户" value="内销客户"></el-option>
           <el-option label="出口客户" value="出口客户"></el-option>
         </el-select>
+        <el-popover
+          placement="top-start"
+          offset="10"
+          width="200"
+          trigger="hover"
+          content="客户分类选择为出口客户时，需要填写相关的中信保数据">
+          <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+        </el-popover>
         <div v-show="showExport" style="float: left; margin-left: 10px">
           <el-button type="text" @click="showZxbForm=true">填写中信保数据</el-button>
         </div>
@@ -58,7 +66,18 @@
       </el-form-item>
     </el-form>
 
-    <el-dialog title="中信保数据补充" :visible.sync="showZxbForm">
+    <el-dialog :visible.sync="showZxbForm">
+      <div slot="title" class="dialog-title">
+        <span>中信保数据补充</span>
+        <el-popover
+          placement="top-start"
+          offset="10"
+          width="300"
+          trigger="hover"
+          content="中信保数据来源为中信保官网，出口客户必须填写所有中信保数据，否则不可进行额度申请">
+          <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+        </el-popover>
+      </div>
       <el-form :model="addForm.exportInfo" :rules="rules" ref="addForm">
         <el-form-item label="批复金额" :label-width="formLabelWidth">
           <el-input v-model="addForm.exportInfo.exportQuota" :disabled="change" style="width: 250px">

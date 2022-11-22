@@ -67,6 +67,16 @@
         label="操作">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="skipIntercept(scope.row.dealer_id)" :disabled="scope.row.oa_apply">申请解除拦截</el-button>
+
+          <el-popover
+            placement="top-start"
+            offset="10"
+            width="200"
+            trigger="hover"
+            content="当前客户在OA系统有正在审批的申请，前往“OA审批清单”可进行查询"
+            v-if="scope.row.oa_apply === true">
+            <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+          </el-popover>
         </template>
       </el-table-column>
     </el-table>
@@ -76,7 +86,19 @@
       </el-pagination>
     </div>
 
-    <el-dialog title="申请解除拦截" :visible.sync="showForm" width="30%">
+    <el-dialog :visible.sync="showForm" width="30%">
+      <div slot="title">
+        <span>申请解除拦截</span>
+        <el-popover
+          placement="top-start"
+          offset="10"
+          width="350"
+          trigger="hover">
+          <p>填写备注（解除拦截的理由）后点击“确认提交申请”，即可向OA系统发送解除申请</p>
+          <p>该项目审批人：蓝丽萍</p>
+          <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+        </el-popover>
+      </div>
       <el-form>
         <el-form-item label="备注信息" prop="info" label-width="150px">
           <el-input v-model="addForm.remark" style="width: 70%"></el-input>

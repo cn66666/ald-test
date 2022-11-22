@@ -113,13 +113,23 @@
       </el-form>
     </el-dialog>
 
-    <el-dialog title="申请跳过拦截" :visible.sync="showApplyIntercept" width="35%">
+    <el-dialog :visible.sync="showApplyIntercept" width="35%">
+      <div slot="title">
+        <span>申请跳过拦截</span>
+        <el-popover
+          placement="top-start"
+          offset="10"
+          width="300"
+          trigger="hover"
+          content="填写备注（跳过拦截的理由）后点击“确认提交申请”，将申请提交至OA系统审批，OA审批通过后，系统将跳过拦截">
+          <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+        </el-popover>
+      </div>
       <el-form>
         <el-form-item label="备注信息" prop="info" :label-width="formLabelWidth">
           <el-input v-model="addForm.remark"></el-input>
         </el-form-item>
       </el-form>
-      <p style="font-size: 10px; padding-left: 50px; margin-bottom: 10px">提示:当前客户由于第三方数据查询不合格被系统拦截（具体原因请点击拦截原因查看），不建议纳入客户额度体系，如您有异议，可通过填写备注（请写明）及提交申请，将申请提交至OA系统审批，OA审批通过后，系统将跳过拦截</p>
       <div style="text-align: right">
         <el-button type="primary" size="mini" @click="skipApplyIntercept()">确认提交申请</el-button>
       </div>

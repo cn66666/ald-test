@@ -376,18 +376,50 @@
         <el-form-item label="特批额度" label-width="150px">
           <el-input v-model="addSpecialForm.special_quota" style="width: 70%">
             <template slot="append">万元</template></el-input>
+            <el-popover
+              placement="top-start"
+              offset="10"
+              width="200"
+              trigger="hover"
+              content="向OA申请为该客户使用特批额度（注意特批额度通过后会覆盖现有额度，而非在现有额度上累加）">
+              <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+            </el-popover>
         </el-form-item>
         <el-form-item label="特批结束日期" prop="special_date" label-width="150px">
           <el-date-picker type="date" placeholder="选择日期" value-format="yyyy-MM-dd" style="width: 70%"
                           v-model="addSpecialForm.special_date"></el-date-picker>
+          <el-popover
+            placement="top-start"
+            offset="10"
+            width="200"
+            trigger="hover"
+            content="申请特批额度的截止日期">
+            <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+          </el-popover>
         </el-form-item>
         <el-form-item label="备注信息" prop="info" label-width="150px">
           <el-input v-model="addSpecialForm.remark" style="width: 70%"></el-input>
+          <el-popover
+            placement="top-start"
+            offset="10"
+            width="200"
+            trigger="hover"
+            content="申请理由">
+            <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+          </el-popover>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" size="mini" @click="showSpecialForm=false">关闭</el-button>
         <el-button type="primary" size="mini" @click="addSpecialQuota()">确认提交申请</el-button>
+        <el-popover
+          placement="top-start"
+          offset="10"
+          width="200"
+          trigger="hover"
+          content="该项目审批人：蓝丽萍">
+          <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+        </el-popover>
       </div>
     </el-dialog>
     <el-dialog title="更改逾期特批" :visible.sync="showOverdueForm" width="30%">
@@ -397,30 +429,86 @@
             <el-option label="不跳过" value='0'></el-option>
             <el-option label="跳过" value='1'></el-option>
           </el-select>
+          <el-popover
+            placement="top-start"
+            offset="10"
+            width="200"
+            trigger="hover"
+            content="跳过则不再对履行单进行逾期天数校验，请谨慎申请">
+            <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+          </el-popover>
         </el-form-item>
         <el-form-item label="最长逾期天数" label-width="150px">
           <el-input v-model="addOverdueForm.maxDay" type="number" min="0"  style="width: 70%" :disabled="isSkipDisabled"></el-input>
+          <el-popover
+            placement="top-start"
+            offset="10"
+            width="200"
+            trigger="hover"
+            content="在不跳过逾期校验的情况下，如客户任意发票逾期超过最长逾期天数，则会被拦截，变更此天数可以调整拦截强度">
+            <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+          </el-popover>
         </el-form-item>
         <el-form-item label="小额逾期豁免" label-width="150px">
           <el-select v-model="addOverdueForm.isClose" placeholder="请选择" style="width: 70%" @change="chooseisCloseFunction()" :disabled="isSkipDisabled">
             <el-option label="关闭" value='0'></el-option>
             <el-option label="开启" value='1'></el-option>
           </el-select>
+          <el-popover
+            placement="top-start"
+            offset="10"
+            width="200"
+            trigger="hover"
+            content="开启后可对一些小额发票进行过滤，使其不参与发票逾期校验，请谨慎申请">
+            <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+          </el-popover>
         </el-form-item>
         <el-form-item label="逾期金额下限" label-width="150px">
           <el-input v-model="addOverdueForm.minMoney" type="number" min="1"  style="width: 70%" :disabled="isCloseDisabled"><template slot="append">元</template></el-input>
+          <el-popover
+            placement="top-start"
+            offset="10"
+            width="200"
+            trigger="hover"
+            content="低于此金额与（门槛比例*客户额度）的发票算作小额发票，请谨慎设置">
+            <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+          </el-popover>
         </el-form-item>
         <el-form-item label="逾期金额门槛比例" label-width="150px">
           <el-input v-model="addOverdueForm.minMoneyRate" type="number" min="0" max="100" style="width: 70%" :disabled="isCloseDisabled"><template slot="append">%</template></el-input>
+          <el-popover
+            placement="top-start"
+            offset="10"
+            width="200"
+            trigger="hover"
+            content="低于此金额与（门槛比例*客户额度）的发票算作小额发票，请谨慎设置">
+            <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+          </el-popover>
         </el-form-item>
         <el-form-item label="备注" label-width="150px">
           <el-input v-model="addOverdueForm.remark"  style="width: 70%"></el-input>
+          <el-popover
+            placement="top-start"
+            offset="10"
+            width="200"
+            trigger="hover"
+            content="申请理由">
+            <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+          </el-popover>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" size="mini" @click="showOverdueForm=false">关闭</el-button>
         <el-button type="primary" size="mini" @click="defaultSetting()">默认配置</el-button>
         <el-button type="primary" size="mini" @click="saveSetting()">确认提交申请</el-button>
+        <el-popover
+          placement="top-start"
+          offset="10"
+          width="200"
+          trigger="hover"
+          content="该项目审批人：蓝丽萍">
+          <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+        </el-popover>
       </div>
     </el-dialog>
     <el-dialog title="进行账期调整" :visible.sync="showQuotaDayForm" width="30%">
@@ -430,6 +518,14 @@
         </el-form-item>
         <el-form-item label="ALD推荐账期" label-width="150px">
           <el-input v-model="quotaDayInfo.aldDay" :disabled="change" style="width: 70%"></el-input>
+          <el-popover
+            placement="top-start"
+            offset="10"
+            width="200"
+            trigger="hover"
+            content="ALD系统推荐且用于计算额度的客户账期">
+            <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+          </el-popover>
         </el-form-item>
         <el-form-item label="客户当前额度" label-width="150px">
           <el-input v-model="quotaDayInfo.quota" :disabled="change" style="width: 70%"></el-input>
@@ -437,18 +533,50 @@
         <el-form-item label="调整账期" label-width="150px">
           <el-input v-model="quotaDayInfo.reckonDay" type="number" min="1"  style="width: 70%" @change="changeQuotaDay()">
             <template slot="append">天</template></el-input>
+          <el-popover
+            placement="top-start"
+            offset="10"
+            width="200"
+            trigger="hover"
+            content="申请调整成的账期天数，试算时以此天数计算额度">
+            <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+          </el-popover>
         </el-form-item>
         <el-form-item label="试算额度结果" label-width="150px">
           <el-input v-model="quotaDayInfo.reckonQuota" :disabled="change" style="width: 70%"></el-input>
+          <el-popover
+            placement="top-start"
+            offset="10"
+            width="200"
+            trigger="hover"
+            content="试算调整账期后的额度（注意需要在填写调整账期并点击试算后才有结果）">
+            <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+          </el-popover>
         </el-form-item>
         <el-form-item label="备注" label-width="150px">
           <el-input v-model="quotaDayInfo.remark"  style="width: 70%"></el-input>
+          <el-popover
+            placement="top-start"
+            offset="10"
+            width="200"
+            trigger="hover"
+            content="申请理由">
+            <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+          </el-popover>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" size="mini" @click="showQuotaDayForm=false">关闭</el-button>
         <el-button type="primary" size="mini" @click="reckonQuotaDay()">额度试算</el-button>
         <el-button type="primary" size="mini" @click="updateQuotaDay()">确认提交申请</el-button>
+        <el-popover
+          placement="top-start"
+          offset="10"
+          width="200"
+          trigger="hover"
+          content="该项目审批人：蓝丽萍">
+          <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+        </el-popover>
       </div>
     </el-dialog>
 
