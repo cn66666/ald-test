@@ -155,7 +155,7 @@ export default {
         'minPayMoney': null, 'maxPayMoney': null, 'minNoMoney': null, 'maxNoMoney': null, 'minLateDay': null,
         'maxLateDay': null},
       showInfo: false,
-      stateType: ['全部', '未结', '全部未付款', '部分付款']
+      stateType: ['全部', '未结']
     }
   },
   mounted() {
