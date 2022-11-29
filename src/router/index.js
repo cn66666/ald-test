@@ -365,6 +365,18 @@ export default new Router({
           meta: { title: 'OA审批清单' },
           component: resolve => require(['../view/dealer/oaApplyList'], resolve),
         },
+        {
+          path: '/admin/logs/oaApiLogs',
+          name: 'oaApiLogs',
+          meta: { title: '请求OA日志' },
+          component: resolve => require(['../view/logs/oaApiLogs'], resolve),
+        },
+        {
+          path: '/admin/logs/ddApiLogs',
+          name: 'ddApiLogs',
+          meta: { title: '请求钉钉日志' },
+          component: resolve => require(['../view/logs/ddApiLogs'], resolve),
+        },
       ]
     },
     {
