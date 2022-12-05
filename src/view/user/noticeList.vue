@@ -15,6 +15,7 @@
         <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="getNoticeList()">查询</el-button>
         <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="reset()">重置</el-button>
         <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="showBatchUpdate=true">批量修改</el-button>
+        <el-button style="float:left; width: 200px; height: 36px" type="primary" @click="uploadShow=true">初始化中信保数据</el-button>
       </div>
     </el-row>
     <el-table
@@ -83,6 +84,29 @@
         <el-button type="primary" size="mini" @click="batchUpdate()">修改</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="初始化数据上传" :visible.sync="uploadShow">
+      <el-upload
+        class="upload-demo"
+        ref="upload"
+        action="/ald/notice/upload_notice_info"
+        :data="{}"
+        :multiple="false"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :on-success="uploadDone"
+        :file-list="fileList"
+        :limit="1"
+        :auto-upload="false">
+        <el-button size="small" type="primary">选择文件<i class="el-icon-s-order el-icon--right"></i></el-button>
+        <div slot="tip" class="el-upload__tip">
+          <p class="remark">初始化消息通知数据上传,仅支持xls格式文件上传</p>
+        </div>
+      </el-upload>
+      <div style="height: 10px; margin-top: 5px">
+        <el-button style="float: right" type="primary" size="small" @click="submitUpload">上传文件
+          <i class="el-icon-upload el-icon--right"></i></el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -98,6 +122,8 @@ export default {
       localPage: 1,
       queryType: {'companyName': '', 'userName': ''},
       showBatchUpdate: false,
+      uploadShow: false,
+      fileList: [],
       changeForm: {
         'oldPhone':'',
         'newName': '',
@@ -162,7 +188,26 @@ export default {
         }
       }).catch(res=>{
       })
-    }
+    },
+    handleRemove(file, fileList) {
+    },
+    handlePreview(file) {
+    },
+    uploadDone(response, file, fileList){
+      var that = this;
+      if (response.code === 'ok'){
+        location.reload()
+      }else {
+        that.$message({
+          message: response.data,
+          type: 'warning'
+        });
+      }
+    },
+    submitUpload() {
+      var that = this;
+      that.$refs.upload.submit();
+    },
   }
 }
 </script>
