@@ -15,7 +15,7 @@
         <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="getNoticeList()">查询</el-button>
         <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="reset()">重置</el-button>
         <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="showBatchUpdate=true">批量修改</el-button>
-        <el-button style="float:left; width: 200px; height: 36px" type="primary" @click="uploadShow=true">初始化中信保数据</el-button>
+        <el-button style="float:left; width: 200px; height: 36px" type="primary" @click="uploadShow=true">初始化通知数据</el-button>
       </div>
     </el-row>
     <el-table
