@@ -121,13 +121,17 @@
           offset="10"
           width="300"
           trigger="hover"
-          content="填写备注（跳过拦截的理由）后点击“确认提交申请”，将申请提交至OA系统审批，OA审批通过后，系统将跳过拦截">
+          content="申请原因（跳过拦截的理由）后点击“确认提交申请”，将申请提交至OA系统审批，OA审批通过后，系统将跳过拦截">
           <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
         </el-popover>
       </div>
       <el-form>
-        <el-form-item label="备注信息" prop="info" :label-width="formLabelWidth">
-          <el-input v-model="addForm.remark"></el-input>
+        <el-form-item label="申请原因" prop="info" :label-width="formLabelWidth">
+          <el-input
+            v-model="addForm.remark"
+            type="textarea"
+            :autosize="{ minRows: 3}"
+            placeholder="请输入申请原因"></el-input>
         </el-form-item>
       </el-form>
       <div style="text-align: right">

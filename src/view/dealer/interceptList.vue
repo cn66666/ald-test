@@ -86,7 +86,7 @@
       </el-pagination>
     </div>
 
-    <el-dialog :visible.sync="showForm" width="30%">
+    <el-dialog :visible.sync="showForm" width="40%">
       <div slot="title">
         <span>申请解除拦截</span>
         <el-popover
@@ -100,8 +100,12 @@
         </el-popover>
       </div>
       <el-form>
-        <el-form-item label="备注信息" prop="info" label-width="150px">
-          <el-input v-model="addForm.remark" style="width: 70%"></el-input>
+        <el-form-item label="申请原因" prop="info" label-width="150px">
+          <el-input
+            v-model="addForm.remark"
+            type="textarea"
+            :autosize="{ minRows: 3}"
+            placeholder="请输入申请原因" style="width: 70%"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

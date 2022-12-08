@@ -371,7 +371,7 @@
         </el-tab-pane>
       </el-tabs>
     </div>
-    <el-dialog title="进行特批额度" :visible.sync="showSpecialForm" width="30%">
+    <el-dialog title="进行特批额度" :visible.sync="showSpecialForm" width="40%">
       <el-form>
         <el-form-item label="特批额度" label-width="150px">
           <el-input v-model="addSpecialForm.special_quota" style="width: 70%">
@@ -397,16 +397,12 @@
             <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
           </el-popover>
         </el-form-item>
-        <el-form-item label="备注信息" prop="info" label-width="150px">
-          <el-input v-model="addSpecialForm.remark" style="width: 70%"></el-input>
-          <el-popover
-            placement="top-start"
-            offset="10"
-            width="200"
-            trigger="hover"
-            content="申请理由">
-            <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
-          </el-popover>
+        <el-form-item label="申请原因" prop="info" label-width="150px">
+          <el-input
+            v-model="addSpecialForm.remark"
+            type="textarea"
+            :autosize="{ minRows: 3}"
+            placeholder="请输入申请原因" style="width: 70%"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -422,7 +418,7 @@
         </el-popover>
       </div>
     </el-dialog>
-    <el-dialog title="更改逾期特批" :visible.sync="showOverdueForm" width="30%">
+    <el-dialog title="更改逾期特批" :visible.sync="showOverdueForm" width="40%">
       <el-form>
         <el-form-item label="发票逾期校验" label-width="150px">
           <el-select v-model="addOverdueForm.isSkip" placeholder="请选择" style="width: 70%" @change="chooseisSkipFunction()">
@@ -485,16 +481,12 @@
             <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
           </el-popover>
         </el-form-item>
-        <el-form-item label="备注" label-width="150px">
-          <el-input v-model="addOverdueForm.remark"  style="width: 70%"></el-input>
-          <el-popover
-            placement="top-start"
-            offset="10"
-            width="200"
-            trigger="hover"
-            content="申请理由">
-            <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
-          </el-popover>
+        <el-form-item label="申请原因" label-width="150px">
+          <el-input
+            v-model="addOverdueForm.remark"
+            type="textarea"
+            :autosize="{ minRows: 3}"
+            placeholder="请输入申请原因" style="width: 70%"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -511,7 +503,7 @@
         </el-popover>
       </div>
     </el-dialog>
-    <el-dialog title="进行账期调整" :visible.sync="showQuotaDayForm" width="30%">
+    <el-dialog title="进行账期调整" :visible.sync="showQuotaDayForm" width="40%">
       <el-form>
         <el-form-item label="ERP账期" label-width="150px">
           <el-input v-model="quotaDayInfo.erpDay" :disabled="change" style="width: 70%"></el-input>
@@ -553,16 +545,12 @@
             <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
           </el-popover>
         </el-form-item>
-        <el-form-item label="备注" label-width="150px">
-          <el-input v-model="quotaDayInfo.remark"  style="width: 70%"></el-input>
-          <el-popover
-            placement="top-start"
-            offset="10"
-            width="200"
-            trigger="hover"
-            content="申请理由">
-            <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
-          </el-popover>
+        <el-form-item label="申请原因" label-width="150px">
+          <el-input
+            v-model="quotaDayInfo.remark"
+            type="textarea"
+            :autosize="{ minRows: 3}"
+            placeholder="请输入申请原因" style="width: 70%"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
