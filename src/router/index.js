@@ -21,7 +21,7 @@ export default new Router({
         {
           path: '/admin',
           name: 'admin',
-          component: resolve => require(['../view/admin'], resolve),
+          component: resolve => require(['../view/admin/admin'], resolve),
         },
         {
           path: '/admin/user/userList',
@@ -269,6 +269,114 @@ export default new Router({
           meta: { title: '监控日志' },
           component: resolve => require(['../view/logs/controlLogs'], resolve),
         },
+        {
+          path: '/admin/dealer/dealerPublicList',
+          name: 'dealerPublicList',
+          meta: { title: '公开信息查询' },
+          component: resolve => require(['../view/dealer/dealerPublicList'], resolve),
+        },
+        {
+          path: '/admin/dealer/dealerPublicReport',
+          name: 'dealerPublicReport',
+          meta: { title: '公开信息报告' },
+          component: resolve => require(['../view/dealer/dealerPublicReport'], resolve),
+        },
+        {
+          path: '/admin/dealer/exportInfoList',
+          name: 'exportInfoList',
+          meta: { title: '出口客户信息列表' },
+          component: resolve => require(['../view/dealer/exportInfoList'], resolve),
+        },
+        {
+          path: '/admin/dealer/dealerOperLogs',
+          name: 'dealerOperLogs',
+          meta: { title: '用户操作日志' },
+          component: resolve => require(['../view/dealer/dealerOperLogs'], resolve),
+        },
+        {
+          path: '/admin/dealer/payDaySetting',
+          name: 'payDaySetting',
+          meta: { title: '账期天数配置' },
+          component: resolve => require(['../view/dealer/payDaySetting'], resolve),
+        },
+        {
+          path: '/admin/user/noticeList',
+          name: 'noticeList',
+          meta: { title: '通知列表' },
+          component: resolve => require(['../view/user/noticeList'], resolve),
+        },
+        {
+          path: '/admin/user/noticeUserConfig',
+          name: 'noticeUserConfig',
+          meta: { title: '负责人配置' },
+          component: resolve => require(['../view/user/noticeUserConfig'], resolve),
+        },
+        {
+          path: '/admin/user/businessNoticeConfig',
+          name: 'businessNoticeConfig',
+          meta: { title: '业务负责人通知配置' },
+          component: resolve => require(['../view/user/businessNoticeConfig'], resolve),
+        },
+        {
+          path: '/admin/user/orderNoticeConfig',
+          name: 'orderNoticeConfig',
+          meta: { title: '跟单负责人通知配置' },
+          component: resolve => require(['../view/user/orderNoticeConfig'], resolve),
+        },
+        {
+          path: '/admin/dealer/changeQuotaDay',
+          name: 'changeQuotaDay',
+          meta: { title: '客户账期调整' },
+          component: resolve => require(['../view/dealer/changeQuotaDay'], resolve),
+        },
+        {
+          path: '/admin/dealer/dealerOverdueSkip',
+          name: 'dealerOverdueSkip',
+          meta: { title: '客户逾期特批' },
+          component: resolve => require(['../view/dealer/dealerOverdueSkip'], resolve),
+        },
+        {
+          path: '/admin/business/orderInvoiceList',
+          name: 'orderInvoiceList',
+          meta: { title: '客户回款情况' },
+          component: resolve => require(['../view/business/orderInvoiceList'], resolve),
+        },
+        {
+          path: '/admin/user/dailyNoticeConfig',
+          name: 'dailyNoticeConfig',
+          meta: { title: '客户日报配置' },
+          component: resolve => require(['../view/user/dailyNoticeConfig'], resolve),
+        },
+        {
+          path: '/admin/business/orderFulfilList',
+          name: 'orderFulfilList',
+          meta: { title: '客户发货情况' },
+          component: resolve => require(['../view/business/orderFulfilList'], resolve),
+        },
+        {
+          path: '/admin/user/noticeLogList',
+          name: 'noticeLogList',
+          meta: { title: '客户消息通知日志' },
+          component: resolve => require(['../view/user/noticeLogList'], resolve),
+        },
+        {
+          path: '/admin/dealer/oaApplyList',
+          name: 'oaApplyList',
+          meta: { title: 'OA审批清单' },
+          component: resolve => require(['../view/dealer/oaApplyList'], resolve),
+        },
+        {
+          path: '/admin/logs/oaApiLogs',
+          name: 'oaApiLogs',
+          meta: { title: '请求OA日志' },
+          component: resolve => require(['../view/logs/oaApiLogs'], resolve),
+        },
+        {
+          path: '/admin/logs/ddApiLogs',
+          name: 'ddApiLogs',
+          meta: { title: '请求钉钉日志' },
+          component: resolve => require(['../view/logs/ddApiLogs'], resolve),
+        },
       ]
     },
     {
@@ -282,6 +390,12 @@ export default new Router({
       component: resolve => require(['../view/login'], resolve),
     },
     {
+      path: '/dailyNotice/report',
+      name: 'report',
+      meta: { title: '信用评级系统-客户日报' },
+      component: resolve => require(['../view/dailyNotice/report'], resolve),
+    },
+    {
       path: '/xingyun/upload',
       name: 'upload',
       component: resolve => require(['../view/upload'], resolve),
@@ -289,5 +403,5 @@ export default new Router({
         title: '行云数据采集',
         icon: '/static/xingyun.ico'
       }
-    }]
+    },]
 })

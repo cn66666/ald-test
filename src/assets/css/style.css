@@ -1,0 +1,101 @@
+.sub-header{
+  height: 50px;
+  background: #FFFFFF;
+  box-shadow: 0px 2px 6px 0px #EAF3FC;
+  margin: 0 -10px 20px;
+}
+.sub-header .sub-box{
+  max-width: 1040px;
+  padding: 0 40px;
+  margin: 0 auto;
+}
+.sub-header .logo{
+  background: url('/static/logo-index.png') no-repeat;
+  background-size: 100% 100%;
+  padding: 32px 0 0 79px;
+  display: inline-block;
+  margin: 9px 0 0;
+}
+
+/* 表格样式 */
+.el-table--border th.el-table__cell{
+    padding: 8px 0;
+    background: #F9FAFB;
+    color: #4B5063;
+}
+.el-table--border .el-table__cell{
+   padding: 8px 0;
+}
+.el-table .cell{
+  padding: 0 20px;
+}
+.el-table th.el-table__cell>.cell,
+.el-table--border .el-table__cell:first-child .cell{
+  padding: 0 20px;
+}
+/**
+改变边框颜色
+ */
+ .el-table--border, .el-table--group {
+  border-top: 1px solid #F5F6F8;
+  border-left: 1px solid #F5F6F8;
+}
+/**
+改变表格内竖线颜色
+*/
+.el-table--border  td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
+  border-right: 1px solid #F5F6F8!important;
+}
+.el-table--border::after, .el-table--group::after, .el-table::before{
+  background-color: #F5F6F8;
+}
+/**
+改变表格内行线颜色
+*/
+.el-table  td, .el-table th.is-leaf  {
+  border-bottom: 1px solid #F5F6F8!important;
+}
+
+.el-table thead tr th{
+  border-color: #F5F6F8;
+}
+
+
+.el-submenu__title{
+  line-height: 40px;
+  height: 40px;
+  font-weight: 500;
+  margin:10px 0;
+  color: #787A8E;
+}
+.el-menu-item-group__title{
+    display: none!important;
+}
+.el-submenu__title:hover::before,
+.el-submenu__title.is-active::before{
+    position: absolute;
+    left: 0;
+    top: 0px;
+    content: "";
+    width: 4px;
+    height: 40px;
+    background: #2E69FF;
+    display: block;
+}
+.el-submenu__icon-arrow{
+  position: absolute;
+  top: 24px;
+  right: 36px;
+  content: "";
+  display: block;
+  width: 4px;
+  height: 4px;
+  border: 2px solid #787a8e;
+  border-left: 0;
+  border-bottom: 0;
+  transform: rotate(45deg);
+  font-size: 0;
+}
+.el-submenu.is-opened>.el-submenu__title .el-submenu__icon-arrow{
+  transform: rotate(135deg);
+}

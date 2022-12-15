@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="票据详情" style="margin: 1%">
+    <el-page-header @back="goBack" content="票据详情" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-table
       :data="invoiceList"
@@ -51,7 +51,7 @@
         label="结算日期">
       </el-table-column>
     </el-table>
-    <div style="float: right;margin-top: 23px;margin-right: 79px;">
+    <div style="text-align: right;margin-top: 23px;margin-right: 79px;">
       <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
                      layout="prev, pager, next" :page-count="total">
       </el-pagination>
@@ -96,7 +96,7 @@ export default {
     },
     getOrderInvoiceListList: function (){
       var that = this;
-      that.axios.post('/ald/business/order_invoice_list', {'orderId': that.orderId, 'page': that.localPage}).then(res=>{
+      that.axios.post('/ald/business/invoice_list', {'orderId': that.orderId, 'page': that.localPage}).then(res=>{
         if (res.data.code=='ok'){
           that.invoiceList = res.data.data.data_list;
           that.total = res.data.data.total

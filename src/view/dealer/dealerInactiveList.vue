@@ -1,6 +1,31 @@
 <template>
   <div>
+    <el-row class="filter_row">
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="客户名称" v-model="queryType.companyName">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-date-picker v-model="queryType.startDate" style="width: 200px; float:left;"
+                        type="date"
+                        placeholder="起始注销日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-date-picker v-model="queryType.endDate" style="width: 200px; float:left;"
+                        type="date"
+                        placeholder="截止注销日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="getInactiveList()">查询</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="reset()">重置</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="download()">下载excel</el-button>
+      </div>
+
+    </el-row>
     <el-table
+      class="info_table"
       :data="quotaList"
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
@@ -27,29 +52,24 @@
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <push-function-btn btn-name="查看额度变更" btn-type="replace" size="mini"
-                             check-btn="showQuotaLog" check-role="quotaList" url="/admin/dealer/quotaLogs"
-                             params-key='dealerId' :params-value='scope.row.id'></push-function-btn>
+          <noPermissionBtn btn-name="查看额度变更" btn-type="replace" size="mini" url="/admin/dealer/quotaLogs"
+                             params-key='dealerId' :params-value='scope.row.id'></noPermissionBtn>
 
-          <push-function-btn btn-name="查看滞纳金变更" btn-type="replace" size="mini"
-                             check-btn="showOverdueLog" check-role="dealerOverdueList" url="/admin/business/overdueLogs"
-                             params-key='dealerId' :params-value='scope.row.id'></push-function-btn>
+          <noPermissionBtn btn-name="查看滞纳金变更" btn-type="replace" size="mini" url="/admin/business/overdueLogs"
+                             params-key='dealerId' :params-value='scope.row.id'></noPermissionBtn>
 
-          <push-function-btn btn-name="查看发票逾期" btn-type="replace" size="mini"
-                             check-btn="showInvoiceOverdueLog" check-role="dealerOverdueList" url="/admin/business/invoiceOverdueLogs"
-                             params-key='dealerId' :params-value='scope.row.id'></push-function-btn>
+          <noPermissionBtn btn-name="查看发票逾期" btn-type="replace" size="mini" url="/admin/business/invoiceOverdueLogs"
+                             params-key='dealerId' :params-value='scope.row.id'></noPermissionBtn>
 
-          <push-function-btn btn-name="查看销售单状态" btn-type="replace" size="mini"
-                             check-btn="showInactiveOrderInfo" check-role="orderInfoList" url="/admin/business/inactiveOrderInfoList"
-                             params-key='dealerId' :params-value='scope.row.id'></push-function-btn>
+          <noPermissionBtn btn-name="查看销售单状态" btn-type="replace" size="mini" url="/admin/business/inactiveOrderInfoList"
+                             params-key='dealerId' :params-value='scope.row.id'></noPermissionBtn>
 
-          <push-function-btn btn-name="查看履行单通过清单" btn-type="replace" size="mini"
-                             check-btn="showInactiveFulfilInfo" check-role="fulfilList" url="/admin/business/inactiveFulfilList"
-                             params-key='dealerId' :params-value='scope.row.id'></push-function-btn>
+          <noPermissionBtn btn-name="查看履行单通过清单" btn-type="replace" size="mini" url="/admin/business/inactiveFulfilList"
+                             params-key='dealerId' :params-value='scope.row.id'></noPermissionBtn>
         </template>
       </el-table-column>
     </el-table>
-    <div style="float: right;margin-top: 23px;margin-right: 79px;">
+    <div style="text-align: right;margin-top: 23px;margin-right: 79px;">
       <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
                      layout="prev, pager, next" :page-count="total">
       </el-pagination>
@@ -58,11 +78,11 @@
 </template>
 
 <script>
-import PushFunctionBtn from "../../components/pushFunctionBtn";
+import noPermissionBtn from "../../components/noPermissionBtn";
 import {Message} from "element-ui";
 export default {
   name: "quotaList",
-  components: {PushFunctionBtn},
+  components: {noPermissionBtn},
   data() {
     return {
       quotaList: [],
@@ -74,20 +94,23 @@ export default {
       interceptDealerId: null,
       showChangeDate: false,
       dealerId: null,
-      changeDate: ''
+      changeDate: '',
+      queryType: {},
     }
   },
   mounted() {
-    this.getQuotaList()
+    var that = this;
+    that.getInactiveList()
   },
   methods: {
     handleCurrentChange(val) {
-      this.localPage = val;
-      this.getQuotaList();
-    },
-    getQuotaList: function (){
       var that = this;
-      that.axios.post('/ald/dealer/inactive_list', {'page': that.localPage,}).then(res=>{
+      that.localPage = val;
+      that.getInactiveList();
+    },
+    getInactiveList: function (){
+      var that = this;
+      that.axios.post('/ald/dealer/inactive_list', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
         if (res.data.code=='ok'){
           that.quotaList = res.data.data.data_list;
           that.total = res.data.data.total
@@ -95,10 +118,34 @@ export default {
       }).catch(res=>{
       })
     },
+    reset: function () {
+      location.reload()
+    },
+    download: function (){
+      var that = this;
+      var data = 'data=' + JSON.stringify(that.queryType);
+      var now = that.$utils.getNowDate()
+      var file_name = '客户注销清单' + now + '.xls'
+      that.axios({
+        method: "get",
+        url: '/ald/downloads/dealerInactiveList?' + data + '&timestamp=' + new Date().getTime(),
+        responseType: 'blob'
+      }).then((res) => {
+        let blob = new Blob([res.data])
+        let objectUrl = URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = objectUrl;
+        link.setAttribute("download", file_name);
+        document.body.appendChild(link);
+        link.click();
+      })
+    },
   }
 }
 </script>
 
 <style scoped>
-
+>>> .el-input__inner{
+  height: 36px;
+}
 </style>

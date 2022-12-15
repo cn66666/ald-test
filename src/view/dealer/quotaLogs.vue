@@ -1,34 +1,46 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="额度变更详情" style="margin: 1%">
-    </el-page-header>
     <el-row class="filter_row">
-      <el-date-picker
-        v-model="info.query_date"
-        type="daterange"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期" @change="getQuotaLogs" value-format="yyyy-MM-dd">
-      </el-date-picker>
-      <el-select v-model="info.state_code" placeholder="请选择变更类型" @change="getQuotaLogs">
-        <el-option
-          v-for="item in stateCodeOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-select v-model="info.change_type" placeholder="请选择单据类型" @change="getQuotaLogs">
-        <el-option
-          v-for="item in changeTypeOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-input v-model="info.change_code" placeholder="请输入单据号" style="width: 200px" @input="getQuotaLogs"></el-input>
-      <el-button type="primary" @click="downloadQuotaLogs()">下载excel</el-button>
-      <el-button type="primary" @click="showAddLog=true">手动添加变更记录</el-button>
+      <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 3px; ">
+        <el-select v-model="queryType.state_code" placeholder="请选择变更类型">
+          <el-option
+            v-for="item in stateCodeOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value" style="width: 200px">
+          </el-option>
+        </el-select>
+      </div>
+      <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 3px; ">
+        <el-select v-model="queryType.change_type" placeholder="请选择单据类型">
+          <el-option
+            v-for="item in changeTypeOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value" style="width: 200px">
+          </el-option>
+        </el-select>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-date-picker v-model="queryType.startDate" style="width: 200px; float:left;"
+                        type="date"
+                        placeholder="最早发生日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
+        <el-date-picker v-model="queryType.endDate" style="width: 200px; float:left;"
+                        type="date"
+                        placeholder="最晚发生日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input v-model="queryType.change_code" placeholder="请输入单据号" style="width: 200px"></el-input>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-button style="width: 100px;height: 36px" type="primary" @click="getQuotaLogs()">查询</el-button>
+        <el-button style="height: 36px;width: 100px" type="primary" @click="reset()">重置</el-button>
+        <el-button type="primary" style="height: 36px;width: 130px" @click="download()">下载excel</el-button>
+        <el-button type="primary" style="height: 36px;width: 150px" @click="showAddLog=true">手动添加变更记录</el-button>
+      </div>
     </el-row>
     <el-table
       class="info_table"
@@ -73,7 +85,7 @@
         label="变更信息">
       </el-table-column>
     </el-table>
-    <div style="float: right;margin-top: 23px;margin-right: 79px;">
+    <div style="text-align: right;margin-top: 23px;margin-right: 79px;">
       <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
                      layout="prev, pager, next" :page-count="total">
       </el-pagination>
@@ -118,7 +130,7 @@ export default {
       tableData: [],
       total: 0,
       localPage: 1,
-      info: {'state_code': null, 'dealer_id': null, 'change_type': null, 'query_date': null, 'change_code': null},
+      queryType: {'state_code': null, 'dealer_id': null, 'change_type': null, 'startDate': null, 'endDate': null, 'change_code': null},
       showInfo: false,
       stateCodeOptions: [{
         value: '',
@@ -165,7 +177,7 @@ export default {
   },
   mounted() {
     var that = this;
-    that.info.dealer_id = this.$route.query.dealerId;
+    that.queryType.dealer_id = this.$route.query.dealerId;
     that.addForm.dealerId = this.$route.query.dealerId;
     this.getQuotaLogs()
   },
@@ -173,46 +185,38 @@ export default {
     goBack() {
       this.$router.go(-1)
     },
+    reset: function () {
+      location.reload()
+    },
     handleCurrentChange(val) {
       this.localPage = val;
       this.getQuotaLogs();
     },
     getQuotaLogs: function (){
       var that = this;
-      that.axios.post('/ald/logs/quota_logs', {'page': that.localPage, 'info': that.info}).then(res=>{
-        if (res.data.code=='ok'){
+      that.axios.post('/ald/logs/quota_logs', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
+        if (res.data.code==='ok'){
           that.tableData = res.data.data.data_list;
           that.total = res.data.data.total
         }
       }).catch(res=>{
       })
     },
-    downloadQuotaLogs: function (){
+    download: function (){
       var that = this;
-      var data = 'dealer_id=' + that.info.dealer_id;
-      if (that.info.state_code != null){
-        data += '&state_code=' + that.info.state_code
-      }
-      if (that.info.change_type != null){
-        data += '&change_type=' + that.info.change_type
-      }
-      if (that.info.change_code != null){
-        data += '&change_code=' + that.info.change_code
-      }
-      if (that.info.query_date != null){
-        data += '&start_date=' + that.info.query_date[0]
-        data += '&end_date=' + that.info.query_date[1]
-      }
-      this.axios({
+      var data = 'data=' + JSON.stringify(that.queryType);
+      var now = that.$utils.getNowDate()
+      var file_name = '客户额度变更详情' + now + '.xls'
+      that.axios({
         method: "get",
-        url: '/ald/logs/download_quota_logs?' + data,
+        url: '/ald/downloads/quotaLogs?' + data + '&timestamp=' + new Date().getTime(),
         responseType: 'blob'
       }).then((res) => {
         let blob = new Blob([res.data])
         let objectUrl = URL.createObjectURL(blob);
         let link = document.createElement("a");
         link.href = objectUrl;
-        link.setAttribute("download", '额度变更详情.xls');
+        link.setAttribute("download", file_name);
         document.body.appendChild(link);
         link.click();
       })
@@ -222,5 +226,7 @@ export default {
 </script>
 
 <style scoped>
-
+>>> .el-input__inner{
+  height: 36px;
+}
 </style>

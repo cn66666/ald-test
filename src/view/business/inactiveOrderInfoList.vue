@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack" content="销售单状态" style="margin: 1%">
+    <el-page-header @back="goBack" content="销售单状态" style="padding-left: 15px; padding-top: 15px">
     </el-page-header>
     <el-table
       class="info_table"
@@ -37,7 +37,7 @@
         label="创建日期">
       </el-table-column>
     </el-table>
-    <div style="float: right;margin-top: 23px;margin-right: 79px;">
+    <div style="text-align: right;margin-top: 23px;margin-right: 79px;">
       <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
                      layout="prev, pager, next" :page-count="total">
       </el-pagination>

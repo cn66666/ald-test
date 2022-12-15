@@ -3,6 +3,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import Vue from 'vue';
 import './assets/css/common.css';
+import './assets/css/style.css';
 import VueAxios from 'vue-axios';
 import axios from 'axios';
 import { Loading, Message,MessageBox} from 'element-ui';
@@ -13,6 +14,7 @@ import utils from "./assets/js/utils";
 import el from "element-ui/src/locale/lang/el";
 import numberFormat from './assets/js/filter'
 import tenNumberFormat from './assets/js/tenFilter'
+import rateNumberFormat from './assets/js/rateFilter'
 
 
 router.beforeEach((to, from, next) => {
@@ -38,6 +40,7 @@ Vue.use(VueAxios,axios,qs,CollapseTransition);
 Vue.prototype.$utils = utils;
 Vue.filter("moneyFormat", numberFormat);
 Vue.filter("tenFormat", tenNumberFormat);
+Vue.filter("rateFormat", rateNumberFormat);
 
 //axios 框架
 axios.defaults.timeout = 60000;//1分钟超时时间
@@ -50,7 +53,7 @@ axios.defaults.paramsSerializer = function(data){
 
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
-  if (config.method == 'post'){
+  if (config.method === 'post'){
     if(localStorage.getItem("token") !== null) {
       config.headers.withCredentials = true
       config.headers.Authorization = localStorage.getItem("token")
@@ -60,11 +63,14 @@ axios.interceptors.request.use(function (config) {
       config.data['userCode'] = localStorage.getItem("userCode")
       return config;
     }else{
+      console.log(config.url)
       if (config.url === "/ald/login"){
         return config
       }else if (config.url === "/xingyun/upload"){
         return config
       }else if (config.url === "/ald/dealer/get_code"){
+        return config
+      }else if (config.url === "/ald/notice/report"){
         return config
       }
       router.push({path:"/login"})

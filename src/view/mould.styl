@@ -1,0 +1,127 @@
+.home-page{
+  background: #fff;
+  min-height: 100%;
+  .el-menu{
+    border-right: 0;
+    .el-menu-item{
+      position relative
+      line-height: 40px;
+      height: 40px;
+      font-weight: 500;
+      margin 10px 0
+      color: #787A8E;
+      &:hover,&:focus{
+          background: #F6F9FE;
+      }
+      &:hover, &.is-active{
+        &::before{
+          position: absolute;
+          left 0
+          top 0px
+          content: "";
+          width: 4px;
+          height: 40px;
+          background: #2E69FF;
+          display: block;
+        }
+      }
+      // .menu{
+      //   position relative
+      //   ::after{
+      //     position: absolute;
+      //     top: 18px;
+      //     right: 36px;
+      //     content: "";
+      //     display: block;
+      //     width: 4px;
+      //     height: 4px;
+      //     border: 2px solid #787a8e;
+      //     border-left: 0;
+      //     border-bottom: 0;
+      //     transform: rotate(45deg);
+      //   }
+      // }
+    }
+    .icon{
+      width 16px
+      height 16px
+      display: inline-block;
+      margin 0 8px 0 20px;
+    }
+    .icon01{
+        background: url(../../static/icon01.png) center center no-repeat;
+    }
+    .icon02{
+        background: url(../../static/icon02.png) center center no-repeat;
+    }
+    .icon03{
+        background: url(../../static/icon03.png) center center no-repeat;
+    }
+    .icon04{
+        background: url(../../static/icon04.png) center center no-repeat;
+    }
+    .icon05{
+        background: url(../../static/icon05.png) center center no-repeat;
+    }
+  }
+  .el-submenu .el-menu-item{
+    line-height: 28px;
+    height: 28px;
+    margin-left: 12px;
+    text-align: left;
+    min-width: 180px;
+    &::before{
+      display: none!important;
+    }
+  }
+  .logo{
+    width: 109px;
+    height: 44px;
+    display: block;
+    margin: 24px auto;
+  }
+  .el-header{
+    height: 50px!important;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 6px 0px #EAF3FC;
+    padding 0 34px
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    .name{
+      color: #4C5061;
+      line-height: 28px;
+      border-right: 1px solid #E9EBF2;
+      padding: 0 20px 0 0;
+      margin: 0 20px 0 0;
+      font-size: 14px;
+    }
+    .el-dropdown{
+      color: #4C5061;
+      line-height: 14px;
+      .el-avatar{
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        vertical-align: middle;
+      }
+      .text{
+        width 64px;
+        font-size: 12px;
+        display: inline-block;
+        vertical-align: middle;
+        letter-spacing: 0.43px;
+      }
+      .el-icon--right{
+        vertical-align: middle;
+      }
+    }
+  }
+  .container{
+    background: #F6F9FE;
+    .page{
+      background: #fff;
+      min-height: calc(100vh - 150px)
+    }
+  }
+}
