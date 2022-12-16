@@ -66,8 +66,7 @@
         prop=""
         label="操作">
         <template slot-scope="scope">
-<!--          <el-button type="primary" size="mini" @click="skipIntercept(scope.row.dealer_id)" :disabled="scope.row.oa_apply">申请解除拦截</el-button>-->
-          <el-button type="primary" size="mini" @click="skipIntercept(scope.row.dealer_id)" :disabled="true">申请解除拦截</el-button>
+          <el-button type="primary" size="mini" @click="skipIntercept(scope.row.dealer_id)" :disabled="scope.row.oa_apply">申请解除拦截</el-button>
 
           <el-popover
             placement="top-start"

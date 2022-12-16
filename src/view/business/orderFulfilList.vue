@@ -118,7 +118,6 @@
       <el-form>
         <el-table
           class="info_table"
-          :span-method="objectSpanMethod"
           :data="goodsList"
           style="width: 98%; margin: 0 1%">
           <el-table-column
