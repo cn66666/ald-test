@@ -80,8 +80,11 @@
           <noPermissionBtn v-if="scope.row.state_code === 'intercept'" btn-name="拦截原因" btn-type="function" size="mini" :check-function='showInterceptFunction'
                              params-key='dealerId' :params-value='scope.row.dealer_id'></noPermissionBtn>
 
+<!--          <el-button type="primary" size="mini" v-if="scope.row.state_code === 'intercept'"-->
+<!--                     @click="showApplyInterceptFunction(scope.row.dealer_id)" :disabled="scope.row.oa_apply">申请跳过拦截</el-button>-->
+
           <el-button type="primary" size="mini" v-if="scope.row.state_code === 'intercept'"
-                     @click="showApplyInterceptFunction(scope.row.dealer_id)" :disabled="scope.row.oa_apply">申请跳过拦截</el-button>
+                     @click="showApplyInterceptFunction(scope.row.dealer_id)" :disabled="true">申请跳过拦截</el-button>
 
           <noPermissionBtn v-if="scope.row.state_code === 'add'" btn-name="前往数据采集页面" btn-type="replace_new" url="/xingyun/upload"  size="mini"
                              params-key='code' :params-value='scope.row.code' check-role="applyList"></noPermissionBtn>
