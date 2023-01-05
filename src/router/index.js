@@ -377,6 +377,12 @@ export default new Router({
           meta: { title: '请求钉钉日志' },
           component: resolve => require(['../view/logs/ddApiLogs'], resolve),
         },
+        {
+          path: '/admin/logs/tycRequestLogs',
+          name: 'tycRequestLogs',
+          meta: { title: '天眼查请求日志' },
+          component: resolve => require(['../view/logs/tycRequestLogs'], resolve),
+        },
       ]
     },
     {

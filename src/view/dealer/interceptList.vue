@@ -157,7 +157,6 @@ export default {
 
     skipIntercept: function (dealerId){
       var that = this;
-      console.log(dealerId)
       that.addForm.dealerId = dealerId
       that.addForm.remark = ''
       that.showForm = true
