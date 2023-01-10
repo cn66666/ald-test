@@ -102,7 +102,7 @@ export default {
     },
     open() {
       var that = this;
-      var message = '客户不存在';
+      var message = '客户不存在或报告生成错误';
       var title = '公开信息查询失败'
       that.$alert(message, title, {
         confirmButtonText: '关闭',
