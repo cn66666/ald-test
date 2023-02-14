@@ -22,11 +22,11 @@
           offset="10"
           width="200"
           trigger="hover"
-          content="客户分类选择为出口客户时，需要填写相关的中信保数据">
+          content="客户分类选择为出口客户时，需要填写相关的保险数据">
           <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
         </el-popover>
         <div v-show="showExport" style="float: left; margin-left: 10px">
-          <el-button type="text" @click="showZxbForm=true">填写中信保数据</el-button>
+          <el-button type="text" @click="showZxbForm=true">填写保险数据</el-button>
         </div>
       </el-form-item>
       <el-form-item label="合作起始时间" prop="coopDate" style="width: 50%">
@@ -68,13 +68,13 @@
 
     <el-dialog :visible.sync="showZxbForm">
       <div slot="title" class="dialog-title">
-        <span>中信保数据补充</span>
+        <span>保险数据补充</span>
         <el-popover
           placement="top-start"
           offset="10"
           width="300"
           trigger="hover"
-          content="中信保数据来源为中信保官网，出口客户必须填写所有中信保数据，否则不可进行额度申请">
+          content="中信保/人保数据来源为中信保或人保官网，出口客户必须填写相关中信保/人保的数据，否则不可进行额度申请">
           <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
         </el-popover>
       </div>

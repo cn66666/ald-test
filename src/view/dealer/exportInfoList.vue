@@ -2,7 +2,7 @@
   <div>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-button type="primary" @click="uploadShow=true">上传中信保数据</el-button>
+        <el-button type="primary" @click="uploadShow=true">上传中信保/人保数据</el-button>
       </div>
     </el-row>
     <el-table
@@ -82,7 +82,7 @@
       </el-pagination>
     </div>
 
-    <el-dialog title="中信保数据上传" :visible.sync="uploadShow">
+    <el-dialog title="保险数据上传" :visible.sync="uploadShow">
       <el-upload
         class="upload-demo"
         ref="upload"
@@ -97,7 +97,7 @@
         :auto-upload="false">
         <el-button size="small" type="primary">选择文件<i class="el-icon-s-order el-icon--right"></i></el-button>
         <div slot="tip" class="el-upload__tip">
-          <p class="remark">中信保导出数据上传,仅支持xls格式文件上传</p>
+          <p class="remark">保险导出数据上传,仅支持xls格式文件上传</p>
         </div>
       </el-upload>
       <div style="height: 10px; margin-top: 5px">
