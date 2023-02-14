@@ -21,6 +21,10 @@
         label="客户名称">
       </el-table-column>
       <el-table-column
+        prop="file_type"
+        label="保险类型">
+      </el-table-column>
+      <el-table-column
         prop="country"
         label="国家/地区">
       </el-table-column>
