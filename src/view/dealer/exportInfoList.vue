@@ -76,7 +76,7 @@
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="showUpdate(scope.row.company_name, scope.row.company_code)">编辑erp编号</el-button>
+          <el-button type="primary" size="mini" @click="showUpdate(scope.row.company_name, scope.row.company_code, scope.row.file_type)">编辑erp编号</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -139,7 +139,8 @@ export default {
       showUpdateCode: false,
       updateForm:{
         companyName: null,
-        erpCode: ''
+        erpCode: '',
+        fileType: ''
       }
     }
   },
@@ -182,10 +183,11 @@ export default {
       var that = this;
       that.$refs.upload.submit();
     },
-    showUpdate(companyName, erpCode){
+    showUpdate(companyName, erpCode, file_type){
       var that = this;
       that.updateForm.companyName = companyName
       that.updateForm.erpCode = erpCode
+      that.updateForm.fileType = file_type
       that.showUpdateCode = true
     },
     updateDealerErpCode(){
