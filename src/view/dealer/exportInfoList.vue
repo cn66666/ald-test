@@ -2,7 +2,7 @@
   <div>
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-button type="primary" @click="uploadShow=true">上传中信保数据</el-button>
+        <el-button type="primary" @click="uploadShow=true">上传中信保/人保数据</el-button>
       </div>
     </el-row>
     <el-table
@@ -19,6 +19,10 @@
       <el-table-column
         prop="company_name"
         label="客户名称">
+      </el-table-column>
+      <el-table-column
+        prop="file_type"
+        label="保险类型">
       </el-table-column>
       <el-table-column
         prop="country"
@@ -72,7 +76,7 @@
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="showUpdate(scope.row.company_name, scope.row.company_code)">编辑erp编号</el-button>
+          <el-button type="primary" size="mini" @click="showUpdate(scope.row.company_name, scope.row.company_code, scope.row.file_type)">编辑erp编号</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -82,7 +86,7 @@
       </el-pagination>
     </div>
 
-    <el-dialog title="中信保数据上传" :visible.sync="uploadShow">
+    <el-dialog title="保险数据上传" :visible.sync="uploadShow">
       <el-upload
         class="upload-demo"
         ref="upload"
@@ -97,7 +101,7 @@
         :auto-upload="false">
         <el-button size="small" type="primary">选择文件<i class="el-icon-s-order el-icon--right"></i></el-button>
         <div slot="tip" class="el-upload__tip">
-          <p class="remark">中信保导出数据上传,仅支持xls格式文件上传</p>
+          <p class="remark">保险导出数据上传,仅支持xls格式文件上传</p>
         </div>
       </el-upload>
       <div style="height: 10px; margin-top: 5px">
@@ -135,7 +139,8 @@ export default {
       showUpdateCode: false,
       updateForm:{
         companyName: null,
-        erpCode: ''
+        erpCode: '',
+        fileType: ''
       }
     }
   },
@@ -178,10 +183,11 @@ export default {
       var that = this;
       that.$refs.upload.submit();
     },
-    showUpdate(companyName, erpCode){
+    showUpdate(companyName, erpCode, file_type){
       var that = this;
       that.updateForm.companyName = companyName
       that.updateForm.erpCode = erpCode
+      that.updateForm.fileType = file_type
       that.showUpdateCode = true
     },
     updateDealerErpCode(){
