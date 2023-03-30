@@ -383,6 +383,12 @@ export default new Router({
           meta: { title: '天眼查请求日志' },
           component: resolve => require(['../view/logs/tycRequestLogs'], resolve),
         },
+        {
+          path: '/admin/dealer/insureDataList',
+          name: 'insureDataList',
+          meta: { title: '客户保险数据' },
+          component: resolve => require(['../view/dealer/insureDataList'], resolve),
+        },
       ]
     },
     {

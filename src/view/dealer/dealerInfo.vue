@@ -103,53 +103,54 @@
               </template>
               <span>{{dealerInfo.memo}}</span>
             </el-descriptions-item>
-            <el-descriptions-item v-if="dealerInfo.is_export === true">
+            <el-descriptions-item v-if="dealerInfo.insure_info !== null">
               <template slot="label">
                 贸易类型
               </template>
-              出口客户
+              <span v-if="dealerInfo.is_export === true">出口客户</span>
+              <span v-if="dealerInfo.is_export === false">内销客户</span>
             </el-descriptions-item>
-            <el-descriptions-item v-if="dealerInfo.is_export === true">
-              <template slot="label">
-                成立时长
-              </template>
-              {{dealerInfo.export_info.create_year}}
-            </el-descriptions-item>
-            <el-descriptions-item v-if="dealerInfo.is_export === true">
+<!--            <el-descriptions-item v-if="dealerInfo.insure_info !== null">-->
+<!--              <template slot="label">-->
+<!--                成立时长-->
+<!--              </template>-->
+<!--              {{dealerInfo.insure_info.credit_day}}-->
+<!--            </el-descriptions-item>-->
+            <el-descriptions-item v-if="dealerInfo.insure_info !== null">
               <template slot="label">
                 国家
               </template>
-              {{dealerInfo.export_info.country}}
+              {{dealerInfo.insure_info.country}}
             </el-descriptions-item>
-            <el-descriptions-item v-if="dealerInfo.is_export === true">
+            <el-descriptions-item v-if="dealerInfo.insure_info !== null">
               <template slot="label">
                 支付方式
               </template>
-              {{dealerInfo.export_info.pay_type}}
+              {{dealerInfo.insure_info.pay_type}}
             </el-descriptions-item>
-            <el-descriptions-item v-if="dealerInfo.is_export === true">
+            <el-descriptions-item v-if="dealerInfo.insure_info !== null">
               <template slot="label">
                 信用期限
               </template>
-              {{dealerInfo.export_info.credit_day}}
+              {{dealerInfo.insure_info.credit_day}}
             </el-descriptions-item>
-            <el-descriptions-item v-if="dealerInfo.is_export === true">
+            <el-descriptions-item v-if="dealerInfo.insure_info !== null">
               <template slot="label">
                 拒收风险赔偿比例
               </template>
-              {{dealerInfo.export_info.risk_rate}}
+              {{dealerInfo.insure_info.risk_rate}}
             </el-descriptions-item>
-            <el-descriptions-item v-if="dealerInfo.is_export === true">
+            <el-descriptions-item v-if="dealerInfo.insure_info !== null">
               <template slot="label">
                 其他商业风险赔偿比例
               </template>
-              {{dealerInfo.export_info.other_risk_rate}}
+              {{dealerInfo.insure_info.other_risk_rate}}
             </el-descriptions-item>
-            <el-descriptions-item v-if="dealerInfo.is_export === true">
+            <el-descriptions-item v-if="dealerInfo.insure_info !== null">
               <template slot="label">
                 是否存在理赔记录
               </template>
-              {{dealerInfo.export_info.pay_log}}
+              {{dealerInfo.insure_info.pay_log}}
             </el-descriptions-item>
           </el-descriptions>
           <div v-if="dealerInfo.is_delete === false">
@@ -585,7 +586,8 @@ export default {
       dealerInfo: {
         oper_logs: {
           data_list: []
-        }
+        },
+        insure_info: null
       },
       showOverdueForm: false,
       showSpecialForm: false,

@@ -26,7 +26,7 @@
           <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
         </el-popover>
         <div v-show="showExport" style="float: left; margin-left: 10px">
-          <el-button type="text" @click="showZxbForm=true">填写保险数据</el-button>
+          <el-button type="text" @click="showInsureForm=true">填写保险数据</el-button>
         </div>
       </el-form-item>
       <el-form-item label="合作起始时间" prop="coopDate" style="width: 50%">
@@ -66,7 +66,7 @@
       </el-form-item>
     </el-form>
 
-    <el-dialog :visible.sync="showZxbForm">
+    <el-dialog :visible.sync="showInsureForm">
       <div slot="title" class="dialog-title">
         <span>保险数据补充</span>
         <el-popover
@@ -80,7 +80,7 @@
       </div>
       <el-form :model="addForm.exportInfo" :rules="rules" ref="addForm">
         <el-form-item label="批复金额" :label-width="formLabelWidth">
-          <el-input v-model="addForm.exportInfo.exportQuota" :disabled="change" style="width: 250px">
+          <el-input v-model="addForm.exportInfo.insureQuota" :disabled="change" style="width: 250px">
           </el-input>
         </el-form-item>
         <el-form-item label="成立时长" :label-width="formLabelWidth">
@@ -118,7 +118,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label-width="formLabelWidth">
-            <el-button @click="showZxbForm=false" type="primary" size="mini">提交申请</el-button>
+            <el-button @click="showInsureForm=false" type="primary" size="mini">提交申请</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -153,11 +153,11 @@ export default {
     return {
       addBtn: false,
       dealerId: null,
-      showZxbForm: false,
+      showInsureForm: false,
       formLabelWidth: '300px',
       countryList: [],
       payList: ['LC', 'DP', 'DA', 'OA'],
-      isExport: false,
+      isExport: true,
       showExport: false,
       chooseExport: false,
       addForm: {
@@ -177,7 +177,7 @@ export default {
           riskRate: 0,
           otherRiskRate: 0,
           payLog: '',
-          exportQuota: 0,
+          insureQuota: 0,
         }
       },
       change: false,
@@ -213,18 +213,18 @@ export default {
           that.addForm.saleMoney = res.data.data.sale_money;
           that.addForm.companyType = res.data.data.company_type;
           that.addForm.quotaType = '新客户';
-          if (res.data.data.export_info.country){
-            that.isExport = true;
+          if (that.addForm.companyType === '出口客户'){
             that.showExport = true
             that.chooseExport = true
             that.addForm.quotaType = '老客户';
-            that.addForm.companyType = '出口客户';
-            that.addForm.exportInfo.country = res.data.data.export_info.country;
-            that.addForm.exportInfo.payType = res.data.data.export_info.payType;
-            that.addForm.exportInfo.creditDay = res.data.data.export_info.creditDay;
-            that.addForm.exportInfo.riskRate = res.data.data.export_info.riskRate;
-            that.addForm.exportInfo.otherRiskRate = res.data.data.export_info.otherRiskRate;
-            that.addForm.exportInfo.exportQuota = res.data.data.export_info.exportQuota;
+            if (res.data.data.export_info){
+              that.addForm.exportInfo.country = res.data.data.export_info.country;
+              that.addForm.exportInfo.payType = res.data.data.export_info.pay_type;
+              that.addForm.exportInfo.creditDay = res.data.data.export_info.credit_day;
+              that.addForm.exportInfo.riskRate = res.data.data.export_info.risk_rate;
+              that.addForm.exportInfo.otherRiskRate = res.data.data.export_info.other_risk_rate;
+              that.addForm.exportInfo.insureQuota = res.data.data.export_info.insure_quota;
+            }
           }
           that.countryList = res.data.data.countryList
           that.change = true
