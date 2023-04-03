@@ -69,11 +69,11 @@
     </el-row>
     <el-table
       class="info_table"
-      :data="scoreList"
+      :data="scoreList" style="width: 98%; margin: 0 1%"
       :row-style="{height: '30px'}">
       <el-table-column
         prop="company_name"
-        label="客户名称" width="150%">
+        label="客户名称" width="370%">
         <template slot-scope="scope">
           <el-tooltip effect="dark" :content="scope.row.company_name" placement="top">
             <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.dealer_id'>
@@ -140,7 +140,7 @@
           <span v-else></span>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="120%" fixed="right">
         <template slot-scope="scope">
           <div style="float: left;margin: 2px;" v-if="scope.row.state_code === 'add'">
             <push-function-btn btn-name="补充数据" btn-type="replace" size="mini"

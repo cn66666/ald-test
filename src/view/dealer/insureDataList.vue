@@ -11,18 +11,18 @@
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="company_code"
-        label="ERP编号">
+        label="ERP编号" width="100%">
         <template slot-scope="scope">
           <span>{{scope.row.company_code}}</span>
         </template>
       </el-table-column>
       <el-table-column
         prop="company_name"
-        label="客户名称">
+        label="客户名称" width="230%">
       </el-table-column>
       <el-table-column
         prop="insure_type"
-        label="保险类型">
+        label="保险类型" width="100%">
         <template slot-scope="scope">
           <span v-if="scope.row.insure_type === true">人保</span>
           <span v-else>中信保</span>
@@ -30,39 +30,39 @@
       </el-table-column>
       <el-table-column
         prop="quota_money"
-        label="批复金额">
+        label="批复金额" width="100%">
       </el-table-column>
       <el-table-column
         prop="quota_date"
-        label="批复日期">
+        label="批复日期" width="120%">
       </el-table-column>
       <el-table-column
         prop="country"
-        label="国家/地区">
+        label="国家/地区" width="100%">
       </el-table-column>
       <el-table-column
         prop="pay_type"
-        label="支付方式">
+        label="支付方式" width="100%">
       </el-table-column>
       <el-table-column
         prop="credit_day"
-        label="信用期限">
+        label="信用期限" width="100%">
       </el-table-column>
       <el-table-column
         prop="risk_rate"
-        label="拒收风险赔付比例">
+        label="拒收风险赔付比例" width="150%">
       </el-table-column>
       <el-table-column
         prop="other_risk_rate"
-        label="其他商业风险(包含政治风险)赔付比例">
+        label="其他商业风险(包含政治风险)赔付比例" width="150%">
       </el-table-column>
       <el-table-column
         prop="apply_money"
-        label="申请金额">
+        label="申请金额" width="100%">
       </el-table-column>
       <el-table-column
         prop=""
-        label="是否有效运出">
+        label="有效运出" width="100%">
         <template slot-scope="scope">
           <span v-if="scope.row.is_egress === true">是</span>
           <span v-else>否</span>
@@ -70,18 +70,17 @@
       </el-table-column>
       <el-table-column
         prop="create_time"
-        label="创建时间">
+        label="创建时间" width="150%">
       </el-table-column>
       <el-table-column
         prop="update_time"
-        label="更新时间">
+        label="更新时间" width="150%">
       </el-table-column>
       <el-table-column
         prop=""
-        label="操作">
+        label="操作" width="150%" fixed="right">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="showUpdate(scope.row.company_code, scope.row.id)">编辑erp编号</el-button>
-          <el-button type="primary" size="mini" @click="">点击查看详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -123,7 +122,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" size="mini" @click="showUpdateCode=false">关闭</el-button>
-        <el-button type="primary" size="mini" @click="updateDealerErpCode()">更新</el-button>
+        <el-button type="primary" size="mini" @click="updateDealerErpCode()" :loading="loading">更新</el-button>
       </div>
     </el-dialog>
   </div>
@@ -135,6 +134,7 @@ export default {
   name: "insureDataList",
   data() {
     return {
+      loading: false,
       uploadShow: false,
       insureDataList: [],
       total: 1,
@@ -195,10 +195,12 @@ export default {
     },
     updateDealerErpCode(){
       var that = this;
+      that.loading = true
       that.axios.post('/ald/dealer/update_insure_info', {'update_form': that.updateForm}).then(res=>{
         if (res.data.code==='ok'){
           location.reload()
         } else {
+          that.loading = false
           Message.warning(res.data.msg + ':' + res.data.data)
         }
       }).catch(res=>{

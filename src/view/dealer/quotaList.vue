@@ -85,7 +85,7 @@
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
         prop="company_name"
-        label="客户名称" width="230%">
+        label="客户名称" width="350%">
         <template slot-scope="scope">
           <el-tooltip effect="dark" :content="scope.row.company_name" placement="top">
             <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.dealer_id'>
@@ -153,7 +153,7 @@
       </el-table-column>
       <el-table-column
         prop=""
-        label="操作">
+        label="操作" width="120%" fixed="right">
         <template slot-scope="scope">
           <noPermissionBtn v-if="scope.row.state_code === 'active'" btn-name="拉入拦截清单" btn-type="function" size="mini"
                            :check-function='showAddIntercept' params-key='dealerId' :params-value='scope.row.dealer_id'></noPermissionBtn>
