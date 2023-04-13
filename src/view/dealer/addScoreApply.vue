@@ -15,8 +15,8 @@
         <el-input v-model="addForm.endDay" :disabled="change">
           <template slot="append">天</template></el-input>
       </el-form-item>
-      <el-form-item label="最新保险数据" prop="endDay" style="width: 50%">
-        <div v-show="showExport" style="float: left; margin-left: 10px">
+      <el-form-item v-show="showExport" label="最新保险数据" prop="endDay" style="width: 50%">
+        <div style="float: left; margin-left: 10px">
           <el-button type="text" @click="showInsureForm=true">维护最新保险数据</el-button>
         </div>
       </el-form-item>
