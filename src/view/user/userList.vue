@@ -1,6 +1,26 @@
 <template>
   <div>
-    <el-row class="btn_row">
+    <el-row class="filter_row">
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-input  style="width: 200px; float:left;"
+                   placeholder="用户名称" v-model="queryType.userName">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-select v-model="queryType.roleType" placeholder="请选择角色类型">
+          <el-option
+            v-for="item in roleType"
+            :key="item"
+            :label="item"
+            :value="item">
+          </el-option>
+        </el-select>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-button style="height: 36px;float:left; width: 100px" type="primary" @click="getUserList()">查询</el-button>
+        <el-button style="height: 36px;float:left; width: 100px" type="primary" @click="reset()">重置</el-button>
+        <el-button style="height: 36px;float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
+      </div>
       <router-link to='/admin/user/addUser'>
         <el-button style="float:right;" type="primary" size="mini">添加新用户</el-button>
       </router-link>
@@ -21,18 +41,23 @@
       </el-table-column>
       <el-table-column
         prop="name"
-        label="账号名称"
-        style="width: 30%">
+        label="用户名称"
+        width="100%">
+      </el-table-column>
+      <el-table-column
+        prop="create_time"
+        label="创建日期"
+        width="200%">
       </el-table-column>
       <el-table-column
         prop="phone"
         label="手机号"
-        style="width: 30%">
+        width="200%">
       </el-table-column>
       <el-table-column
         prop="code"
         label="工号"
-        style="width: 30%">
+        width="200%">
       </el-table-column>
       <el-table-column
         prop="is_delete"
@@ -44,8 +69,15 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="操作"
-        style="width: 20%">
+        prop="create_time"
+        label="注销日期"
+        width="200%">
+        <template slot-scope="scope">
+          <span v-if="scope.row.is_delete">{{scope.row.update_time}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="操作">
         <template slot-scope="scope">
           <el-popover
             placement="top"
@@ -65,6 +97,11 @@
         </template>
       </el-table-column>
     </el-table>
+    <div style="text-align: right;margin-top: 23px;margin-right: 79px;">
+      <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
+                     layout="prev, pager, next" :page-count="total">
+      </el-pagination>
+    </div>
     <el-dialog title="修改用户配置" :visible.sync="showChangeUser">
       <el-form :model="userInfo">
         <el-form-item label="当前手机号" :label-width="formLabelWidth">
@@ -111,6 +148,11 @@ export default {
       visible: false,
       showChangeUser: false,
       formLabelWidth: '120px',
+      total: 1,
+      localPage: 1,
+      queryType: {
+      },
+      roleType: ['管理员', '普通用户', '业务', '财务'],
       userInfo: {
         userId: '',
         oldPhone: '',
@@ -131,19 +173,28 @@ export default {
     that.$utils.getRoleList(that)
   },
   methods: {
+    handleCurrentChange(val) {
+      var that = this;
+      that.localPage = val;
+      that.getUserList();
+    },
     getUserList: function (){
       var that = this;
-      that.axios.post('/ald/user/get_user_list', {}).then(res=>{
-        if (res.data.code=='ok'){
-          that.userData = res.data.data
+      that.axios.post('/ald/user/get_user_list', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
+        if (res.data.code==='ok'){
+          that.userData = res.data.data.data_list
+          that.total = res.data.data.total
         }
       }).catch(res=>{
       })
     },
+    reset: function () {
+      location.reload()
+    },
     deleteUserInfo: function (userId){
       var that = this;
       that.axios.post('/ald/user/delete_user', {'userId': userId}).then(res=>{
-        if (res.data.code=='ok'){
+        if (res.data.code==='ok'){
           this.visible = false;
           this.getUserList();
           this.$message({
@@ -238,7 +289,26 @@ export default {
         }
       }).catch(res=>{
       })
-    }
+    },
+    download: function (){
+      var that = this;
+      var data = 'data=' + JSON.stringify(that.queryType);
+      var now = that.$utils.getNowDate()
+      var file_name = '用户列表' + now + '.xls'
+      that.axios({
+        method: "get",
+        url: '/ald/downloads/userList?' + data + '&timestamp=' + new Date().getTime(),
+        responseType: 'blob'
+      }).then((res) => {
+        let blob = new Blob([res.data])
+        let objectUrl = URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = objectUrl;
+        link.setAttribute("download", file_name);
+        document.body.appendChild(link);
+        link.click();
+      })
+    },
   }
 }
 </script>
