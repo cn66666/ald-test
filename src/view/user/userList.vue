@@ -22,7 +22,7 @@
         <el-button style="height: 36px;float:left; width: 100px" type="primary" @click="download()">下载excel</el-button>
       </div>
       <router-link to='/admin/user/addUser'>
-        <el-button style="float:right;" type="primary" size="mini">添加新用户</el-button>
+        <el-button style="float:right;" type="primary">添加新用户</el-button>
       </router-link>
     </el-row>
     <el-table
