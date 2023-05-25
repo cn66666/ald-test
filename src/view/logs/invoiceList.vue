@@ -148,7 +148,7 @@ export default {
       localPage: 1,
       queryType: {},
       invoiceState: [
-        {'type': '全部', 'query': ''},
+        {'type': '全部', 'query': '全部'},
         {'type': '未结', 'query': '未结'},
         {'type': '全额付款', 'query': '全额付款'},
         {'type': '已删除', 'query': '已删除'},
