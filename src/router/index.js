@@ -389,6 +389,12 @@ export default new Router({
           meta: { title: '客户保险数据' },
           component: resolve => require(['../view/dealer/insureDataList'], resolve),
         },
+        {
+          path: '/admin/logs/invoiceList',
+          name: 'invoiceList',
+          meta: { title: '开票数据查询' },
+          component: resolve => require(['../view/logs/invoiceList'], resolve),
+        },
       ]
     },
     {

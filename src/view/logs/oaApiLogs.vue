@@ -65,7 +65,7 @@
     </el-table>
     <div style="text-align: right;margin-top: 23px;margin-right: 79px;">
       <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
-                     layout="prev, pager, next" :page-count="total">
+                     layout="prev, pager, next, jumper" :page-count="total">
       </el-pagination>
     </div>
   </div>

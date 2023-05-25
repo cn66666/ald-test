@@ -15,6 +15,13 @@
       <el-table-column
         prop="job_log"
         label="任务日志">
+        <template slot-scope="scope">
+          <el-input
+            type="textarea"
+            :rows="1"
+            :value="scope.row.job_log">
+          </el-input>
+        </template>
       </el-table-column>
       <el-table-column
         prop="state_code"
