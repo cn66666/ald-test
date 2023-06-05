@@ -119,11 +119,6 @@
         label="创建时间"
         width="170%">
       </el-table-column>
-      <el-table-column
-        prop="update_time"
-        label="更新时间"
-        width="170%">
-      </el-table-column>
     </el-table>
     <div style="text-align: right;margin-top: 23px;margin-right: 79px;">
       <el-pagination @current-change="handleCurrentChange" :current-page.sync="localPage"
