@@ -75,11 +75,6 @@
       :data="tableData"
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
-        prop="id"
-        label="No."
-        width="80px">
-      </el-table-column>
-      <el-table-column
         prop="erp_id"
         label="erp_id">
       </el-table-column>
