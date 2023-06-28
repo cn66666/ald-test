@@ -1,7 +1,29 @@
 <template>
   <div>
     <el-row class="filter_row">
+      <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 3px; ">
+        <el-input  style="width: 200px; float:left; height: 36px"
+                   placeholder="ERP编号" v-model="queryType.erpCode">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 3px; ">
+        <el-input  style="width: 200px; float:left; height: 36px"
+                   placeholder="客户名称" v-model="queryType.insureName">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix" style="float:left;margin: 2px 3px 2px 3px; ">
+        <el-select v-model="queryType.insureState" style="float:left;width: 200px;" placeholder="请选择保险类型">
+          <el-option
+            v-for="item in insureState"
+            :key="item.query"
+            :label="item.type"
+            :value="item.query">
+          </el-option>
+        </el-select>
+      </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="getInsureDataList()">查询</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="reset()">重置</el-button>
         <el-button type="primary" @click="uploadShow=true">上传中信保/人保数据</el-button>
       </div>
     </el-row>
@@ -145,7 +167,12 @@ export default {
       updateForm:{
         insureId: '',
         erpCode: '',
-      }
+      },
+      insureState: [
+        {'type': '全部', 'query': '全部'},
+        {'type': '人保', 'query': '人保'},
+        {'type': '中信保', 'query': '中信保'},
+      ],
     }
   },
   mounted() {
@@ -160,7 +187,7 @@ export default {
     },
     getInsureDataList: function (){
       var that = this;
-      that.axios.post('/ald/dealer/insure_data_list', {'page': that.localPage}).then(res=>{
+      that.axios.post('/ald/dealer/insure_data_list', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
         if (res.data.code==='ok'){
           that.insureDataList = res.data.data.data_list;
           that.total = res.data.data.total
@@ -171,6 +198,9 @@ export default {
     handleRemove(file, fileList) {
     },
     handlePreview(file) {
+    },
+    reset: function () {
+      location.reload()
     },
     uploadDone(response, file, fileList){
       var that = this;
