@@ -17,6 +17,14 @@
           :value="item">
         </el-option>
       </el-select>
+      <el-select v-model="info.moneyType" placeholder="请选择金额过滤" @change="getOrderInfoList(1)" style="width: 200px; ">
+        <el-option
+          v-for="item in moneyState"
+          :key="item"
+          :label="item"
+          :value="item">
+        </el-option>
+      </el-select>
       <div style="width: 200px; float:right;">
         <el-input placeholder="请输入销售单号" v-model="info.orderCode" class="input-with-select" @change="getOrderInfoList(1)">
           <el-button slot="append" icon="el-icon-search" @click="getOrderInfoList"></el-button>
@@ -43,7 +51,7 @@
       </el-table-column>
       <el-table-column
         prop="order_code"
-        label="销售单号" width="150%">
+        label="销售单号/退货授权单号" width="150%">
       </el-table-column>
       <el-table-column
         prop="fulfil_sum"
@@ -57,6 +65,18 @@
         label="开票金额" width="200%">
         <template slot-scope="scope">
           <el-button type="text" @click="queryInvoiceInfo(scope.row.id)">{{scope.row.invoice_sum | moneyFormat}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="use_money"
+        label="占用金额" width="200%">
+        <template slot-scope="scope">{{scope.row.use_money | moneyFormat}}
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="return_money"
+        label="退货金额" width="200%">
+        <template slot-scope="scope">{{scope.row.return_money | moneyFormat}}
         </template>
       </el-table-column>
       <el-table-column
@@ -88,8 +108,10 @@ export default {
       localPage: 1,
       companyList: [],
       orderState: ['全部', '待审批', '待履行', '待开票', '已开票', '已关闭', '已取消', '待开票/部分履行', '部分完成'],
+      moneyState: ['全部', '履行单及开票不为0'],
       info: {
         orderType: '',
+        moneyType: '',
         dealerId: '',
         orderCode: '',
         isDelete: false
