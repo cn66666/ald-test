@@ -32,7 +32,7 @@
         label="客户名称" width="370%">
         <template slot-scope="scope">
           <el-tooltip effect="dark" :content="scope.row.company_name" placement="top">
-            <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.dealer_id'>
+            <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.dealer_id' target="_blank">
               <el-button type="text">{{scope.row.company_name}}</el-button>
             </router-link>
           </el-tooltip>

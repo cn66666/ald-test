@@ -7,7 +7,7 @@
         prop="company_name"
         label="公司名称">
         <template slot-scope="scope">
-          <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.dealer_id'>
+          <router-link :to='"/admin/dealer/dealerInfo?dealerId=" + scope.row.dealer_id'  target="_blank">
             <el-button type="text" >{{scope.row.company_name}}</el-button>
           </router-link>
         </template>
