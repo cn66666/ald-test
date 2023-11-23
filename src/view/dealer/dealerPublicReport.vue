@@ -410,6 +410,7 @@ export default {
   mounted() {
     var that = this;
     that.publicId = this.$route.query.id;
+    console.log(1)
     that.getPublicReport();
   },
   methods: {
@@ -422,9 +423,11 @@ export default {
         if (res.data.code=='ok'){
           that.report = res.data.data
           // 处理股权结构图
-          if (that.report.report.relation){
-            that.gqId = 'gqPie'
-            that.gqOption = sunburstChartOption.getGqOption(that.report.report.relation.company_relation_data)
+          if (that.report.report){
+            if (that.report.report.relation.company_relation_data){
+              that.gqId = 'gqPie'
+              that.gqOption = sunburstChartOption.getGqOption(that.report.report.relation.company_relation_data)
+            }
             that.relationId = 'relation'
             that.relationOption = graphChartOption.getRelationOption(that.report.report.relation.point_data,
               that.report.report.relation.line_data)
