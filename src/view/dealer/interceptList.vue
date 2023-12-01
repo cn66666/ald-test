@@ -67,6 +67,17 @@
         label="操作">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="skipIntercept(scope.row.dealer_id)" :disabled="scope.row.oa_apply">申请解除拦截</el-button>
+          <el-popconfirm
+            v-if="role === '管理员' || role === '财务'"
+            confirm-button-text='确定'
+            cancel-button-text='取消'
+            icon="el-icon-info"
+            icon-color="red"
+            title="确定直接解除拦截吗？"
+            @confirm="clickDeleteIntercept(scope.row.dealer_id)"
+          >
+            <el-button slot="reference" type="primary" size="mini">点击解除拦截</el-button>
+          </el-popconfirm>
 
           <el-popover
             placement="top-start"
@@ -132,11 +143,13 @@ export default {
       addForm: {
         remark:'',
         dealerId: '',
-      }
+      },
+      role: localStorage.getItem("userRole")
     }
   },
   mounted() {
     this.getInterceptList()
+    console.log(this.role)
   },
   methods: {
     handleCurrentChange(val) {
@@ -164,13 +177,25 @@ export default {
 
     skipInterceptBtn: function () {
       var that = this;
-      console.log(that.addForm)
-      that.axios.post('/ald/dealer/remove_intercept', that.addForm).then(res=>{
+      that.axios.post('/ald/dealer/apply_intercept', that.addForm).then(res=>{
         that.showForm = false
         if (res.data.code==='ok'){
           that.open('申请已发送至OA系统，请等待OA系统审批', '申请成功')
         }else {
           that.open('失败: ' + res.data.data, '申请失败')
+        }
+      }).catch(res=>{
+      })
+    },
+
+    clickDeleteIntercept: function (dealerId){
+      var that = this;
+      that.axios.post('/ald/dealer/remove_intercept', {'dealerId': dealerId}).then(res=>{
+        that.showForm = false
+        if (res.data.code==='ok'){
+          that.open('成功', '移除成功')
+        }else {
+          that.open('失败: ' + res.data.data, '移除失败')
         }
       }).catch(res=>{
       })
