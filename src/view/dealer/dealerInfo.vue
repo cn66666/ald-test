@@ -112,7 +112,7 @@
             </el-descriptions-item>
             <el-descriptions-item v-if="dealerInfo.insure_info !== null">
               <template slot="label">
-                国家
+                国家或地区
               </template>
               {{dealerInfo.insure_info.country}}
             </el-descriptions-item>
