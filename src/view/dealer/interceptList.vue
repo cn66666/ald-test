@@ -44,7 +44,7 @@
         label="拦截原因" width="500%">
         <template slot-scope="scope">
           <span v-if="scope.row.intercept_reason['manual'] === true">存在手动拦截:{{scope.row.intercept_reason['manual_info']}}</span>
-          <span v-if="scope.row.intercept_reason['law'] === true">存在司法诉讼拦截</span>
+          <span v-if="scope.row.intercept_reason['law'] === true">{{scope.row.intercept_reason['intercept_law_info']}}</span>
           <span v-if="scope.row.intercept_reason['overdue_30'] !== 0">逾期30天以上存在{{scope.row.intercept_reason['overdue_30']}}次</span>
           <span v-if="scope.row.intercept_reason['overdue_90'] !== 0">逾期90天以上存在{{scope.row.intercept_reason['overdue_90']}}次</span>
         </template>
