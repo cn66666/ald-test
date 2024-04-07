@@ -35,6 +35,7 @@
         <el-button style="float:left; width: 100px;" type="primary" @click="getInsureDataList()">查询</el-button>
         <el-button style="float:left; width: 100px;" type="primary" @click="reset()">重置</el-button>
         <el-button type="primary" @click="uploadShow=true">上传中信保/人保数据</el-button>
+        <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="download()">下载excel</el-button>
       </div>
     </el-row>
     <el-table
@@ -74,7 +75,7 @@
       </el-table-column>
       <el-table-column
         prop="apply_money_rmb"
-        label="申请金额" width="100%">
+        label="申请金额(人民币)" width="100%">
       </el-table-column>
       <el-table-column
         prop="quota_money"
@@ -199,8 +200,8 @@ export default {
       ],
       isEffect: [
         {'type': '全部', 'query': '全部'},
-        {'type': '拥有erp编号', 'query': '1'},
-        {'type': '未拥有erp编号', 'query': '0'},
+        {'type': '生效', 'query': '1'},
+        {'type': '未生效', 'query': '0'},
       ],
     }
   },
@@ -263,6 +264,25 @@ export default {
           Message.warning(res.data.msg + ':' + res.data.data)
         }
       }).catch(res=>{
+      })
+    },
+    download: function (){
+      var that = this;
+      var data = 'data=' + JSON.stringify(that.queryType);
+      var now = that.$utils.getNowDate()
+      var file_name = '客户保险数据' + now + '.xls'
+      that.axios({
+        method: "get",
+        url: '/ald/downloads/insureList?' + data + '&timestamp=' + new Date().getTime(),
+        responseType: 'blob'
+      }).then((res) => {
+        let blob = new Blob([res.data])
+        let objectUrl = URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = objectUrl;
+        link.setAttribute("download", file_name);
+        document.body.appendChild(link);
+        link.click();
       })
     },
   }
