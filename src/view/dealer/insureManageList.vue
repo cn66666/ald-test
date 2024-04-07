@@ -8,23 +8,13 @@
       </div>
       <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 3px; ">
         <el-input  style="width: 200px; float:left; height: 36px"
-                   placeholder="客户名称" v-model="queryType.insureName">
+                   placeholder="客户名称" v-model="queryType.companyName">
         </el-input>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px 3px 2px 3px; ">
         <el-select v-model="queryType.insureState" style="float:left;width: 200px;" placeholder="请选择保险类型">
           <el-option
             v-for="item in insureState"
-            :key="item.query"
-            :label="item.type"
-            :value="item.query">
-          </el-option>
-        </el-select>
-      </div>
-      <div class="demo-input-suffix" style="float:left;margin: 2px 3px 2px 3px; ">
-        <el-select v-model="queryType.isEffect" style="float:left;width: 200px;" placeholder="请选择当前状态">
-          <el-option
-            v-for="item in isEffect"
             :key="item.query"
             :label="item.type"
             :value="item.query">
@@ -42,10 +32,10 @@
       :data="insureDataList"
       style="width: 98%; margin: 0 1%" :row-style="{height: '30px'}">
       <el-table-column
-        prop="company_code"
+        prop="erp_code"
         label="ERP编号" width="100%">
         <template slot-scope="scope">
-          <span>{{scope.row.company_code}}</span>
+          <span>{{scope.row.erp_code}}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -57,8 +47,16 @@
         label="保险类型" width="100%">
       </el-table-column>
       <el-table-column
-        prop="insure_code"
-        label="保险编号" width="100%">
+        prop="quota_money"
+        label="批复金额" width="100%">
+      </el-table-column>
+      <el-table-column
+        prop="quota_date"
+        label="批复日期" width="120%">
+      </el-table-column>
+      <el-table-column
+        prop="country"
+        label="国家/地区" width="100%">
       </el-table-column>
       <el-table-column
         prop="pay_type"
@@ -69,30 +67,6 @@
         label="信用期限" width="100%">
       </el-table-column>
       <el-table-column
-        prop="apply_money"
-        label="申请金额" width="100%">
-      </el-table-column>
-      <el-table-column
-        prop="apply_money_rmb"
-        label="申请金额" width="100%">
-      </el-table-column>
-      <el-table-column
-        prop="quota_money"
-        label="批复金额" width="100%">
-      </el-table-column>
-      <el-table-column
-        prop="day_rate"
-        label="当日汇率" width="120%">
-      </el-table-column>
-      <el-table-column
-        prop="quota_money_rmb"
-        label="批复金额(人民币)" width="100%">
-      </el-table-column>
-      <el-table-column
-        prop="quota_date"
-        label="批复日期" width="120%">
-      </el-table-column>
-      <el-table-column
         prop="risk_rate"
         label="拒收风险赔付比例" width="150%">
       </el-table-column>
@@ -100,10 +74,9 @@
         prop="other_risk_rate"
         label="其他商业风险(包含政治风险)赔付比例" width="150%">
       </el-table-column>
-
       <el-table-column
-        prop="country"
-        label="国家/地区" width="100%">
+        prop="apply_money"
+        label="申请金额" width="100%">
       </el-table-column>
       <el-table-column
         prop=""
@@ -194,13 +167,8 @@ export default {
       insureState: [
         {'type': '全部', 'query': '全部'},
         {'type': '人保', 'query': '人保'},
-        {'type': '中信保', 'query': '中信保'},
+        {'type': '中信保', 'query': '人保'},
         {'type': '太平洋', 'query': '太平洋'},
-      ],
-      isEffect: [
-        {'type': '全部', 'query': '全部'},
-        {'type': '拥有erp编号', 'query': '1'},
-        {'type': '未拥有erp编号', 'query': '0'},
       ],
     }
   },

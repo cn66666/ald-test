@@ -23,7 +23,7 @@
       <el-form-item>
         <el-button type="primary" :disabled="addBtn" @click="addScore('addForm')">提交</el-button>
         <p style="margin-top: 10px"><el-tag v-if="errorShow" type="warning">该客户为出口客户,但是未在系统中查询到上传的该客户相关出口保险信息.可在
-          <el-link href="/#/admin/dealer/exportInfoList" target="_blank" type="primary">出口信息列表</el-link>中查询.
+          <el-link href="/#/admin/dealer/insureDataList" target="_blank" type="primary">出口信息列表</el-link>中查询.
           </el-tag></p>
       </el-form-item>
     </el-form>

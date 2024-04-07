@@ -120,9 +120,7 @@
               <template slot="label">
                 保险类型
               </template>
-              <span v-if="dealerInfo.insure_info.have_sino === true">中信保</span>
-              <span v-if="dealerInfo.insure_info.have_sino === true && dealerInfo.insure_info.have_picc === true">/</span>
-              <span v-if="dealerInfo.insure_info.have_picc === true">人保</span>
+              {{dealerInfo.insure_info.insure_type}}
             </el-descriptions-item>
             <el-descriptions-item v-if="dealerInfo.insure_info !== null">
               <template slot="label">
