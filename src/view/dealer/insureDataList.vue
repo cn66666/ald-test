@@ -32,7 +32,7 @@
         </el-select>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-button style="float:left; width: 100px;" type="primary" @click="getInsureDataList()">查询</el-button>
+        <el-button style="float:left; width: 100px;" type="primary" @click="queryInsureData()">查询</el-button>
         <el-button style="float:left; width: 100px;" type="primary" @click="reset()">重置</el-button>
         <el-button type="primary" @click="uploadShow=true">上传中信保/人保数据</el-button>
         <el-button style="float:left; width: 100px; height: 36px" type="primary" @click="download()">下载excel</el-button>
@@ -214,6 +214,12 @@ export default {
       var that = this;
       that.localPage = val;
       that.getInsureDataList();
+    },
+    queryInsureData:function(){
+      var that = this;
+      that.localPage = 1;
+      that.getInsureDataList();
+
     },
     getInsureDataList: function (){
       var that = this;
