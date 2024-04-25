@@ -159,6 +159,8 @@
             <el-button v-if="dealerInfo.state_code !== 'apply'" type="primary" size="mini" @click="showOverdueForm = true" :disabled="dealerInfo.oa_apply">申请逾期特批</el-button>
 
             <el-button v-if="dealerInfo.quota_type === '老客户' && dealerInfo.state_code !== 'apply'" type="primary" size="mini" @click="getQuotaDay()" :disabled="dealerInfo.oa_apply">申请账期调整</el-button>
+
+            <el-button v-if="dealerInfo.special_quota !== 0 && (role === '管理员' || role === '财务')" type="primary" size="mini" @click="showRemoveSpecialForm = true" :disabled="dealerInfo.oa_apply">取消额度特批</el-button>
           </div>
         </el-tab-pane>
         <el-tab-pane label="额度变更记录" name="额度变更记录">
@@ -568,6 +570,31 @@
         </el-popover>
       </div>
     </el-dialog>
+    <el-dialog title="取消特批额度(取消当前特批额度后，审批额度即时生效)" :visible.sync="showRemoveSpecialForm" width="40%">
+      <el-form>
+        <el-form-item label="取消原因" prop="info" label-width="150px">
+          <el-input
+            v-model="removeSpecialForm.remark"
+            type="textarea"
+            :autosize="{ minRows: 3}"
+            maxlength="200"
+            show-word-limit
+            placeholder="请输入取消原因" style="width: 70%"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="mini" @click="showSpecialForm=false">关闭</el-button>
+        <el-button type="primary" size="mini" @click="removeSpecialQuota()">确认提交申请</el-button>
+        <el-popover
+          placement="top-start"
+          offset="10"
+          width="200"
+          trigger="hover"
+          content="该项目审批人：蓝丽萍">
+          <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+        </el-popover>
+      </div>
+    </el-dialog>
 
 
   </div>
@@ -582,6 +609,7 @@ export default {
   data() {
     return {
       activeName: '客户信息',
+      role: localStorage.getItem("userRole"),
       dealerId: null,
       dealerInfo: {
         oper_logs: {
@@ -592,10 +620,14 @@ export default {
       showOverdueForm: false,
       showSpecialForm: false,
       showQuotaDayForm: false,
+      showRemoveSpecialForm: false,
       formLabelWidth: '120px',
       addSpecialForm: {
         special_quota: 0,
         special_date: '',
+        remark: ''
+      },
+      removeSpecialForm: {
         remark: ''
       },
       spanArr: [],
@@ -951,6 +983,23 @@ export default {
           rowspan:_row,
           colspan:_col
         }
+      }
+    },
+    removeSpecialQuota: function () {
+      var that = this;
+      if (that.removeSpecialForm.remark !== ''){
+        that.axios.post('/ald/dealer/remove_special_quota', {'dealerId': that.dealerId, 'removeSpecialForm': that.removeSpecialForm}).then(res=>{
+          that.showRemoveSpecialForm = false
+          if (res.data.code==='ok'){
+            that.update = false
+            that.open('已成功取消当前客户特批额度', '提交成功')
+          }else {
+            that.open('失败: ' + res.data.data, '提交失败')
+          }
+        }).catch(res=>{
+        })
+      } else {
+        Message.warning('失败: 请填写取消原因')
       }
     },
   }
