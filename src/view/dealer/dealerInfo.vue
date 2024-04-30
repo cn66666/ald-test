@@ -585,14 +585,6 @@
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" size="mini" @click="showSpecialForm=false">关闭</el-button>
         <el-button type="primary" size="mini" @click="removeSpecialQuota()">确认提交申请</el-button>
-        <el-popover
-          placement="top-start"
-          offset="10"
-          width="200"
-          trigger="hover"
-          content="该项目审批人：蓝丽萍">
-          <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
-        </el-popover>
       </div>
     </el-dialog>
 
