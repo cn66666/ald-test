@@ -144,7 +144,7 @@ export default {
     },
     getFulfilList: function (){
       var that = this;
-      that.axios.post('/ald/business/fulfil_apply', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
+      that.axios.post('/ald/business/fulfil_info', {'page': that.localPage, 'queryType': that.queryType}).then(res=>{
         if (res.data.code=='ok'){
           that.fulfilList = res.data.data.data_list;
           that.total = res.data.data.total

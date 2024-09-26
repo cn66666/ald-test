@@ -91,7 +91,7 @@ export default {
     },
     getFulfilList: function (){
       var that = this;
-      that.axios.post('/ald/business/fulfil_apply', {'page': that.localPage, 'dealerId': that.dealerId}).then(res=>{
+      that.axios.post('/ald/business/fulfil_info', {'page': that.localPage, 'dealerId': that.dealerId}).then(res=>{
         if (res.data.code=='ok'){
           that.fulfilList = res.data.data.data_list;
           that.total = res.data.data.total
