@@ -395,6 +395,42 @@ export default new Router({
           meta: { title: '开票数据查询' },
           component: resolve => require(['../view/logs/invoiceList'], resolve),
         },
+        {
+          path: '/admin/forms/specialForms',
+          name: 'specialForms',
+          meta: { title: '特批报表' },
+          component: resolve => require(['../view/forms/specialForms'], resolve),
+        },
+        {
+          path: '/admin/forms/insureForms',
+          name: 'insureForms',
+          meta: { title: '保险额度报表' },
+          component: resolve => require(['../view/forms/insureForms'], resolve),
+        },
+        {
+          path: '/admin/forms/interceptForms',
+          name: 'interceptForms',
+          meta: { title: '拦截原因' },
+          component: resolve => require(['../view/forms/interceptForms'], resolve),
+        },
+        {
+          path: '/admin/forms/interceptHistoryList',
+          name: 'interceptHistoryList',
+          meta: { title: '历史明细' },
+          component: resolve => require(['../view/forms/interceptHistoryList'], resolve),
+        },
+        {
+          path: '/admin/forms/dealForms',
+          name: 'dealForms',
+          meta: { title: '发货回款统计' },
+          component: resolve => require(['../view/forms/dealForms'], resolve),
+        },
+        {
+          path: '/admin/forms/dealMonthList',
+          name: 'dealMonthList',
+          meta: { title: '发货回款明细' },
+          component: resolve => require(['../view/forms/dealMonthList'], resolve),
+        },
       ]
     },
     {
