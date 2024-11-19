@@ -362,10 +362,10 @@
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="股权结构图" name="股权结构图">
-          <sunburstChart v-if="gqId !== ''" :id="gqId" :option="gqOption"></sunburstChart>
+          <sunburstChart v-if="gqId !== ''":id="gqId" :option="gqOption"></sunburstChart>
         </el-tab-pane>
         <el-tab-pane label="股权关系图" name="股权关系图">
-            <graphChart v-if="relationId !== ''" :id="relationId" :option="relationOption"></graphChart>
+          <graphChart v-if="relationId !== ''" :id="relationId" :option="relationOption"></graphChart>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -410,7 +410,6 @@ export default {
   mounted() {
     var that = this;
     that.publicId = this.$route.query.id;
-    console.log(1)
     that.getPublicReport();
   },
   methods: {

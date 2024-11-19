@@ -3,7 +3,7 @@
     <el-row class="filter_row">
       <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 3px; ">
         <el-input  style="width: 200px; float:left; height: 36px"
-                   placeholder="ERP编号" v-model="queryType.erpCode">
+                   placeholder="客户编号" v-model="queryType.erpCode">
         </el-input>
       </div>
       <div class="demo-input-suffix" style="float:left; margin: 2px 3px 2px 3px; ">
