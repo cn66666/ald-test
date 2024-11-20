@@ -191,7 +191,7 @@ export default {
     handleCurrentChange(val) {
       var that = this;
       that.localPage = val;
-      that.getInsureFormList();
+      that.getDealFormList ();
     },
     getDealMonthListPage:function (dealer_id, company_name){
       var that = this;
