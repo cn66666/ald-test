@@ -38,8 +38,8 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="special_done_date"
-        label="特批通过日期">
+        prop="special_date"
+        label="特批额度截止日期">
       </el-table-column>
       <el-table-column
         prop="quota_money"
@@ -56,8 +56,8 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="special_date"
-        label="特批通过日期" >
+        prop="special_done_date"
+        label="oa审批通过日期" >
       </el-table-column>
       <el-table-column
         prop="sale_person"
