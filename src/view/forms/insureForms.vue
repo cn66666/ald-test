@@ -47,29 +47,77 @@
         label="保险类型" width="100%">
       </el-table-column>
       <el-table-column
-        prop="insure_quota"
-        label="最新额度(万元)" width="150%">
+        prop="insure_quota">
+        <template slot="header" slot-scope="scope">
+          <div style="width: 100%">
+            当期额度(万元)
+            <el-popover
+              placement="top-start"
+              offset="10"
+              width="200"
+              trigger="hover"
+              content="从保险公司获取的客户当前额度">
+              <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+            </el-popover>
+          </div>
+        </template>
         <template slot-scope="scope">
           {{ scope.row.insure_quota | tenFormat}}
         </template>
       </el-table-column>
       <el-table-column
-        prop="last_insure"
-        label="上期额度(万元)" width="150%">
+        prop="last_insure">
+        <template slot="header" slot-scope="scope">
+          <div style="width: 100%">
+            上期额度(万元)
+            <el-popover
+              placement="top-start"
+              offset="10"
+              width="200"
+              trigger="hover"
+              content="从保险公司获取的客户历史最近的变动额度">
+              <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+            </el-popover>
+          </div>
+        </template>
         <template slot-scope="scope">
           {{ scope.row.last_insure | tenFormat}}
         </template>
       </el-table-column>
       <el-table-column
-        prop="apply_money"
-        label="投保额度(万元)" width="150%">
+        prop="apply_money">
+        <template slot="header" slot-scope="scope">
+          <div style="width: 100%">
+            投保额度(万元)
+            <el-popover
+              placement="top-start"
+              offset="10"
+              width="200"
+              trigger="hover"
+              content="从保险公司获取的客户投保额度">
+              <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+            </el-popover>
+          </div>
+        </template>
         <template slot-scope="scope">
           {{ scope.row.apply_money | tenFormat}}
         </template>
       </el-table-column>
       <el-table-column
-        prop="quota_balance"
-        label="当期剩余额度(万元)" width="150%">
+        prop="quota_balance">
+        <template slot="header" slot-scope="scope">
+          <div style="width: 100%">
+            当期剩余额度(万元)
+            <el-popover
+              placement="top-start"
+              offset="10"
+              width="200"
+              trigger="hover"
+              content="客户当前剩余的额度，当期剩余额度=最新额度-已使用额度">
+              <i slot="reference" style="margin: 0 5px 0 5px" class="el-icon-question"></i>
+            </el-popover>
+          </div>
+        </template>
         <template slot-scope="scope">
           {{ scope.row.quota_balance | tenFormat}}
         </template>
