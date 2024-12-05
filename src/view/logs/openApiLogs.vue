@@ -85,6 +85,7 @@ export default {
         {'type': '全部', 'query': '全部'},
         {'type': '履行单申请', 'query': '/ald/open_api/fulfil_order'},
         {'type': '履行单状态', 'query': '/ald/open_api/fulfil_state'},
+        {'type': 'CRM履行单申请', 'query': '/ald/open_api/fulfil_apply'},
         {'type': '退货申请', 'query': '/ald/open_api/return_order'},
         {'type': '销售单数据', 'query': '/ald/open_api/business_order'},
         {'type': '发票数据', 'query': '/ald/open_api/invoice_order'},
