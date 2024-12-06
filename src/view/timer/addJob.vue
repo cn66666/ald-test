@@ -35,6 +35,7 @@
           <el-option label="发送日报" value="sendDailyReport"></el-option>
           <el-option label="计算上月月度交易" value="lastMonthDealForms"></el-option>
           <el-option label="添加客户销售代表" value="addDealerSalePerson"></el-option>
+          <el-option label="crm批量推送客户额度" value="crmDealerQuota"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="时间填写" prop="dateTime">
