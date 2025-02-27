@@ -12,14 +12,13 @@
         </el-select>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
-        <el-date-picker v-model="queryType.createStartDate" style="width: 200px; float:left;"
-                        type="date"
-                        placeholder="接口请求日期范围" value-format="yyyy-MM-dd">
-        </el-date-picker>
-        <span style="float:left; height: 40px; line-height:  40px;">&nbsp;-&nbsp;</span>
-        <el-date-picker v-model="queryType.createEndDate" style="width: 200px; float:left;"
-                        type="date"
-                        placeholder="接口请求截止日期范围" value-format="yyyy-MM-dd">
+        <el-date-picker
+          v-model="queryType.creatDate"
+          type="datetimerange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          value-format="yyyy-MM-dd HH:mm:ss">
         </el-date-picker>
       </div>
       <div class="demo-input-suffix" style="float:left;margin: 2px;">
